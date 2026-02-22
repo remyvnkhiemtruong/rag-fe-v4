@@ -10,6 +10,8 @@ import AnalyticsDashboard from '../../components/admin/AnalyticsDashboard';
 import { heritageApi, constantsApi } from '../../services/api';
 import { getRankingStyle, normalizeRankingCode } from '../../utils/ranking';
 
+const isBlobUrl = (url) => typeof url === 'string' && url.startsWith('blob:');
+
 const DEFAULT_RANKING_TYPES = [
   { value: 'Quốc gia đặc biệt', labelKey: 'ranking.nationalSpecial' },
   { value: 'Quốc gia', labelKey: 'ranking.national' },
@@ -96,7 +98,7 @@ export default function HeritageManagement() {
 
   useEffect(() => {
     fetchHeritages(currentPage);
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- fetchHeritages is stable
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- fetchHeritages is stable
   }, [currentPage]);
 
   const showNotification = (message, type = 'success') => {
@@ -264,10 +266,20 @@ export default function HeritageManagement() {
 
   const handleAudioChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setAudioFile(file);
-      setAudioPreview(URL.createObjectURL(file));
+    if (!file) return;
+
+    // ✅ chỉ revoke nếu là blob
+    if (isBlobUrl(audioPreview)) {
+      URL.revokeObjectURL(audioPreview);
     }
+
+    const previewUrl = URL.createObjectURL(file);
+
+    setAudioFile(file);
+    setAudioPreview(previewUrl);
+
+    // reset input để chọn lại cùng file vẫn trigger
+    e.target.value = null;
   };
 
   const handleMusicAudioChange = (e) => {
@@ -451,6 +463,12 @@ export default function HeritageManagement() {
     setFormData({});
     setImageFile(null);
     setImagePreview(null);
+    if (isBlobUrl(audioPreview)) {
+      URL.revokeObjectURL(audioPreview);
+    }
+    if (isBlobUrl(musicAudioPreview)) {
+      URL.revokeObjectURL(musicAudioPreview);
+    }
     setAudioFile(null);
     setAudioPreview(null);
     setMusicAudioFile(null);
@@ -1012,10 +1030,26 @@ export default function HeritageManagement() {
                       </label>
 
                       {audioPreview && (
-                        <audio controls className="h-10">
-                          <source src={audioPreview} />
-                          Trình duyệt không hỗ trợ audio
-                        </audio>
+                        <div className="flex items-center gap-2">
+                          <audio controls className="h-10">
+                            <source src={audioPreview} />
+                          </audio>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (isBlobUrl(audioPreview)) {
+                                URL.revokeObjectURL(audioPreview);
+                              }
+                              setAudioFile(null);
+                              setAudioPreview(null);
+                            }}
+                            className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                            title="Xóa audio"
+                          >
+                            <Trash className="w-4 h-4" />
+                          </button>
+                        </div>
                       )}
                     </div>
                     <p className="text-xs text-gray-500 mt-1">
