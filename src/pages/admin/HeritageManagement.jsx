@@ -373,7 +373,7 @@ export default function HeritageManagement() {
 
       // Audio
       if (audioFile) {
-        data.append('audio', audioFile);
+        data.append('audio_url', audioFile);
       }
       // Music audio (âm nhạc di sản)
       if (musicAudioFile) {
