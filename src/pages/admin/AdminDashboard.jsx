@@ -14,7 +14,10 @@ import {
   Music,
   Pencil,
   Tag,
-  MapPin
+  MapPin,
+  TrendingUp,
+  Globe,
+  BookOpen
 } from 'lucide-react';
 
 export default function AdminDashboard({ onNavigate, currentPage }) {
@@ -26,6 +29,9 @@ export default function AdminDashboard({ onNavigate, currentPage }) {
     { id: 'heritages', icon: Landmark, label: t('admin.heritageManagement') },
     { id: 'music', icon: Music, label: t('admin.musicManagement') },
     { id: 'fineart', icon: Pencil, label: t('admin.fineArtManagement') },
+    { id: 'economics', icon: TrendingUp, label: t('admin.economicsManagement') },
+    { id: 'geography', icon: Globe, label: t('admin.geographyManagement') },
+    { id: 'literature', icon: BookOpen, label: t('admin.literatureManagement') },
     { id: 'mapplaces', icon: MapPin, label: t('admin.mapPlacesTitle') },
     { id: 'people', icon: Users, label: t('admin.peopleManagement') },
     { id: 'festivals', icon: PartyPopper, label: t('admin.festivalManagement') },

@@ -1,0 +1,15 @@
+import { literatureApi } from "../../services/api";
+import InfoSectionManagement from "./InfoSectionManagement";
+
+export default function LiteratureManagement({ onBack }) {
+  return (
+    <InfoSectionManagement
+      api={literatureApi}
+      sectionType="literature"
+      titleKey="admin.literatureManagement"
+      addKey="admin.addLiterature"
+      confirmDeleteKey="admin.confirmDeleteInfo"
+      onBack={onBack}
+    />
+  );
+}

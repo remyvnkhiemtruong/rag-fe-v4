@@ -14,6 +14,9 @@ export const getCategoryBadgeStyle = (category) => {
     case 'di_san': return 'bg-blue-600 text-white';
     case 'di_tich': return 'bg-emerald-600 text-white';
     case 'cong_trinh_nghe_thuat': return 'bg-purple-600 text-white';
+    case 'kinh_te': return 'bg-amber-600 text-white';
+    case 'dia_ly': return 'bg-teal-600 text-white';
+    case 'van_hoc': return 'bg-rose-600 text-white';
     default: return 'bg-gray-600 text-white';
   }
 };
@@ -25,6 +28,9 @@ export function formatCategoryLabel(value, t) {
     case 'di_san': return t('heritageList.categoryDiSan');
     case 'di_tich': return t('heritageList.categoryDiTich');
     case 'cong_trinh_nghe_thuat': return t('heritageList.categoryCongTrinh');
+    case 'kinh_te': return t('heritageList.categoryKinhTe');
+    case 'dia_ly': return t('heritageList.categoryDiaLy');
+    case 'van_hoc': return t('heritageList.categoryVanHoc');
     default: return value;
   }
 }
@@ -54,12 +60,17 @@ export default function HeritageListPage() {
     { key: 'heritage', labelKey: 'heritageList.tabHeritage' },
     { key: 'music', labelKey: 'heritageList.tabMusic' },
     { key: 'finearts', labelKey: 'heritageList.tabFineArts' },
+    { key: 'kinh_te', labelKey: 'heritageList.tabKinhTe' },
+    { key: 'dia_ly', labelKey: 'heritageList.tabDiaLy' },
+    { key: 'van_hoc', labelKey: 'heritageList.tabVanHoc' },
   ];
+
+  const isHeritageTab = ['heritage', 'kinh_te', 'dia_ly', 'van_hoc'].includes(activeTab);
 
   const handleCloseModal = () => setSelectedItem(null);
 
   useEffect(() => {
-    if (activeTab === 'heritage') {
+    if (isHeritageTab) {
       const fetchHeritageData = async () => {
         try {
           setLoading(true);
@@ -78,15 +89,17 @@ export default function HeritageListPage() {
   }, [pagination.page, pagination.limit, activeTab, lang]);
 
   const filteredData = useMemo(() => {
+    const categoryFromTab = ['kinh_te', 'dia_ly', 'van_hoc'].includes(activeTab) ? activeTab : null;
     return heritageData.filter(item => {
       const matchesRanking = !filters.ranking || item.ranking_type === filters.ranking;
-      const matchesCategory = !filters.category || item.category === filters.category;
+      const categoryFilter = categoryFromTab || filters.category;
+      const matchesCategory = !categoryFilter || item.category === categoryFilter;
       const itemCommune = getItemCommune(item);
       const matchesCommune = !filters.commune || itemCommune.toLowerCase().includes(filters.commune.toLowerCase());
       const matchesSearch = !searchQuery || item.name.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesRanking && matchesCategory && matchesCommune && matchesSearch;
     });
-  }, [heritageData, filters, searchQuery]);
+  }, [heritageData, filters, searchQuery, activeTab]);
 
   const availableCommunes = useMemo(() => Array.from(new Set(heritageData.map(getItemCommune).filter(Boolean))).sort(), [heritageData]);
   const availableRankings = useMemo(() => Array.from(new Set(heritageData.map(i => i.ranking_type).filter(Boolean))).sort(), [heritageData]);
@@ -141,7 +154,7 @@ export default function HeritageListPage() {
             ))}
           </div>
 
-          {activeTab === 'heritage' && (
+          {isHeritageTab && (
             <div className="flex items-center gap-3 pb-3">
               <div className="relative">
                 <input
@@ -168,7 +181,7 @@ export default function HeritageListPage() {
         </div>
 
         <AnimatePresence>
-          {isFilterOpen && activeTab === 'heritage' && (
+          {isFilterOpen && isHeritageTab && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
@@ -213,7 +226,7 @@ export default function HeritageListPage() {
           )}
         </AnimatePresence>
 
-        {activeTab === 'heritage' && (
+        {isHeritageTab && (
           <div className="flex flex-wrap items-center justify-between gap-4 py-4">
             <div className="flex items-center gap-4">
               <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">
@@ -238,7 +251,7 @@ export default function HeritageListPage() {
       {/* 5. Main Content Area */}
       <div className="max-w-[1400px] mx-auto px-4 pb-20">
         <main>
-          {activeTab === 'heritage' && (
+          {isHeritageTab && (
             <>
               {loading ? (
                 <div className="text-center py-20"><p>{t('heritageList.loading')}</p></div>

@@ -11,6 +11,9 @@ import FestivalManager from './FestivalManager';
 import QuizManager from './QuizManager';
 import AudioManager from './AudioManager';
 import TagManager from './TagManager';
+import EconomicsManagement from './EconomicsManagement';
+import GeographyManagement from './GeographyManagement';
+import LiteratureManagement from './LiteratureManagement';
 import SettingsPage from './SettingsPage';
 
 export default function AdminPage() {
@@ -62,6 +65,12 @@ export default function AdminPage() {
         return <AudioManager onBack={() => handleNavigate('dashboard')} />;
       case 'tags':
         return <TagManager onBack={() => handleNavigate('dashboard')} />;
+      case 'economics':
+        return <EconomicsManagement onBack={() => handleNavigate('dashboard')} />;
+      case 'geography':
+        return <GeographyManagement onBack={() => handleNavigate('dashboard')} />;
+      case 'literature':
+        return <LiteratureManagement onBack={() => handleNavigate('dashboard')} />;
       case 'settings':
         return <SettingsPage onBack={() => handleNavigate('dashboard')} />;
       default:
