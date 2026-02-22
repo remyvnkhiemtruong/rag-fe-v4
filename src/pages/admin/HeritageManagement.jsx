@@ -20,6 +20,9 @@ const heritageCategories = [
   { value: 'di_san', label: 'Di sản' },
   { value: 'di_tich', label: 'Di tích' },
   { value: 'cong_trinh_nghe_thuat', label: 'Công trình nghệ thuật' },
+  { value: 'kinh_te', label: 'Kinh tế' },
+  { value: 'dia_ly', label: 'Địa lý' },
+  { value: 'van_hoc', label: 'Văn học' },
 ];
 
 

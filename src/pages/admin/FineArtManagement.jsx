@@ -20,8 +20,10 @@ export default function FineArtManagement() {
       setLoading(true);
       const result = await fineArtApi.adminGetAll(1, 100);
       setFineArtList(result.data || []);
-    } catch {
-      alert(t('admin.loadError'));
+    } catch (err) {
+      console.error('FineArtManagement fetch error:', err);
+      const msg = err?.message ? `${t('admin.loadError')}\n${err.message}` : t('admin.loadError');
+      alert(msg);
     } finally {
       setLoading(false);
     }
