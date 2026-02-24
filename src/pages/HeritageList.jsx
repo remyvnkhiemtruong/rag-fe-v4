@@ -6,6 +6,9 @@ import { HeritageDetailModal } from '../components/Detail';
 import { MusicGallery } from './MusicGallery';
 import { FineArtsGallery } from './FineArtGallery';
 import { heritageApi } from '../services/api';
+import EconomicGallery from './EconomicGallery';
+import GeographyGallery from './GeographyGallery';
+import LiteratureGallery from './LiteratureGallery';
 
 const getItemCommune = (item) => item.commune || '';
 
@@ -318,6 +321,22 @@ export default function HeritageListPage() {
           {activeTab === 'finearts' && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
               <FineArtsGallery />
+            </motion.div>
+          )}
+
+          {activeTab === 'kinh_te' && (
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+              <EconomicGallery />
+            </motion.div>
+          )}
+          {activeTab === 'dia_ly' && (
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+              <GeographyGallery />
+            </motion.div>
+          )}
+          {activeTab === 'van_hoc' && (
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+              <LiteratureGallery />
             </motion.div>
           )}
         </main>

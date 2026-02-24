@@ -22,6 +22,7 @@
  * - GET  /fineart, /admin/fineart, POST/DELETE /admin/fineart, etc.
  */
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
+import { createAdminInfoApi, createPublicInfoApi } from "./api.helpers";
 
 /** Parse response as JSON; if server returned HTML (e.g. SPA fallback), throw clear error. */
 async function parseJsonResponse(res) {
@@ -463,52 +464,31 @@ const constantsApi = {
   },
 };
 
-// Helper for info sections (economics, geography, literature)
-function createInfoApi(segment) {
-  return {
-    async getAll(page = 1, limit = 20) {
-      const res = await fetch(`${API_BASE_URL}/admin/${segment}?page=${page}&limit=${limit}`);
-      const result = await parseJsonResponse(res);
-      if (!res.ok) throw new Error(`Failed to fetch ${segment}`);
-      return result;
-    },
-    async getById(id) {
-      const res = await fetch(`${API_BASE_URL}/admin/${segment}/${id}`);
-      const result = await parseJsonResponse(res);
-      if (!res.ok) throw new Error(`${segment} not found`);
-      return result;
-    },
-    async create(body) {
-      const res = await fetch(`${API_BASE_URL}/admin/${segment}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      const result = await parseJsonResponse(res);
-      if (!res.ok) throw new Error(result?.error || `Failed to create ${segment}`);
-      return result;
-    },
-    async update(id, body) {
-      const res = await fetch(`${API_BASE_URL}/admin/${segment}/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      const result = await parseJsonResponse(res);
-      if (!res.ok) throw new Error(result?.error || `Failed to update ${segment}`);
-      return result;
-    },
-    async delete(id) {
-      const res = await fetch(`${API_BASE_URL}/admin/${segment}/${id}`, { method: 'DELETE' });
-      const result = await parseJsonResponse(res);
-      if (!res.ok) throw new Error(result?.error || `Failed to delete ${segment}`);
-      return result;
-    },
-  };
-}
 
-const economicsApi = createInfoApi('economics');
-const geographyApi = createInfoApi('geography');
-const literatureApi = createInfoApi('literature');
+// ===== PUBLIC APIs (used by galleries, users, visitors)
+const economicsApi = createPublicInfoApi('economics');
+const geographyApi = createPublicInfoApi('geography');
+const literatureApi = createPublicInfoApi('literature');
 
-export { heritageApi, musicApi, fineArtApi, constantsApi, mapPlacesApi, economicsApi, geographyApi, literatureApi };
+// ===== ADMIN APIs (used by CMS, dashboard)
+const adminEconomicsApi = createAdminInfoApi('economics');
+const adminGeographyApi = createAdminInfoApi('geography');
+const adminLiteratureApi = createAdminInfoApi('literature');
+
+export {
+  heritageApi,
+  musicApi,
+  fineArtApi,
+  constantsApi,
+  mapPlacesApi,
+
+  // Public
+  economicsApi,
+  geographyApi,
+  literatureApi,
+
+  // Admin
+  adminEconomicsApi,
+  adminGeographyApi,
+  adminLiteratureApi,
+};

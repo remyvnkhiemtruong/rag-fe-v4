@@ -17,7 +17,10 @@ import {
   MapPin,
   TrendingUp,
   Globe,
-  BookOpen
+  BookOpen,
+  Coins,
+  BookAIcon,
+  Mountain,
 } from 'lucide-react';
 
 export default function AdminDashboard({ onNavigate, currentPage }) {
@@ -99,12 +102,8 @@ export default function AdminDashboard({ onNavigate, currentPage }) {
               </nav>
             </div>
           </div>
-
           {/* Main Content */}
           <div className="flex-1">
-            {/* Stats Grid */}
-            
-
             {/* Quick Actions */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-elegant border border-heritage-earth-200 dark:border-gray-700 p-6 mb-8">
               <h2 className="text-lg font-display font-bold text-heritage-earth-900 dark:text-gray-100 mb-4 flex items-center gap-2">
@@ -139,24 +138,6 @@ export default function AdminDashboard({ onNavigate, currentPage }) {
                     {t('admin.addFineArt')}
                   </span>
                 </button>
-                {/* <button
-                  onClick={() => onNavigate?.('people')}
-                  className="flex flex-col items-center gap-2 p-4 rounded-xl bg-heritage-gold-50 dark:bg-heritage-gold-900/20 hover:bg-heritage-gold-100 dark:hover:bg-heritage-gold-900/30 transition-colors"
-                >
-                  <Users className="w-8 h-8 text-heritage-gold-600 dark:text-heritage-gold-400" />
-                  <span className="text-sm font-medium text-heritage-earth-700 dark:text-gray-300">
-                    {t('admin.addPeople')}
-                  </span>
-                </button>
-                <button
-                  onClick={() => onNavigate?.('festivals')}
-                  className="flex flex-col items-center gap-2 p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"
-                >
-                  <PartyPopper className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
-                  <span className="text-sm font-medium text-heritage-earth-700 dark:text-gray-300">
-                    {t('admin.addFestival')}
-                  </span>
-                </button> */}
                 <button
                   onClick={() => onNavigate?.('quizzes')}
                   className="flex flex-col items-center gap-2 p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors"
@@ -164,6 +145,33 @@ export default function AdminDashboard({ onNavigate, currentPage }) {
                   <Brain className="w-8 h-8 text-amber-600 dark:text-amber-400" />
                   <span className="text-sm font-medium text-heritage-earth-700 dark:text-gray-300">
                     {t('admin.addQuiz')}
+                  </span>
+                </button>
+                <button
+                  onClick={() => onNavigate?.('geography')}
+                  className="flex flex-col items-center gap-2 p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors"
+                >
+                  <Mountain className="w-8 h-8 text-amber-600 dark:text-amber-400" />
+                  <span className="text-sm font-medium text-heritage-earth-700 dark:text-gray-300">
+                    {t('Địa lý')}
+                  </span>
+                </button>
+                <button
+                  onClick={() => onNavigate?.('literature')}
+                  className="flex flex-col items-center gap-2 p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors"
+                >
+                  <BookAIcon className="w-8 h-8 text-amber-600 dark:text-amber-400" />
+                  <span className="text-sm font-medium text-heritage-earth-700 dark:text-gray-300">
+                    {t('Văn học')}
+                  </span>
+                </button>
+                <button
+                  onClick={() => onNavigate?.('economics')}
+                  className="flex flex-col items-center gap-2 p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors"
+                >
+                  <Coins className="w-8 h-8 text-amber-600 dark:text-amber-400" />
+                  <span className="text-sm font-medium text-heritage-earth-700 dark:text-gray-300">
+                    {t('Kinh tế')}
                   </span>
                 </button>
                 <button
@@ -177,36 +185,6 @@ export default function AdminDashboard({ onNavigate, currentPage }) {
                 </button>
               </div>
             </div>
-
-            {/* Recent Activity Placeholder */}
-            {/* <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-elegant border border-heritage-earth-200 dark:border-gray-700 p-6">
-              <h2 className="text-lg font-display font-bold text-heritage-earth-900 dark:text-gray-100 mb-4 flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-heritage-gold-600" />
-                Tổng quan dữ liệu
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl bg-heritage-cream-50 dark:bg-gray-700 border border-heritage-earth-100 dark:border-gray-600">
-                  <div className="text-sm text-heritage-earth-600 dark:text-gray-400 mb-1">Xã/Phường</div>
-                  <div className="text-2xl font-bold text-heritage-earth-900 dark:text-gray-100">64</div>
-                  <div className="text-xs text-heritage-earth-500 dark:text-gray-500 mt-1">55 xã • 9 phường</div>
-                </div>
-                <div className="p-4 rounded-xl bg-heritage-cream-50 dark:bg-gray-700 border border-heritage-earth-100 dark:border-gray-600">
-                  <div className="text-sm text-heritage-earth-600 dark:text-gray-400 mb-1">Di sản Quốc gia đặc biệt</div>
-                  <div className="text-2xl font-bold text-heritage-red-700 dark:text-heritage-red-400">1</div>
-                  <div className="text-xs text-heritage-earth-500 dark:text-gray-500 mt-1">Căn cứ Cái Chanh</div>
-                </div>
-                <div className="p-4 rounded-xl bg-heritage-cream-50 dark:bg-gray-700 border border-heritage-earth-100 dark:border-gray-600">
-                  <div className="text-sm text-heritage-earth-600 dark:text-gray-400 mb-1">Ngôn ngữ hỗ trợ</div>
-                  <div className="text-2xl font-bold text-heritage-earth-900 dark:text-gray-100">4</div>
-                  <div className="text-xs text-heritage-earth-500 dark:text-gray-500 mt-1">🇻🇳 🇺🇸 🇨🇳 🇰🇭</div>
-                </div>
-                <div className="p-4 rounded-xl bg-heritage-cream-50 dark:bg-gray-700 border border-heritage-earth-100 dark:border-gray-600">
-                  <div className="text-sm text-heritage-earth-600 dark:text-gray-400 mb-1">Tính năng AI</div>
-                  <div className="text-2xl font-bold text-heritage-earth-900 dark:text-gray-100">RAG</div>
-                  <div className="text-xs text-heritage-earth-500 dark:text-gray-500 mt-1">LLM Powered Chat</div>
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

@@ -5,9 +5,9 @@ const SECTION_CONFIG = {
   economics: {
     extraFields: [
       { key: "sector", labelKey: "admin.economicsSector" },
-      { key: "figures", labelKey: "admin.economicsFigures", textarea: true },
       { key: "source", labelKey: "admin.economicsSource" },
     ],
+    hasDistribution: true,
     listSubtitleKey: "sector",
   },
   geography: {
@@ -56,6 +56,7 @@ export default function InfoSectionManagement({
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(initialForm);
   const [submitting, setSubmitting] = useState(false);
+  const [distributions, setDistributions] = useState([]);
 
   const fetchList = async () => {
     try {
@@ -76,15 +77,27 @@ export default function InfoSectionManagement({
   const openCreate = () => {
     setEditingId(null);
     setForm({ ...initialForm });
+    setDistributions([]);
     setShowModal(true);
   };
+
+  const resolveImageUrl = (item) =>
+    item.image_url ??
+    item.media?.find((m) => m.media_type === "image")?.file_url ??
+    "";
 
   const openEdit = (item) => {
     setEditingId(item.id);
     const next = { ...initialForm };
-    ["title", "content", "image_url"].forEach((k) => (next[k] = item[k] ?? ""));
+
+    ["title", "content"].forEach((k) => (next[k] = item[k] ?? ""));
+
+    next.image_url = resolveImageUrl(item);
+
     config.extraFields.forEach((f) => (next[f.key] = item[f.key] ?? ""));
+
     setForm(next);
+    setDistributions(item.distributions || []);
     setShowModal(true);
   };
 
@@ -104,7 +117,17 @@ export default function InfoSectionManagement({
       content: form.content?.trim() ?? "",
       image_url: form.image_url?.trim() || null,
     };
-    config.extraFields.forEach((f) => (body[f.key] = form[f.key]?.trim() || null));
+
+    config.extraFields.forEach((f) => {
+      body[f.key] = form[f.key]?.trim() || null;
+    });
+
+    if (config.hasDistribution) {
+      body.distributions = distributions.filter(
+        (d) => d.component_name && d.percentage >= 0
+      );
+    }
+
     return body;
   };
 
@@ -250,6 +273,66 @@ export default function InfoSectionManagement({
                   )}
                 </div>
               ))}
+              {config.hasDistribution && (
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    {t("admin.economicsDistribution")}
+                  </label>
+
+                  <div className="space-y-2">
+                    {distributions.map((d, idx) => (
+                      <div key={idx} className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder={t("admin.componentName")}
+                          value={d.component_name}
+                          onChange={(e) => {
+                            const next = [...distributions];
+                            next[idx].component_name = e.target.value;
+                            setDistributions(next);
+                          }}
+                          className="flex-1 border px-2 py-1 rounded"
+                        />
+
+                        <input
+                          type="number"
+                          placeholder="%"
+                          value={d.percentage}
+                          onChange={(e) => {
+                            const next = [...distributions];
+                            next[idx].percentage = Number(e.target.value);
+                            setDistributions(next);
+                          }}
+                          className="w-24 border px-2 py-1 rounded"
+                        />
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setDistributions(distributions.filter((_, i) => i !== idx))
+                          }
+                          className="text-red-500 text-sm"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setDistributions([
+                        ...distributions,
+                        { component_name: "", percentage: 0 },
+                      ])
+                    }
+                    className="mt-2 text-blue-600 text-sm"
+                  >
+                    + {t("admin.addComponent")}
+                  </button>
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {t("admin.infoImageUrl")}
