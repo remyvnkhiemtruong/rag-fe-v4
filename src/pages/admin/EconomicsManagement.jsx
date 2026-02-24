@@ -1,10 +1,10 @@
-import { economicsApi } from "../../services/api";
+import { adminEconomicsApi } from "../../services/api";
 import InfoSectionManagement from "./InfoSectionManagement";
 
 export default function EconomicsManagement({ onBack }) {
   return (
     <InfoSectionManagement
-      api={economicsApi}
+      api={adminEconomicsApi}
       sectionType="economics"
       titleKey="admin.economicsManagement"
       addKey="admin.addEconomics"

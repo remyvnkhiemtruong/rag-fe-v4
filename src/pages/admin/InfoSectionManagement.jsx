@@ -148,7 +148,7 @@ export default function InfoSectionManagement({
       setEditingId(null);
       setForm({ ...initialForm });
       fetchList();
-    } catch {
+    } catch (error) {
       alert(t("admin.errGeneric"));
     } finally {
       setSubmitting(false);

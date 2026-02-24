@@ -1,10 +1,10 @@
-import { geographyApi } from "../../services/api";
+import { adminGeographyApi } from "../../services/api";
 import InfoSectionManagement from "./InfoSectionManagement";
 
 export default function GeographyManagement({ onBack }) {
   return (
     <InfoSectionManagement
-      api={geographyApi}
+      api={adminGeographyApi}
       sectionType="geography"
       titleKey="admin.geographyManagement"
       addKey="admin.addGeography"
