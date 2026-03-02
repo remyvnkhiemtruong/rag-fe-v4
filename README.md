@@ -1,13 +1,11 @@
-# rag-fe-v4
+# Educational platform (v4)
 
-Frontend ứng dụng Di sản. React + Vite, đa ngôn ngữ (vi/en/km/zh), bản đồ (Mapbox/Leaflet), Admin.
+Frontend of educational platform (v4)
 
-## Chạy
+## How to run
 
-1. Copy `.env.example` thành `.env`, đặt `VITE_BACKEND_URL=http://localhost:5000/api` (trỏ tới backend).
-2. `npm install` rồi `npm run dev`. Mở URL (thường http://localhost:5173).
-3. Tùy chọn: thêm `VITE_MAPBOX_PK` trong `.env` để dùng bản đồ Mapbox.
+1. Copy `.env.example` to `.env`.
+2. Run `npm install`
+3. Run `npm run dev` to test on your local machine.
 
-## Test toàn bộ sản phẩm (A–Z)
 
-**Hướng dẫn test đầy đủ** (chuẩn bị môi trường, API, luồng công khai, Admin, lỗi, i18n): xem [TESTING.md](../TESTING.md) tại thư mục gốc Project.
