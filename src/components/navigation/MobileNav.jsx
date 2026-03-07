@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Home, BookOpen, Map, MessageSquare, Gamepad2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-/* eslint-disable-next-line no-unused-vars -- motion used in JSX (motion.div, motion.button, etc.) */
 import { motion, useMotionValue, animate } from 'framer-motion';
 
 export default function MobileNav() {

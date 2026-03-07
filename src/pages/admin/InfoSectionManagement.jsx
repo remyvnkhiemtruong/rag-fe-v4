@@ -48,7 +48,8 @@ export default function InfoSectionManagement({
     const base = { title: "", content: "", image_url: "" };
     config.extraFields.forEach((f) => (base[f.key] = ""));
     return base;
-  }, [sectionType]);
+    // sectionType required so initialForm updates when section changes
+  }, [sectionType, config.extraFields]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -72,7 +73,8 @@ export default function InfoSectionManagement({
 
   useEffect(() => {
     fetchList();
-  }, []);
+    // Run once on mount to load list
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const openCreate = () => {
     setEditingId(null);
@@ -148,7 +150,7 @@ export default function InfoSectionManagement({
       setEditingId(null);
       setForm({ ...initialForm });
       fetchList();
-    } catch (error) {
+    } catch {
       alert(t("admin.errGeneric"));
     } finally {
       setSubmitting(false);

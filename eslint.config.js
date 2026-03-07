@@ -19,6 +19,12 @@ export default defineConfig([
     },
   },
   {
+    files: ['vite.config.js'],
+    languageOptions: {
+      globals: { ...globals.node },
+    },
+  },
+  {
     files: ['**/*.{js,jsx}'],
     extends: [
       js.configs.recommended,
@@ -35,7 +41,7 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]', argsIgnorePattern: '^_' }],
+      'no-unused-vars': ['error', { varsIgnorePattern: '^(?:[A-Z_].*|motion)$', argsIgnorePattern: '^_' }],
     },
   },
   {

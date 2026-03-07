@@ -87,7 +87,8 @@ export default function HeritageManagement() {
 
   useEffect(() => {
     fetchHeritages(currentPage);
-  }, [currentPage]);
+    // fetchHeritages is stable; run when currentPage changes
+  }, [currentPage]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const showNotification = (message, type = 'success') => {
     setNotification({ message, type });
@@ -205,7 +206,7 @@ export default function HeritageManagement() {
 
       });
       setImagePreview(heritage.image_url || null);
-      setImage360Preview(fullHeritage.image360 || null);
+      setImage360Preview(heritage.image360 || null);
       setAudioPreview(heritage.audio_url || null);
       setExistingGallery([]);
       setYoutubeLinks(['']);

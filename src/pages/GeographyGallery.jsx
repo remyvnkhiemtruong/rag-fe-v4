@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { X, Globe2 } from "lucide-react";
 import { geographyApi } from "../services/api";
@@ -9,7 +9,7 @@ export const GeographyGallery = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [selectedId, setSelectedId] = useState(null);
+  const [_selectedId, setSelectedId] = useState(null);
   const [detail, setDetail] = useState(null);
   const [detailLoading, setDetailLoading] = useState(false);
 
@@ -17,16 +17,10 @@ export const GeographyGallery = () => {
   const [limit] = useState(9);
   const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    fetchList();
-  }, [page]);
-
-  const fetchList = async () => {
+  const fetchList = useCallback(async () => {
     try {
       setIsLoading(true);
-
-      const res = await geographyApi.getAll(page, limit); // ✅ FIXED
-
+      const res = await geographyApi.getAll(page, limit);
       setItems(res.data || []);
       setTotalPages(res.pagination?.totalPages || 1);
     } catch (e) {
@@ -34,7 +28,11 @@ export const GeographyGallery = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [page, limit]);
+
+  useEffect(() => {
+    fetchList();
+  }, [fetchList]);
 
   const fetchDetail = async (id) => {
     try {

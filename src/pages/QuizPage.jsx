@@ -80,7 +80,8 @@ export default function QuizPage() {
 
       return () => clearInterval(timer);
     }
-  }, [showResult, score]);
+    // Intentionally omit questions.length: animation runs once for current result only
+  }, [showResult, score]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Share functionality
   const shareResults = (platform) => {

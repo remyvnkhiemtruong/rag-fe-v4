@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { X, BarChart3 } from "lucide-react";
 import { economicsApi } from "../services/api";
@@ -8,7 +8,7 @@ export const EconomicGallery = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [selectedId, setSelectedId] = useState(null);
+  const [_selectedId, setSelectedId] = useState(null);
   const [detail, setDetail] = useState(null);
   const [detailLoading, setDetailLoading] = useState(false);
 
@@ -18,11 +18,7 @@ export const EconomicGallery = () => {
 
 
 
-  useEffect(() => {
-    fetchList();
-  }, [page]);
-
-  const fetchList = async () => {
+  const fetchList = useCallback(async () => {
     try {
       setIsLoading(true);
       const res = await economicsApi.getAll(page, limit);
@@ -33,7 +29,11 @@ export const EconomicGallery = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [page, limit]);
+
+  useEffect(() => {
+    fetchList();
+  }, [fetchList]);
 
   const fetchDetail = async (id) => {
     try {

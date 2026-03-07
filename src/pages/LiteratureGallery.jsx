@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { X, BookOpen } from "lucide-react";
 import { literatureApi } from "../services/api";
@@ -9,7 +9,7 @@ export const LiteratureGallery = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [selectedId, setSelectedId] = useState(null);
+  const [_selectedId, setSelectedId] = useState(null);
   const [detail, setDetail] = useState(null);
   const [detailLoading, setDetailLoading] = useState(false);
 
@@ -17,23 +17,22 @@ export const LiteratureGallery = () => {
   const [limit] = useState(9);
   const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    fetchList();
-  }, [page]);
-
-  const fetchList = async () => {
+  const fetchList = useCallback(async () => {
     try {
       setIsLoading(true);
       const res = await literatureApi.getAll(page, limit);
       setItems(res.data || []);
       setTotalPages(res.pagination?.totalPages || 1);
-
     } catch (e) {
       console.error("Failed to load literature list", e);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [page, limit]);
+
+  useEffect(() => {
+    fetchList();
+  }, [fetchList]);
 
   const fetchDetail = async (id) => {
     try {

@@ -90,7 +90,7 @@ export default function HeritageListPage() {
       };
       fetchHeritageData();
     }
-  }, [pagination.page, pagination.limit, activeTab, lang]);
+  }, [pagination.page, pagination.limit, activeTab, lang, isHeritageTab]);
 
   const filteredData = useMemo(() => {
     const categoryFromTab = ['kinh_te', 'dia_ly', 'van_hoc'].includes(activeTab) ? activeTab : null;
