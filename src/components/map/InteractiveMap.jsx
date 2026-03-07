@@ -1,7 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { MapPin, Award, ExternalLink } from 'lucide-react';
+import { formatHeritageLocation } from '../../utils/formatLocation';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -69,6 +71,7 @@ function MapController({ center, zoom }) {
 
 // Heritage popup component
 function HeritagePopup({ heritage }) {
+  const { t } = useTranslation();
   const rankingColors = {
     'Quốc gia đặc biệt': 'bg-heritage-red-600 text-white',
     'Quốc gia': 'bg-heritage-gold-500 text-heritage-red-900',
@@ -98,7 +101,7 @@ function HeritagePopup({ heritage }) {
         
         <div className="flex items-center gap-1 text-gray-500 text-sm mb-3">
           <MapPin className="w-3 h-3" />
-          <span>{heritage.commune}, {heritage.district}</span>
+          <span>{formatHeritageLocation(heritage, t)}</span>
         </div>
         
         <Link

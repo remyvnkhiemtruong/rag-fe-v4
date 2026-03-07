@@ -10,6 +10,7 @@ import { useFavorites } from '../context/FavoritesContext';
 import heritages from '../data/heritages.json';
 import ReactMarkdown from 'react-markdown';
 import { getRankingStyle, normalizeRankingCode } from '../utils/ranking';
+import { formatHeritageLocation } from '../utils/formatLocation';
 import { ADMIN_LEGAL_BASIS } from '../data/adminCrosswalk';
 
 function SocialShareButtons({ heritage }) {
@@ -83,7 +84,7 @@ function RelatedHeritages({ currentId, commune }) {
             </h4>
             <div className="flex items-center gap-1 text-gray-500 text-sm">
               <MapPin className="w-3 h-3" />
-              {heritage.commune}
+              {formatHeritageLocation(heritage, t)}
             </div>
           </Link>
         ))}
@@ -202,7 +203,7 @@ export default function HeritageDetailPage() {
           <div className="flex flex-wrap gap-4 text-gray-600 dark:text-gray-400 mb-6">
             <div className="flex items-center gap-2">
               <MapPin className="w-4 h-4" />
-              <span>{heritage.commune}, {heritage.district}</span>
+              <span>{formatHeritageLocation(heritage, t)}</span>
             </div>
             {heritage.type && (
               <div className="flex items-center gap-2">

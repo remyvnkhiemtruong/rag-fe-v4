@@ -7,6 +7,7 @@ import { useFavorites } from '../context/FavoritesContext';
 import heritages from '../data/heritages.json';
 import EmptyState from '../components/ui/EmptyState';
 import { getRankingStyle, normalizeRankingCode } from '../utils/ranking';
+import { formatHeritageLocation } from '../utils/formatLocation';
 
 function FavoriteCard({ heritage, onRemove }) {
   const { t } = useTranslation();
@@ -55,7 +56,7 @@ function FavoriteCard({ heritage, onRemove }) {
         
         <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-sm mb-4">
           <MapPin className="w-4 h-4" />
-          <span>{heritage.commune}, {heritage.district}</span>
+          <span>{formatHeritageLocation(heritage, t)}</span>
         </div>
         
         <Link
