@@ -130,6 +130,10 @@
     "markdownPlaceholder": "在此输入 Markdown 内容...",
     "markdownPlaceholderShort": "输入 Markdown..."
   },
+  "eatery": {
+    "viewOnMap": "在 Google 地图上查看",
+    "noData": "暂无餐馆数据"
+  },
   "nav": {
     "home": "首页",
     "explore": "探索",
@@ -596,6 +600,7 @@
     "tabHeritage": "遗产",
     "tabMusic": "音乐",
     "tabFineArts": "美术",
+    "tabQuanAn": "餐馆",
     "tabKinhTe": "经济",
     "tabDiaLy": "地理",
     "tabVanHoc": "文学",

@@ -131,6 +131,10 @@
     "markdownPlaceholder": "Nhập nội dung markdown ở đây...",
     "markdownPlaceholderShort": "Nhập markdown..."
   },
+  "eatery": {
+    "viewOnMap": "Xem trên Google Maps",
+    "noData": "Chưa có dữ liệu quán ăn"
+  },
   "nav": {
     "home": "Trang chủ",
     "explore": "Khám phá",
@@ -671,6 +675,7 @@
     "tabHeritage": "Di sản",
     "tabMusic": "Âm Nhạc",
     "tabFineArts": "Hình ảnh",
+    "tabQuanAn": "Quán ăn",
     "tabKinhTe": "Kinh tế",
     "tabDiaLy": "Địa lý",
     "tabVanHoc": "Văn học",

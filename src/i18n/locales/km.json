@@ -131,6 +131,10 @@
     "markdownPlaceholder": "បញ្ចូលមាតិកា markdown នៅទីនេះ...",
     "markdownPlaceholderShort": "បញ្ចូល markdown..."
   },
+  "eatery": {
+    "viewOnMap": "មើលលើ Google Maps",
+    "noData": "មិនទាន់មានទិន្នន័យហាងអាហារ"
+  },
   "nav": {
     "home": "ទំព័រដើម",
     "explore": "ស្វែងរក",
@@ -597,6 +601,7 @@
     "tabHeritage": "បេតិកភណ្ឌ",
     "tabMusic": "ចម្រៀង",
     "tabFineArts": "វិចិត្រសិល្បៈ",
+    "tabQuanAn": "ហាងអាហារ",
     "tabKinhTe": "សេដ្ឋកិច្ច",
     "tabDiaLy": "ភូមិសាស្ត្រ",
     "tabVanHoc": "អក្សរសាស្ត្រ",

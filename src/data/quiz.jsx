@@ -161,13 +161,13 @@ export const additionalQuestions = [
   {
     question: "Trung tâm hành chính của tỉnh Cà Mau sau khi sáp nhập đặt tại đâu?",
     options: [
-      "Thành phố Bạc Liêu",
-      "Thành phố Cà Mau",
-      "Thị xã Giá Rai",
-      "Huyện Năm Căn"
+      "Phường Bạc Liêu",
+      "Phường An Xuyên",
+      "Phường Giá Rai",
+      "Xã Năm Căn"
     ],
     correct: 1,
-    explanation: "Theo Nghị quyết 60-NQ/TW, trung tâm hành chính đặt tại TP Cà Mau hiện nay."
+    explanation: "Theo phương án sắp xếp đơn vị hành chính mới, trung tâm hành chính đặt tại phường An Xuyên, tỉnh Cà Mau."
   },
   {
     question: "Năm 1832, vua Minh Mạng chia Nam Bộ thành 6 tỉnh, vùng đất Bạc Liêu thuộc tỉnh nào?",
@@ -378,7 +378,7 @@ export const additionalQuestions = [
       "Đình Cà Mau"
     ],
     correct: 1,
-    explanation: "Đình Tân Hưng tại xã Lý Văn Lâm, TP Cà Mau là nơi treo cờ Đảng đầu tiên tại Cà Mau."
+    explanation: "Đình Tân Hưng tại xã Lý Văn Lâm, nay thuộc phường Lý Văn Lâm, tỉnh Cà Mau, là nơi treo cờ Đảng đầu tiên tại Cà Mau."
   },
   {
     question: "Di tích nào được xếp hạng Di tích quốc gia đặc biệt liên quan đến đường Hồ Chí Minh trên biển?",
@@ -1038,13 +1038,13 @@ export const additionalQuestions = [
   {
     question: "Di tích Lung Lá - Nhà Thể thuộc xã nào hiện nay?",
     options: [
-      "Xã Thạnh Phú",
+      "Xã Lương Thế Trân",
       "Xã Ninh Thạnh Lợi",
       "Xã Tân Hưng",
       "Xã Phong Thạnh"
     ],
     correct: 0,
-    explanation: "Căn cứ Tỉnh uỷ Lung Lá - Nhà Thể tọa lạc tại ấp Trần Độ, xã Thạnh Phú, huyện Cái Nước."
+    explanation: "Căn cứ Tỉnh uỷ Lung Lá - Nhà Thể tọa lạc tại ấp Trần Độ, xã Lương Thế Trân, tỉnh Cà Mau."
   },
   {
     question: "Nhà thờ Tắc Sậy là công trình kiến trúc theo tôn giáo nào?",
