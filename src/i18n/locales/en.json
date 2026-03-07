@@ -131,6 +131,10 @@
     "markdownPlaceholder": "Enter markdown content here...",
     "markdownPlaceholderShort": "Enter markdown..."
   },
+  "eatery": {
+    "viewOnMap": "View on Google Maps",
+    "noData": "No eatery data yet"
+  },
   "nav": {
     "home": "Home",
     "explore": "Explore",
@@ -667,6 +671,7 @@
     "tabHeritage": "Heritage",
     "tabMusic": "Music",
     "tabFineArts": "Fine Arts",
+    "tabQuanAn": "Eateries",
     "tabKinhTe": "Economics",
     "tabDiaLy": "Geography",
     "tabVanHoc": "Literature",
