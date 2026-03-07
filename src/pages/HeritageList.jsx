@@ -9,6 +9,7 @@ import { heritageApi } from '../services/api';
 import EconomicGallery from './EconomicGallery';
 import GeographyGallery from './GeographyGallery';
 import LiteratureGallery from './LiteratureGallery';
+import { formatHeritageLocation } from '../utils/formatLocation';
 
 const getItemCommune = (item) => item.commune || '';
 
@@ -296,7 +297,7 @@ export default function HeritageListPage() {
                           <div className="space-y-1.5">
                             <div className="flex items-start gap-2 text-gray-500 dark:text-gray-400 text-xs">
                               <MapPin className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500 mt-0.5 flex-shrink-0" />
-                              <span className="line-clamp-1">{item.commune}, {item.district}</span>
+                              <span className="line-clamp-1">{formatHeritageLocation(item, t)}</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs">
                               <Calendar className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500" />

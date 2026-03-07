@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { MapPin, Award, ArrowRight } from 'lucide-react';
 import { FavoriteButton } from '../ui';
 import { getRankingStyle, getRankingCode } from '../../utils/ranking';
+import { formatHeritageLocation } from '../../utils/formatLocation';
 
 function BentoCard({ heritage, index, variant = 'normal', onClick }) {
   const { t } = useTranslation();
@@ -86,7 +87,7 @@ function BentoCard({ heritage, index, variant = 'normal', onClick }) {
           {/* Location */}
           <div className="flex items-center gap-2 text-white/70 text-sm mb-3">
             <MapPin className="w-4 h-4 flex-shrink-0" />
-            <span className="truncate">{heritage.address || heritage.commune}</span>
+            <span className="truncate">{heritage.address || formatHeritageLocation(heritage, t)}</span>
           </div>
 
           {/* Description (featured only) */}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Calendar, MapPin, Award, ArrowRight } from 'lucide-react';
+import { formatHeritageLocation } from '../../utils/formatLocation';
 
 const rankingColors = {
   'Quốc gia đặc biệt': 'bg-heritage-red-600',
@@ -55,7 +56,7 @@ function TimelineItem({ heritage, index, isLeft, t }) {
           {heritage.commune && (
             <div className={`flex items-center gap-2 text-gray-500 dark:text-gray-400 text-sm mb-3 ${isLeft ? 'md:justify-end' : ''}`}>
               <MapPin className="w-4 h-4" />
-              <span>{heritage.commune}</span>
+              <span>{formatHeritageLocation(heritage, t)}</span>
             </div>
           )}
 
