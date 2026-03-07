@@ -36,6 +36,7 @@
     "favoriteActive": "已收藏",
     "favoriteInactive": "收藏",
     "noData": "暂无数据",
+    "noContent": "暂无内容可显示",
     "addFavorite": "添加收藏",
     "removeFavorite": "取消收藏",
     "imageLoadError": "无法加载图片",
@@ -43,6 +44,12 @@
     "offline": "离线",
     "installed": "已安装",
     "addToHomeScreen": "添加到主屏幕",
+    "shareResults": "分享结果",
+    "twitter": "Twitter",
+    "facebook": "Facebook",
+    "copyLink": "复制链接",
+    "document": "文档",
+    "relevance": "相关度",
     "searchAria": "搜索"
   },
   "errors": {
@@ -105,7 +112,7 @@
     "inputLabel": "输入文本",
     "speedValue": "朗读速度：{{speed}}x"
   },
-  "detail": {
+  "videoDetail": {
     "learnMoreVideo": "通过视频了解更多",
     "watchVideo": "观看视频",
     "videoIntro": "介绍视频 ({{count}})",
@@ -215,12 +222,50 @@
       "statLocations": "地点",
       "statFestivals": "节日"
     },
+    "welcome": {
+      "title": "探索金瓯遗产",
+      "subtitle": "开启探索金瓯省历史、文化和传统的旅程。学习、探索并与您的根源相连。",
+      "highlight1": "历史遗迹",
+      "highlight2": "文化传统",
+      "highlight3": "互动学习",
+      "highlight4": "地方遗产",
+      "journeySteps": "四步学习之旅"
+    },
     "featured": {
       "badge": "特色遗产",
       "title": "探索特色遗产",
       "subtitle": "世代相传并得到认可和保护的文化遗产",
       "viewAll": "查看所有遗产",
       "viewDetails": "查看详情"
+    },
+    "pathways": {
+      "badge": "学习路径",
+      "title": "选择您的学习之旅",
+      "subtitle": "通过为不同兴趣和水平设计的学习路径探索金瓯遗产。",
+      "sites": "地点",
+      "achievement": "成就",
+      "explore": "探索",
+      "bottomMessage": "完成路径获得成就并跟踪学习进度！",
+      "historical": {
+        "title": "历史遗迹",
+        "description": "探索寺庙、古迹和讲述金瓯故事的建筑。",
+        "duration": "约8小时"
+      },
+      "cultural": {
+        "title": "文化传统",
+        "description": "了解金瓯独特的节日、习俗和表演艺术。",
+        "duration": "约6小时"
+      },
+      "people": {
+        "title": "名人",
+        "description": "了解塑造金瓯历史的英雄、艺术家和学者。",
+        "duration": "约4小时"
+      },
+      "natural": {
+        "title": "自然遗产",
+        "description": "体验金瓯的景观、生态系统和传统活动。",
+        "duration": "约5小时"
+      }
     },
     "stats": {
       "title": "金瓯遗产",
@@ -246,6 +291,38 @@
       "favorites": "收藏",
       "favoritesDesc": "查看您收藏的遗产列表"
     },
+    "categories": {
+      "badge": "遗产分类",
+      "title": "探索遗产类型",
+      "subtitle": "浏览按类型和重要性组织的金瓯多元遗产收藏。",
+      "items": "项",
+      "explore": "探索分类",
+      "viewAll": "查看所有遗产",
+      "architectural": {
+        "title": "建筑遗产",
+        "description": "传统建筑、寺庙和历史建筑。"
+      },
+      "intangible": {
+        "title": "非物质文化遗产",
+        "description": "节日、表演艺术和文化传统。"
+      },
+      "historical": {
+        "title": "历史遗迹",
+        "description": "具有国家特殊意义的遗迹。"
+      },
+      "crafts": {
+        "title": "传统工艺",
+        "description": "工匠技艺和传统制作方法。"
+      },
+      "natural": {
+        "title": "自然遗产",
+        "description": "景观、生态系统和自然名胜。"
+      },
+      "people": {
+        "title": "名人",
+        "description": "英雄、学者和文化贡献者。"
+      }
+    },
     "popularDestinations": {
       "title": "热门景点",
       "description": "探索金瓯省著名当地景点"
@@ -255,7 +332,10 @@
       "title2": "文化遗产",
       "subtitle": "贡献有关地方文化遗产的信息、图片和故事，共同保护和弘扬民族文化价值",
       "contributeButton": "立即贡献",
-      "learnMore": "了解更多"
+      "learnMore": "了解更多",
+      "startJourney": "开始旅程",
+      "exploreMap": "探索地图",
+      "takeQuiz": "参加测验"
     }
   },
   "filter": {
@@ -289,7 +369,21 @@
     "rankingType": "等级",
     "watchVideo": "观看视频",
     "listenAudio": "收听音频",
-    "relatedItems": "相关内容"
+    "relatedItems": "相关内容",
+    "listenIntro": "收听介绍",
+    "audioDescription": "解说音频",
+    "stop": "停止",
+    "audioError": "无法播放音频，请重试。",
+    "music": "音乐",
+    "musicAudio": "音乐音频文件",
+    "browserNoAudio": "浏览器不支持音频",
+    "imageGallery": "图片详情",
+    "information": "详细信息",
+    "historyAndCulture": "历史与文化价值",
+    "commune": "乡/坊",
+    "district": "县/郡",
+    "province": "省/市",
+    "legalBasis": "行政更新法律依据"
   },
   "heritage": {
     "title": "探索遗产",
@@ -580,8 +674,67 @@
     "tagPreview": "预览",
     "resetTags": "重置标签",
     "confirmResetTags": "确定要将所有标签重置为默认吗？",
+    "errQuizMinOptions": "至少需要2个选项",
+    "noQuizMatch": "未找到匹配的题目",
+    "noPeopleMatch": "未找到匹配的人物",
+    "noFestivalMatch": "未找到匹配的节日",
+    "deleteFailed": "删除失败",
+    "upload": "上传",
+    "tagDeleteSuccess": "标签已删除！",
+    "tagResetSuccess": "标签已重置为默认！",
+    "allCategories": "全部分类",
+    "confirmDeleteTitle": "确认删除",
+    "confirmDeleteTag": "确定要删除标签「{{name}}」吗？",
+    "placeholderYoutubeLink": "输入 YouTube 链接",
+    "filterByLanguage": "按语言筛选",
+    "noAudio": "暂无音频",
+    "demoCredentials": "演示：admin / admin123",
+    "addMultipleMusicLinks": "添加多个音乐链接",
+    "addAnotherLink": "+ 添加链接",
+    "addImages": "+ 添加图片",
+    "uploadMultipleImages": "上传多张图片",
+    "filesSelected": "已选 {{count}} 个文件",
+    "correctAnswer": "正确答案",
+    "setAsCorrect": "设为正确答案",
+    "quizCount": "{{count}} 道题",
+    "questionLabel": "问题 *",
+    "optionsLabel": "选项（选择正确答案）",
+    "optionPlaceholder": "选项 {{letter}}",
+    "optionHint": "点击字母标记正确答案",
+    "explanationLabel": "解释（答题后显示）",
+    "tableQuestion": "问题",
+    "tableOptions": "选项数",
+    "tableCorrect": "正确",
+    "roleUndefined": "未指定",
+    "ttsApiTitle": "Text-to-Speech API",
+    "ttsApiDesc": "系统支持从文本自动生成音频。",
+    "audioCreatedCount": "已创建音频 ({{count}})",
+    "duration": "时长：{{value}}",
+    "selectHeritage": "选择遗产",
+    "createAudio": "创建音频",
+    "audioSubtitle": "管理多语种解说音频",
+    "uploadAudio": "上传音频",
+    "heritageTitle": "遗产管理",
+    "totalCount": "共 {{count}} 项遗产",
+    "listTab": "列表",
+    "analyticsTab": "分析",
+    "reload": "重新加载",
+    "inputLanguage": "输入语言",
+    "mainImage": "主图",
+    "select360Image": "选择 360 图片",
+    "audioNarration": "解说音频",
+    "selectAudio": "选择音频",
+    "audioFormats": "支持 .mp3、.wav、.m4a...",
+    "existingImages": "现有图片（勾选保留）：",
+    "imageKeepNote": "蓝框图片将被保留...",
+    "newImagesSelected": "已选 {{count}} 张新图",
+    "youtubeVideo": "YouTube 视频",
+    "videoFormats": "支持格式：youtube.com/...",
+    "top10Communes": "前10 乡/坊",
     "tagCategories": {
       "heritage": "遗产",
+      "music": "音乐",
+      "fineart": "美术",
       "people": "人物",
       "festival": "节日",
       "location": "地点",
@@ -671,6 +824,11 @@
     "reminders": "提醒",
     "storage": "缓存存储",
     "clearCache": "清除缓存",
+    "clearCacheDesc": "清除离线存储的数据",
+    "clearCacheConfirm": "清除缓存？",
+    "installAppTitle": "安装应用",
+    "appAndOffline": "应用与离线",
+    "newHeritageNotif": "添加新遗产时通知",
     "resetSettings": "重置设置",
     "resetConfirm": "确定要重置所有设置吗？",
     "systemInfo": "系统信息",
@@ -835,6 +993,12 @@
     "quizzes": "问答",
     "complete": "完成",
     "morePoints": "更多积分",
+    "rarityCommon": "普通",
+    "rarityUncommon": "不常见",
+    "rarityRare": "稀有",
+    "rarityEpic": "史诗",
+    "rarityLegendary": "传奇",
+    "notUnlocked": "未解锁",
     "rarity": {
       "common": "普通",
       "uncommon": "稀有",

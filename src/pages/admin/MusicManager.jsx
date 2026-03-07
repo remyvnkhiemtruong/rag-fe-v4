@@ -1,6 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import MusicManagement from './MusicManagement';
 
 export default function MusicManager({ onBack }) {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-heritage-cream-50 dark:bg-gray-900 theme-transition">
       {/* Header */}
@@ -14,11 +16,11 @@ export default function MusicManager({ onBack }) {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              <span className="hidden sm:inline">Quay lại</span>
+              <span className="hidden sm:inline">{t('common.back')}</span>
             </button>
             <div>
-              <h1 className="text-2xl font-display font-bold">Quản lý âm nhạc</h1>
-              <p className="text-heritage-gold-300 dark:text-gray-400 text-sm">Thêm, sửa, xóa thông tin âm nhạc văn hóa</p>
+              <h1 className="text-2xl font-display font-bold">{t('admin.musicManagement')}</h1>
+              <p className="text-heritage-gold-300 dark:text-gray-400 text-sm">{t('admin.descMusic')}</p>
             </div>
           </div>
         </div>

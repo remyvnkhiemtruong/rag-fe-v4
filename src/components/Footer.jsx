@@ -7,7 +7,7 @@ export function Footer() {
     <footer className="bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-t border-slate-200 dark:border-gray-700 relative mb-20 md:mb-0">
       <div className="h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-gray-600 to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-4 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div>
             <div className="flex items-center gap-3 mb-5">

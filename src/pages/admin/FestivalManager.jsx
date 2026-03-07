@@ -111,7 +111,7 @@ export default function FestivalManager({ onBack }) {
   // Handle save
   const handleSave = () => {
     if (!formData.name) {
-      showNotification('Vui lòng điền tên lễ hội', 'error');
+      showNotification(t('admin.errFestivalName'), 'error');
       return;
     }
 
@@ -200,7 +200,7 @@ export default function FestivalManager({ onBack }) {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Tìm kiếm lễ hội..."
+            placeholder={t('admin.searchFestival')}
             className="w-full pl-12 pr-4 py-3 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           />
         </div>

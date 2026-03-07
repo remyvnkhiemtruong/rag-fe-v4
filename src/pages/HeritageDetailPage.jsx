@@ -236,7 +236,7 @@ export default function HeritageDetailPage() {
 
           <div className="mb-8 p-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
             <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2">
-              Căn cứ pháp lý cập nhật hành chính
+              {t('detail.legalBasis')}
             </h3>
             <ul className="space-y-1.5">
               {ADMIN_LEGAL_BASIS.map((doc) => (

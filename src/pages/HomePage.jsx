@@ -20,7 +20,7 @@ export default function HomePage() {
       <QuickAccessCards />
 
       {/* 8. Call to Action Section - Convert to Action */}
-      <section className="py-16 md:py-24 relative overflow-hidden">
+      <section className="section-spacing-main relative overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
@@ -43,7 +43,7 @@ export default function HomePage() {
           className="absolute -top-1/2 -right-1/4 w-1/2 h-full bg-heritage-gold-500/10 rounded-full blur-3xl"
         />
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

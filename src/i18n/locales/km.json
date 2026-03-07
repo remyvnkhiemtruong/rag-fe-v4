@@ -44,6 +44,12 @@
     "offline": "ក្រៅបណ្តាញ",
     "installed": "ដំឡើងរួច",
     "addToHomeScreen": "បន្ថែមទៅអេក្រង់ដំបូង",
+    "shareResults": "ចែករំលែកលទ្ធផល",
+    "twitter": "Twitter",
+    "facebook": "Facebook",
+    "copyLink": "ចម្លង link",
+    "document": "ឯកសារ",
+    "relevance": "ពាក់ព័ន្ធ",
     "searchAria": "ស្វែងរក"
   },
   "errors": {
@@ -106,7 +112,7 @@
     "inputLabel": "អត្ថបទចូល",
     "speedValue": "ល្បឿនអាន៖ {{speed}}x"
   },
-  "detail": {
+  "videoDetail": {
     "learnMoreVideo": "ស្វែងយល់បន្ថែមតាមវីដេអូ",
     "watchVideo": "មើលវីដេអូ",
     "videoIntro": "វីដេអូណែនាំ ({{count}})",
@@ -216,12 +222,50 @@
       "statLocations": "ទីតាំង",
       "statFestivals": "បុណ្យ"
     },
+    "welcome": {
+      "title": "ស្វែងរកបេតិកភណ្ឌកាម៉ៅ",
+      "subtitle": "ចាប់ផ្តើមដំណើរស្វែងរកប្រវត្តិសាស្រ្ត វប្បធម៌ និងប្រពៃណីខេត្តកាម៉ៅ។ រៀន ស្វែងរក និងតភ្ជាប់ជាមួយឫសគល់របស់អ្នក។",
+      "highlight1": "ប្រាសាទប្រវត្តិសាស្រ្ត",
+      "highlight2": "ប្រពៃណីវប្បធម៌",
+      "highlight3": "ការរៀនអន្តរកម្ម",
+      "highlight4": "បេតិកភណ្ឌមូលដ្ឋាន",
+      "journeySteps": "ដំណើររៀន ៤ ជំហាន"
+    },
     "featured": {
       "badge": "បេតិកភណ្ឌពិសេស",
       "title": "ស្វែងរកបេតិកភណ្ឌពិសេស",
       "subtitle": "បេតិកភណ្ឌវប្បធម៌ដែលទទួលស្គាល់ និងថែរក្សាតាមជំនាន់",
       "viewAll": "មើលបេតិកភណ្ឌទាំងអស់",
       "viewDetails": "មើលព័ត៌មានលម្អិត"
+    },
+    "pathways": {
+      "badge": "ផ្លូវរៀន",
+      "title": "ជ្រើសរើសដំណើររៀនរបស់អ្នក",
+      "subtitle": "ស្វែងរកបេតិកភណ្ឌកាម៉ៅតាមរយៈផ្លូវរៀនដែលរចនាសម្រាប់ចំណាប់អារម្មណ៍ និងកម្រិតចំណេះដឹងផ្សេងៗគ្នា។",
+      "sites": "ទីតាំង",
+      "achievement": "សមិទ្ធិផល",
+      "explore": "ស្វែងរក",
+      "bottomMessage": "បំពេញផ្លូវដើម្បីទទួលសមិទ្ធិផល និងតាមដានវឌ្ឍនភាពរៀន!",
+      "historical": {
+        "title": "ប្រាសាទប្រវត្តិសាស្រ្ត",
+        "description": "ស្វែងរកវត្ត ប្រាសាទ និងអាគាររឿងរ៉ាវកាម៉ៅ។",
+        "duration": "~៨ ម៉ោង"
+      },
+      "cultural": {
+        "title": "ប្រពៃណីវប្បធម៌",
+        "description": "ស្វែងយល់អំពីពិធីបុណ្យ ទំនៀមទម្លាប់ និងសិល្បៈកម្មវិធីពិសេសកាម៉ៅ។",
+        "duration": "~៦ ម៉ោង"
+      },
+      "people": {
+        "title": "បុគ្គលល្បីល្បាញ",
+        "description": "ស្វែងយល់អំពីវីរជន សិល្បករ និងអ្នកប្រាជ្ញដែលបង្កើតប្រវត្តិសាស្រ្តកាម៉ៅ។",
+        "duration": "~៤ ម៉ោង"
+      },
+      "natural": {
+        "title": "បេតិកភណ្ឌធម្មជាតិ",
+        "description": "រីករាយទេសភាព ប្រព័ន្ធអេកូឡូស៊ី និងសកម្មភាពប្រពៃណី។",
+        "duration": "~៥ ម៉ោង"
+      }
     },
     "stats": {
       "title": "បេតិកភណ្ឌកាម៉ៅ",
@@ -247,6 +291,38 @@
       "favorites": "សំណព្វ",
       "favoritesDesc": "មើលបញ្ជីបេតិកភណ្ឌដែលអ្នកចូលចិត្ត"
     },
+    "categories": {
+      "badge": "ប្រភេទបេតិកភណ្ឌ",
+      "title": "ស្វែងរកប្រភេទបេតិកភណ្ឌ",
+      "subtitle": "រកមើលការប្រមូលបេតិកភណ្ឌកាម៉ៅចម្រុះរៀបចំតាមប្រភេទ និងសារៈសំខាន់។",
+      "items": "ធាតុ",
+      "explore": "ស្វែងរកប្រភេទ",
+      "viewAll": "មើលបេតិកភណ្ឌទាំងអស់",
+      "architectural": {
+        "title": "បេតិកភណ្ឌស្ថាបត្យកម្ម",
+        "description": "អាគារប្រពៃណី វត្ត និងអាគារប្រវត្តិសាស្រ្ត។"
+      },
+      "intangible": {
+        "title": "បេតិកភណ្ឌវប្បធម៌អរូបី",
+        "description": "ពិធីបុណ្យ សិល្បៈកម្មវិធី និងប្រពៃណីវប្បធម៌។"
+      },
+      "historical": {
+        "title": "ប្រាសាទប្រវត្តិសាស្រ្ត",
+        "description": "ទីតាំងជាតិពិសេស និងសារៈសំខាន់។"
+      },
+      "crafts": {
+        "title": "របបរចនាប្រពៃណី",
+        "description": "ជំនាញជាងវិជ្ជា និងវិធីសាស្រ្តផលិតប្រពៃណី។"
+      },
+      "natural": {
+        "title": "បេតិកភណ្ឌធម្មជាតិ",
+        "description": "ទេសភាព ប្រព័ន្ធអេកូឡូស៊ី និងទីគោលចំណាត់ថ្នាក់។"
+      },
+      "people": {
+        "title": "បុគ្គលល្បីល្បាញ",
+        "description": "វីរជន អ្នកប្រាជ្ញ និងអ្នករួមចំណែកវប្បធម៌។"
+      }
+    },
     "popularDestinations": {
       "title": "ទីតាំងពេញនិយម",
       "description": "រុករកទីតាំងមូលដ្ឋានល្បីល្បាញនៅខេត្តកាម៉ៅ"
@@ -256,7 +332,10 @@
       "title2": "បេតិកភណ្ឌវប្បធម៌",
       "subtitle": "រួមចំណែកព័ត៌មាន រូបភាព និងរឿងរ៉ាវអំពីបេតិកភណ្ឌវប្បធម៌មូលដ្ឋានដើម្បីរួមគ្នាថែរក្សា និងលើកកម្ពស់តម្លៃវប្បធម៌ជាតិ",
       "contributeButton": "រួមចំណែកឥឡូវ",
-      "learnMore": "ស្វែងយល់បន្ថែម"
+      "learnMore": "ស្វែងយល់បន្ថែម",
+      "startJourney": "ចាប់ផ្តើមដំណើរ",
+      "exploreMap": "ស្វែងរកផែនទី",
+      "takeQuiz": "ធ្វើរបៀបសំណួរ"
     }
   },
   "filter": {
@@ -290,7 +369,21 @@
     "rankingType": "ចាត់ថ្នាក់",
     "watchVideo": "មើលវីដេអូ",
     "listenAudio": "ស្តាប់សម្លេង",
-    "relatedItems": "មាតិកាពាក់ព័ន្ធ"
+    "relatedItems": "មាតិកាពាក់ព័ន្ធ",
+    "listenIntro": "ស្តាប់ការណែនាំ",
+    "audioDescription": "អូឌីយ៉ូណែនាំ",
+    "stop": "ឈប់",
+    "audioError": "រកមិនឃើញចាក់អូឌីយ៉ូ។ សូមព្យាយាមម្តងទៀត។",
+    "music": "តន្ត្រី",
+    "musicAudio": "ឯកសារសម្លេងតន្ត្រី",
+    "browserNoAudio": "កម្មវិធីរុករកមិនគាំទ្រអូឌីយ៉ូ",
+    "imageGallery": "រូបភាពលម្អិត",
+    "information": "ព័ត៌មានលម្អិត",
+    "historyAndCulture": "ប្រវត្តិសាស្រ្ត និងតម្លៃវប្បធម៌",
+    "commune": "ឃុំ/សង្កាត់",
+    "district": "ស្រុក/ខណ្ឌ",
+    "province": "ខេត្ត/ក្រុង",
+    "legalBasis": "មូលដ្ឋានច្បាប់ធ្វើបច្ចុប្បន្នភាពរដ្ឋបាល"
   },
   "heritage": {
     "title": "ស្វែងរកបេតិកភណ្ឌ",
@@ -581,8 +674,67 @@
     "tagPreview": "មើលជាមុន",
     "resetTags": "កំណត់ Tags ឡើងវិញ",
     "confirmResetTags": "តើអ្នកពិតជាចង់កំណត់ tags ទាំងអស់ទៅលំនាំដើមវិញមែនទេ?",
+    "errQuizMinOptions": "ត្រូវការយ៉ាងហោចណាស់ ២ ជម្រើស",
+    "noQuizMatch": "រកមិនឃើញសំណួរសមស្រប",
+    "noPeopleMatch": "រកមិនឃើញបុគ្គលសមស្រប",
+    "noFestivalMatch": "រកមិនឃើញពិធីបុណ្យសមស្រប",
+    "deleteFailed": "លុបមិនបាន",
+    "upload": "បញ្ចូល",
+    "tagDeleteSuccess": "បានលុប tag ជោគជ័យ!",
+    "tagResetSuccess": "បានកំណត់ tags ឡើងវិញជាលំនាំដើម!",
+    "allCategories": "ប្រភេទទាំងអស់",
+    "confirmDeleteTitle": "បញ្ជាក់លុប",
+    "confirmDeleteTag": "តើអ្នកពិតជាចង់លុប tag \"{{name}}\" មែនទេ?",
+    "placeholderYoutubeLink": "បញ្ចូល link YouTube",
+    "filterByLanguage": "តម្រងតាមភាសា",
+    "noAudio": "មិនទាន់មានអូឌីយ៉ូ",
+    "demoCredentials": "បានបង្ហាញ: admin / admin123",
+    "addMultipleMusicLinks": "បន្ថែមចម្រៀងច្រើន",
+    "addAnotherLink": "+ បន្ថែម link",
+    "addImages": "+ បន្ថែមរូបភាព",
+    "uploadMultipleImages": "បញ្ចូលរូបភាពច្រើន",
+    "filesSelected": "បានជ្រើស {{count}} ឯកសារ",
+    "correctAnswer": "ចម្លើយត្រឹមត្រូវ",
+    "setAsCorrect": "កំណត់ជាចម្លើយត្រឹមត្រូវ",
+    "quizCount": "{{count}} សំណួរ",
+    "questionLabel": "សំណួរ *",
+    "optionsLabel": "ជម្រើស (ជ្រើសចម្លើយត្រឹមត្រូវ)",
+    "optionPlaceholder": "ជម្រើស {{letter}}",
+    "optionHint": "ចុចអក្សរដើម្បីគូសចម្លើយត្រឹមត្រូវ",
+    "explanationLabel": "ការពន្យល់ (បង្ហាញបន្ទាប់ពីឆ្លើយ)",
+    "tableQuestion": "សំណួរ",
+    "tableOptions": "ចំនួនជម្រើស",
+    "tableCorrect": "ត្រឹមត្រូវ",
+    "roleUndefined": "មិនបានកំណត់",
+    "ttsApiTitle": "Text-to-Speech API",
+    "ttsApiDesc": "ប្រព័ន្ធគាំទ្រការបង្កើតអូឌីយ៉ូដោយស្វ័យប្រវត្តិពីអត្ថបទ។",
+    "audioCreatedCount": "អូឌីយ៉ូបានបង្កើត ({{count}})",
+    "duration": "រយៈពេល៖ {{value}}",
+    "selectHeritage": "ជ្រើសរើសបេតិកភណ្ឌ",
+    "createAudio": "បង្កើតអូឌីយ៉ូ",
+    "audioSubtitle": "គ្រប់គ្រងអូឌីយ៉ូណែនាំច្រើនភាសា",
+    "uploadAudio": "បញ្ចូលអូឌីយ៉ូ",
+    "heritageTitle": "គ្រប់គ្រងបេតិកភណ្ឌវប្បធម៌",
+    "totalCount": "សរុប៖ {{count}} បេតិកភណ្ឌ",
+    "listTab": "បញ្ជី",
+    "analyticsTab": "វិភាគ",
+    "reload": "ផ្ទុកឡើងវិញ",
+    "inputLanguage": "ភាសាបញ្ចូល",
+    "mainImage": "រូបភាពចម្បង",
+    "select360Image": "ជ្រើសរើសរូប 360",
+    "audioNarration": "អូឌីយ៉ូណែនាំ",
+    "selectAudio": "ជ្រើសរើសអូឌីយ៉ូ",
+    "audioFormats": "ទទួលយក .mp3, .wav, .m4a...",
+    "existingImages": "រូបភាពដែលមាន (ជ្រើសរើសរក្សា):",
+    "imageKeepNote": "រូបដែលមានស៊ុមខៀវនឹងត្រូវរក្សា...",
+    "newImagesSelected": "បានជ្រើសរូបថ្មី {{count}}",
+    "youtubeVideo": "វីដេអូ YouTube",
+    "videoFormats": "ទម្រង់គាំទ្រ៖ youtube.com/...",
+    "top10Communes": "កំពូល ១០ ឃុំ/សង្កាត់",
     "tagCategories": {
       "heritage": "បេតិកភណ្ឌ",
+      "music": "តន្ត្រី",
+      "fineart": "សិល្បៈវិចិត្រសិល្បៈ",
       "people": "បុគ្គល",
       "festival": "បុណ្យ",
       "location": "ទីតាំង",
@@ -672,6 +824,11 @@
     "reminders": "ការរំលឹក",
     "storage": "ឃ្លាំងផ្ទុកទិន្នន័យ",
     "clearCache": "សម្អាតទិន្នន័យផ្ទុក",
+    "clearCacheDesc": "ជម្រះទិន្នន័យដែលរក្សាទុកក្រៅបណ្តាញ",
+    "clearCacheConfirm": "សម្អាតឃ្លាំង?",
+    "installAppTitle": "ដំឡើងកម្មវិធី",
+    "appAndOffline": "កម្មវិធី និងក្រៅបណ្តាញ",
+    "newHeritageNotif": "ជូនដំណឹងពេលមានបេតិកភណ្ឌថ្មី",
     "resetSettings": "កំណត់ការកំណត់ឡើងវិញ",
     "resetConfirm": "តើអ្នកពិតជាចង់កំណត់ការកំណត់ទាំងអស់ឡើងវិញមែនទេ?",
     "systemInfo": "ព័ត៌មានប្រព័ន្ធ",
@@ -836,6 +993,12 @@
     "quizzes": "សំណួរ",
     "complete": "បញ្ចប់",
     "morePoints": "ពិន្ទុបន្ថែម",
+    "rarityCommon": "ទូទៅ",
+    "rarityUncommon": "មិនធម្មតា",
+    "rarityRare": "កម្រ",
+    "rarityEpic": "អស្ចារ្យ",
+    "rarityLegendary": "ទេវកថា",
+    "notUnlocked": "មិនទាន់ដោះសោ",
     "rarity": {
       "common": "ធម្មតា",
       "uncommon": "មិនធម្មតា",

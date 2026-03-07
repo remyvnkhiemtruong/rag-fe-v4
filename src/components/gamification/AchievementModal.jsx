@@ -36,16 +36,16 @@ const RARITY_COLORS = {
   },
 };
 
-const RARITY_LABELS = {
-  common: { vi: 'Phổ thông', en: 'Common' },
-  uncommon: { vi: 'Không phổ biến', en: 'Uncommon' },
-  rare: { vi: 'Hiếm', en: 'Rare' },
-  epic: { vi: 'Sử thi', en: 'Epic' },
-  legendary: { vi: 'Huyền thoại', en: 'Legendary' },
+const RARITY_KEYS = {
+  common: 'gamification.rarityCommon',
+  uncommon: 'gamification.rarityUncommon',
+  rare: 'gamification.rarityRare',
+  epic: 'gamification.rarityEpic',
+  legendary: 'gamification.rarityLegendary',
 };
 
 export function AchievementModal({ achievement, isOpen, onClose, points = 100 }) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isAnimating, setIsAnimating] = useState(false);
   const isVietnamese = i18n.language === 'vi';
 
@@ -63,7 +63,7 @@ export function AchievementModal({ achievement, isOpen, onClose, points = 100 })
   if (!isOpen || !achievement) return null;
 
   const rarity = RARITY_COLORS[achievement.rarity] || RARITY_COLORS.common;
-  const rarityLabel = RARITY_LABELS[achievement.rarity] || RARITY_LABELS.common;
+  const rarityLabel = t(RARITY_KEYS[achievement.rarity] || RARITY_KEYS.common);
 
   const handleShare = async () => {
     const text = isVietnamese
@@ -73,7 +73,7 @@ export function AchievementModal({ achievement, isOpen, onClose, points = 100 })
     if (navigator.share) {
       try {
         await navigator.share({
-          title: isVietnamese ? 'Thành tựu mới!' : 'New Achievement!',
+          title: t('gamification.newAchievement'),
           text: text,
           url: window.location.href,
         });
@@ -138,7 +138,7 @@ export function AchievementModal({ achievement, isOpen, onClose, points = 100 })
             </div>
             {/* Rarity badge */}
             <div className={`absolute -bottom-2 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold ${rarity.bg} ${rarity.text} border ${rarity.border}`}>
-              {isVietnamese ? rarityLabel.vi : rarityLabel.en}
+              {rarityLabel}
             </div>
           </div>
 

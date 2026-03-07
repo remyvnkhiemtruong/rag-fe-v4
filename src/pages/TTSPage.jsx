@@ -155,7 +155,7 @@ export default function TextToSpeechPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-900 dark:to-gray-800 p-3 sm:p-4 lg:p-6 xl:p-8 theme-transition">
+        <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-900 dark:to-gray-800 px-4 sm:px-6 lg:px-8 py-6 theme-transition">
             <div className="max-w-5xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-8">

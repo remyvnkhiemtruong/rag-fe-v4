@@ -119,14 +119,14 @@ export default function QuizManager({ onBack }) {
   // Handle save
   const handleSave = () => {
     if (!formData.question || !formData.options[0]) {
-      showNotification('Vui lòng điền câu hỏi và ít nhất 1 đáp án', 'error');
+      showNotification(t('admin.errQuiz'), 'error');
       return;
     }
 
     // Filter out empty options
     const validOptions = formData.options.filter(opt => opt.trim() !== '');
     if (validOptions.length < 2) {
-      showNotification('Cần ít nhất 2 đáp án', 'error');
+      showNotification(t('admin.errQuizMinOptions'), 'error');
       return;
     }
 
@@ -228,7 +228,7 @@ export default function QuizManager({ onBack }) {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Tìm kiếm câu hỏi..."
+            placeholder={t('admin.searchQuiz')}
             className="w-full pl-12 pr-4 py-3 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           />
         </div>
@@ -238,7 +238,7 @@ export default function QuizManager({ onBack }) {
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-elegant border border-heritage-earth-200 dark:border-gray-700 p-6 theme-transition">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-display font-bold text-heritage-earth-900 dark:text-gray-100">
-                {isCreating ? 'Thêm câu hỏi mới' : 'Chỉnh sửa câu hỏi'}
+                {isCreating ? t('admin.addQuizNew') : t('admin.editQuiz')}
               </h3>
               <button
                 onClick={handleCancel}
@@ -253,21 +253,21 @@ export default function QuizManager({ onBack }) {
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
                   <HelpCircle className="inline w-4 h-4 mr-1" />
-                  Câu hỏi *
+                  {t('admin.questionLabel')}
                 </label>
                 <textarea
                   value={formData.question || ''}
                   onChange={(e) => handleFormChange('question', e.target.value)}
                   rows={3}
                   className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                  placeholder="Nhập câu hỏi..."
+                  placeholder={t('admin.placeholderQuestion')}
                 />
               </div>
 
               {/* Options */}
               <div>
                 <label className="block text-sm font-medium text-heritage-earth-700 mb-2">
-                  Các đáp án (chọn đáp án đúng)
+                  {t('admin.optionsLabel')}
                 </label>
                 <div className="space-y-2">
                   {(formData.options || ['', '', '', '']).map((option, index) => (
@@ -280,7 +280,7 @@ export default function QuizManager({ onBack }) {
                             ? 'border-emerald-500 bg-emerald-500 text-white'
                             : 'border-heritage-earth-300 hover:border-heritage-earth-400'
                         }`}
-                        title={formData.correct === index ? 'Đáp án đúng' : 'Đặt làm đáp án đúng'}
+                        title={formData.correct === index ? t('admin.correctAnswer') : t('admin.setAsCorrect')}
                       >
                         {formData.correct === index ? (
                           <Check className="w-4 h-4" />
@@ -295,27 +295,27 @@ export default function QuizManager({ onBack }) {
                         value={option}
                         onChange={(e) => handleOptionChange(index, e.target.value)}
                         className="flex-1 px-4 py-2.5 border border-heritage-earth-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                        placeholder={`Đáp án ${String.fromCharCode(65 + index)}`}
+                        placeholder={t('admin.optionPlaceholder', { letter: String.fromCharCode(65 + index) })}
                       />
                     </div>
                   ))}
                 </div>
                 <p className="text-xs text-heritage-earth-500 mt-2">
-                  Nhấn vào chữ cái để đánh dấu đáp án đúng
+                  {t('admin.optionHint')}
                 </p>
               </div>
 
               {/* Explanation */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
-                  Giải thích (hiển thị sau khi trả lời)
+                  {t('admin.explanationLabel')}
                 </label>
                 <textarea
                   value={formData.explanation || ''}
                   onChange={(e) => handleFormChange('explanation', e.target.value)}
                   rows={2}
                   className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                  placeholder="Nhập giải thích..."
+                  placeholder={t('admin.placeholderExplanation')}
                 />
               </div>
             </div>
@@ -346,16 +346,16 @@ export default function QuizManager({ onBack }) {
               <thead>
                 <tr className="bg-heritage-cream-50 dark:bg-gray-700/50 border-b border-heritage-earth-200 dark:border-gray-600">
                   <th className="text-left px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300">
-                    Câu hỏi
+                    {t('admin.tableQuestion')}
                   </th>
                   <th className="text-left px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300 hidden md:table-cell">
-                    Số đáp án
+                    {t('admin.tableOptions')}
                   </th>
                   <th className="text-left px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300 hidden sm:table-cell">
-                    Đáp án đúng
+                    {t('admin.tableCorrect')}
                   </th>
                   <th className="text-right px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300">
-                    Thao tác
+                    {t('admin.actions')}
                   </th>
                 </tr>
               </thead>
@@ -363,7 +363,7 @@ export default function QuizManager({ onBack }) {
                 {paginatedQuizzes.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="px-4 py-12 text-center text-heritage-earth-500 dark:text-gray-400">
-                      {searchQuery ? 'Không tìm thấy câu hỏi phù hợp' : t('admin.noData')}
+                      {searchQuery ? t('admin.noQuizMatch') : t('admin.noData')}
                     </td>
                   </tr>
                 ) : (
@@ -379,7 +379,7 @@ export default function QuizManager({ onBack }) {
                       </td>
                       <td className="px-4 py-3 hidden md:table-cell">
                         <span className="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
-                          {quiz.options?.length || 0} đáp án
+                          {t('admin.quizCount', { count: quiz.options?.length || 0 })}
                         </span>
                       </td>
                       <td className="px-4 py-3 hidden sm:table-cell">
@@ -416,7 +416,7 @@ export default function QuizManager({ onBack }) {
           {totalPages > 1 && (
             <div className="flex items-center justify-between px-4 py-3 border-t border-heritage-earth-100 dark:border-gray-700">
               <div className="text-sm text-heritage-earth-600 dark:text-gray-400">
-                Trang {currentPage} / {totalPages}
+                {t('admin.pageOfTotal', { current: currentPage, total: totalPages, count: filteredQuizzes.length })}
               </div>
               <div className="flex items-center gap-2">
                 <button

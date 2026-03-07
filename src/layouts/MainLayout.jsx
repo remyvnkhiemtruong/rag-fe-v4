@@ -23,8 +23,12 @@ export default function MainLayout() {
 
   const hideFooter = location.pathname.startsWith('/map');
 
+  const isMapPage = location.pathname.startsWith('/map');
+  const useContainer = !isHomePage && !isMapPage && !isAdminPage;
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF9F7] dark:bg-gray-900 transition-colors duration-300">      {/* Decorative top border */}
+    <div className="min-h-screen flex flex-col bg-[#FAF9F7] dark:bg-gray-900 transition-colors duration-300">
+      {/* Decorative top border */}
       <div className="h-1 bg-gradient-to-r from-heritage-red-700 via-heritage-gold-500 to-heritage-red-700"></div>
 
       {/* Main Content */}
@@ -44,7 +48,7 @@ export default function MainLayout() {
             animate={pageTransition.animate}
             exit={pageTransition.exit}
             transition={pageTransition.transition}
-            className="w-full"
+            className={useContainer ? 'layout-container-wide' : 'w-full'}
           >
             <Outlet />
           </motion.div>

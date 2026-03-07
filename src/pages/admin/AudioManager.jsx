@@ -66,7 +66,7 @@ export default function AudioManager({ onBack }) {
                 {t('admin.audioManagement')}
               </h2>
               <p className="text-sm text-heritage-earth-600 dark:text-gray-400">
-                Quản lý audio thuyết minh đa ngôn ngữ
+                {t('admin.audioSubtitle')}
               </p>
             </div>
           </div>
@@ -74,7 +74,7 @@ export default function AudioManager({ onBack }) {
             className="flex items-center gap-2 px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded-xl hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors shadow-lg"
           >
             <Upload className="w-5 h-5" />
-            Tải lên Audio
+            {t('admin.uploadAudio')}
           </button>
         </div>
 
@@ -82,7 +82,7 @@ export default function AudioManager({ onBack }) {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-elegant border border-heritage-earth-200 dark:border-gray-700 p-4 theme-transition">
           <div className="flex items-center gap-3 mb-3">
             <Globe className="w-5 h-5 text-heritage-gold-600 dark:text-heritage-gold-400" />
-            <span className="font-medium text-heritage-earth-700 dark:text-gray-300">Lọc theo ngôn ngữ</span>
+            <span className="font-medium text-heritage-earth-700 dark:text-gray-300">{t('admin.filterByLanguage')}</span>
           </div>
           <div className="flex flex-wrap gap-2">
             <button
@@ -119,7 +119,7 @@ export default function AudioManager({ onBack }) {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Tìm kiếm audio..."
+            placeholder={t('admin.searchAudio')}
             className="w-full pl-12 pr-4 py-3 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           />
         </div>
@@ -165,7 +165,7 @@ export default function AudioManager({ onBack }) {
           {filteredAudio.length === 0 ? (
             <div className="p-12 text-center">
               <AlertCircle className="w-12 h-12 text-heritage-earth-300 dark:text-gray-600 mx-auto mb-4" />
-              <p className="text-heritage-earth-500 dark:text-gray-400">Chưa có audio nào</p>
+              <p className="text-heritage-earth-500 dark:text-gray-400">{t('admin.noAudio')}</p>
             </div>
           ) : (
             <div className="divide-y divide-heritage-earth-100 dark:divide-gray-700">

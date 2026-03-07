@@ -111,6 +111,25 @@
 
 @layer components {
 
+  /*
+   * Layout convention (bố cục toàn cục):
+   * - Nội dung trang rộng (danh sách, dashboard): max-w-7xl mx-auto px-4 sm:px-6 lg:px-8
+   * - Nội dung trang hẹp (form, cài đặt): max-w-4xl mx-auto px-4 sm:px-6 lg:px-8
+   * - Section dọc: py-16 md:py-20 cho section chính; py-8 md:py-12 cho section phụ
+   */
+  .layout-container-wide {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full;
+  }
+  .layout-container-narrow {
+    @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full;
+  }
+  .section-spacing-main {
+    @apply py-16 md:py-20;
+  }
+  .section-spacing-sub {
+    @apply py-8 md:py-12;
+  }
+
   /* Heritage Card Styles */
   .heritage-card {
     @apply bg-white rounded-xl border border-gray-200 shadow-sm;

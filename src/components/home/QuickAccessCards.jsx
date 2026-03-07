@@ -108,7 +108,7 @@ export default function QuickAccessCards() {
   ];
 
   return (
-    <section className="py-24 bg-white dark:bg-brand-dark overflow-hidden">
+    <section className="section-spacing-main bg-white dark:bg-brand-dark overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Modern Header Layout */}
         <div className="text-center mb-16 max-w-3xl mx-auto">

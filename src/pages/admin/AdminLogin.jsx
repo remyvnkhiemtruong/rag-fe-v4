@@ -158,7 +158,7 @@ export default function AdminLogin() {
             {/* Demo credentials hint */}
             <div className="text-center pt-4 border-t border-heritage-earth-100 dark:border-gray-700">
               <p className="text-sm text-heritage-earth-500 dark:text-gray-400">
-                Demo: <code className="bg-heritage-cream-100 dark:bg-gray-700 px-2 py-0.5 rounded text-gray-700 dark:text-gray-300">admin</code> / <code className="bg-heritage-cream-100 dark:bg-gray-700 px-2 py-0.5 rounded text-gray-700 dark:text-gray-300">admin123</code>
+                {t('admin.demoCredentials')}
               </p>
             </div>
           </form>

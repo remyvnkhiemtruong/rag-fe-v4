@@ -78,7 +78,7 @@ export default function HeritageManagement() {
       }
     } catch (error) {
       console.log(error);
-      showNotification('Lỗi khi tải dữ liệu: ' + error.message, 'error');
+      showNotification(t('admin.loadError') + ': ' + error.message, 'error');
       setHeritages([]);
     } finally {
       setLoading(false);
@@ -186,7 +186,7 @@ export default function HeritageManagement() {
       setIsEditing(true);
       setIsCreating(false);
     } catch (error) {
-      showNotification('Lỗi khi tải chi tiết: ' + error.message, 'error');
+      showNotification(t('admin.loadError') + ': ' + error.message, 'error');
       // Fallback to basic data if API call fails
       setFormData({
         id: heritage.id,
@@ -228,7 +228,7 @@ export default function HeritageManagement() {
       setIsEditing(false);
       setIsCreating(false);
     } catch (error) {
-      showNotification('Lỗi khi tải chi tiết: ' + error.message, 'error');
+      showNotification(t('admin.loadError') + ': ' + error.message, 'error');
       // Fallback to basic data
       setSelectedHeritage(heritage);
       setIsEditing(false);
@@ -315,7 +315,7 @@ export default function HeritageManagement() {
   // Handle save
   const handleSave = async () => {
     if (!formData.name || !formData.address) {
-      showNotification('Vui lòng điền đầy đủ tên và địa chỉ!', 'error');
+      showNotification(t('admin.requiredFields'), 'error');
       return;
     }
 
@@ -373,13 +373,13 @@ export default function HeritageManagement() {
       if (isCreating) {
         result = await heritageApi.create(data);
         showNotification(
-          result.message || 'Đã thêm di sản mới! Đang dịch và tạo audio...',
+          result.message || t('admin.successAddHeritage'),
           'success'
         );
       } else {
         result = await heritageApi.update(formData.id, data);
         showNotification(
-          result.message || 'Đã cập nhật di sản!',
+          result.message || t('admin.successUpdateHeritage'),
           'success'
         );
       }
@@ -389,7 +389,7 @@ export default function HeritageManagement() {
       setSelectedHeritage(null);
       fetchHeritages(currentPage);
     } catch (error) {
-      showNotification('Lỗi: ' + error.message, 'error');
+      showNotification(t('admin.errGeneric') + ': ' + error.message, 'error');
     } finally {
       setLoading(false);
     }
@@ -403,14 +403,14 @@ export default function HeritageManagement() {
     try {
       const result = await heritageApi.delete(heritage.id);
       showNotification(
-        result.message || 'Đã xóa di sản thành công!',
+        result.message || t('admin.successDeleteHeritage'),
         'success'
       );
       setSelectedHeritage(null);
       setIsEditing(false);
       fetchHeritages(currentPage);
     } catch (error) {
-      showNotification('Lỗi khi xóa: ' + error.message, 'error');
+      showNotification(t('admin.errGeneric') + ': ' + error.message, 'error');
     } finally {
       setLoading(false);
     }
@@ -455,10 +455,10 @@ export default function HeritageManagement() {
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
                 <Landmark className="w-8 h-8 text-blue-600" />
-                Quản Lý Di Sản Văn Hóa
+                {t('admin.heritageTitle')}
               </h1>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                Tổng số: {pagination.total} di sản
+                {t('admin.totalCount', { count: pagination.total })}
               </p>
             </div>
             <div className="flex gap-2">
@@ -467,14 +467,14 @@ export default function HeritageManagement() {
                 className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${activeTab === 'list' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300'
                   }`}
               >
-                <FileText className="w-4 h-4" /> Danh Sách
+                <FileText className="w-4 h-4" /> {t('admin.listTab')}
               </button>
               <button
                 onClick={() => setActiveTab('analytics')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${activeTab === 'analytics' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300'
                   }`}
               >
-                <BarChart3 className="w-4 h-4" /> Phân Tích
+                <BarChart3 className="w-4 h-4" /> {t('admin.analyticsTab')}
               </button>
             </div>
           </div>
@@ -485,14 +485,14 @@ export default function HeritageManagement() {
                 onClick={handleCreate}
                 className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
               >
-                <Plus className="w-4 h-4" /> Thêm Mới
+                <Plus className="w-4 h-4" /> {t('admin.addNew')}
               </button>
               <button
                 onClick={() => fetchHeritages(currentPage)}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Loader2 className="w-4 h-4" />}
-                Tải Lại
+                {t('admin.reload')}
               </button>
             </div>
           )}
@@ -519,7 +519,7 @@ export default function HeritageManagement() {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Tìm kiếm theo tên, địa chỉ..."
+                    placeholder={t('admin.searchHeritage')}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
@@ -542,13 +542,13 @@ export default function HeritageManagement() {
                         <thead className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
                           <tr>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">ID</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Tên Di Sản</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Địa Chỉ</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Xếp Hạng</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phân loại</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{t('admin.heritageName')}</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{t('admin.address')}</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{t('admin.rankingType')}</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{t('admin.category')}</th>
 
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Media</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Thao Tác</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{t('admin.media')}</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{t('admin.actions')}</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -558,7 +558,7 @@ export default function HeritageManagement() {
                               <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
                                 <div className="flex items-center gap-2">
                                   {heritage.name}
-                                  {heritage.audio_url && <span title="Có audio">🔊</span>}
+                                  {heritage.audio_url && <span title={t('admin.hasAudio')}>🔊</span>}
                                 </div>
                               </td>
                               <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
@@ -757,7 +757,7 @@ export default function HeritageManagement() {
                 <div className="space-y-6">
                   {/* Input Language */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Ngôn ngữ nhập liệu</label>
+                    <label className="block text-sm font-medium mb-2">{t('admin.inputLanguage')}</label>
                     <select
                       value={formData.input_lang || 'vi'}
                       onChange={(e) => setFormData({ ...formData, input_lang: e.target.value })}
@@ -773,27 +773,27 @@ export default function HeritageManagement() {
                   {/* Basic Info */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Tên Di Sản *</label>
+                      <label className="block text-sm font-medium mb-2">{t('admin.heritageName')} *</label>
                       <input
                         type="text"
                         value={formData.name || ''}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
-                        placeholder="Nhập tên di sản..."
+                        placeholder={t('admin.placeholderHeritageName')}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Địa Chỉ *</label>
+                      <label className="block text-sm font-medium mb-2">{t('admin.address')} *</label>
                       <input
                         type="text"
                         value={formData.address || ''}
                         onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                         className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
-                        placeholder="Địa chỉ đầy đủ..."
+                        placeholder={t('admin.placeholderAddress')}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Xã/Phường</label>
+                      <label className="block text-sm font-medium mb-2">{t('admin.commune')}</label>
                       <input
                         type="text"
                         value={formData.commune || ''}
@@ -802,7 +802,7 @@ export default function HeritageManagement() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Quận/Huyện</label>
+                      <label className="block text-sm font-medium mb-2">{t('admin.district')}</label>
                       <input
                         type="text"
                         value={formData.district || ''}
@@ -811,7 +811,7 @@ export default function HeritageManagement() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Tỉnh/Thành phố</label>
+                      <label className="block text-sm font-medium mb-2">{t('admin.province')}</label>
                       <input
                         type="text"
                         value={formData.province || ''}
@@ -820,7 +820,7 @@ export default function HeritageManagement() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Loại Xếp Hạng</label>
+                      <label className="block text-sm font-medium mb-2">{t('admin.rankingType')}</label>
                       <select
                         value={formData.ranking_type || ''}
                         onChange={(e) => setFormData({ ...formData, ranking_type: e.target.value })}
@@ -851,7 +851,7 @@ export default function HeritageManagement() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium mb-2">Năm Xây Dựng</label>
+                      <label className="block text-sm font-medium mb-2">{t('admin.yearBuilt')}</label>
                       <input
                         type="number"
                         value={formData.year_built || ''}
@@ -860,7 +860,7 @@ export default function HeritageManagement() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Năm Xếp Hạng</label>
+                      <label className="block text-sm font-medium mb-2">{t('admin.yearRanked')}</label>
                       <input
                         type="number"
                         value={formData.year_ranked || ''}
@@ -878,7 +878,7 @@ export default function HeritageManagement() {
                       onChange={(e) => setFormData({ ...formData, information: e.target.value })}
                       rows={6}
                       className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
-                      placeholder="Nhập thông tin chi tiết về di sản... (sẽ được dùng để tạo audio)"
+                      placeholder={t('admin.placeholderDetailInfo')}
                     />
                     <p className="text-xs text-gray-500 mt-1">Nội dung này sẽ được dịch và tạo audio tự động cho 4 ngôn ngữ</p>
                   </div>
@@ -891,7 +891,7 @@ export default function HeritageManagement() {
                       value={formData.notes || ''}
                       onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                       className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
-                      placeholder="Ghi chú thêm..."
+                      placeholder={t('admin.placeholderNotes')}
                     />
                   </div>
 
@@ -901,7 +901,7 @@ export default function HeritageManagement() {
                     <div className="flex items-center gap-4">
                       <label className="px-4 py-2 bg-purple-600 text-white rounded-lg cursor-pointer hover:bg-purple-700 flex items-center gap-2">
                         <Upload className="w-4 h-4" />
-                        Chọn ảnh
+                        {t('admin.chooseImage')}
                         <input
                           type="file"
                           accept="image/*"
@@ -924,7 +924,7 @@ export default function HeritageManagement() {
                     <div className="flex items-center gap-4">
                       <label className="px-4 py-2 bg-teal-600 text-white rounded-lg cursor-pointer hover:bg-teal-700 flex items-center gap-2">
                         <Upload className="w-4 h-4" />
-                        Chọn ảnh 360
+                        {t('admin.select360Image')}
                         <input
                           type="file"
                           accept="image/*"
@@ -959,7 +959,7 @@ export default function HeritageManagement() {
                         setFormData({ ...formData, coordinates: e.target.value })
                       }
                       className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
-                      placeholder="[105.23, 9.12]"
+                      placeholder={t('admin.coordsHint')}
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       Nhập dạng: [kinh độ, vĩ độ] ví dụ: [105.23, 9.12]
@@ -969,11 +969,11 @@ export default function HeritageManagement() {
 
                   {/* Audio Upload */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Audio thuyết minh</label>
+                    <label className="block text-sm font-medium mb-2">{t('admin.audioNarration')}</label>
                     <div className="flex items-center gap-4">
                       <label className="px-4 py-2 bg-indigo-600 text-white rounded-lg cursor-pointer hover:bg-indigo-700 flex items-center gap-2">
                         <Upload className="w-4 h-4" />
-                        Chọn audio
+                        {t('admin.selectAudio')}
                         <input
                           type="file"
                           accept="audio/*"
@@ -1094,7 +1094,7 @@ export default function HeritageManagement() {
                           value={link}
                           onChange={(e) => updateYoutubeLink(index, e.target.value)}
                           className="flex-1 px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
-                          placeholder="https://www.youtube.com/watch?v=..."
+                          placeholder={t('admin.placeholderYoutubeLink')}
                         />
                         {youtubeLinks.length > 1 && (
                           <button

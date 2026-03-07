@@ -78,7 +78,7 @@ export default function FineArtManagement() {
           onClick={() => setShowModal(true)}
           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded dark:bg-blue-500 dark:hover:bg-blue-600"
         >
-          + Add Images
+          {t('admin.addImages')}
         </button>
       </div>
 
@@ -113,7 +113,7 @@ export default function FineArtManagement() {
         <div className="fixed inset-0 bg-black/50 dark:bg-black/60 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded w-full max-w-lg border border-gray-200 dark:border-gray-600 shadow-xl">
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              Upload Multiple Images
+              {t('admin.uploadMultipleImages')}
             </h3>
 
             <input
@@ -126,7 +126,7 @@ export default function FineArtManagement() {
 
             {selectedFiles.length > 0 && (
               <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                {selectedFiles.length} file(s) selected
+                {t('admin.filesSelected', { count: selectedFiles.length })}
               </div>
             )}
 
@@ -142,7 +142,7 @@ export default function FineArtManagement() {
                 disabled={submitting}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded dark:bg-blue-500 dark:hover:bg-blue-600 disabled:opacity-50"
               >
-                {submitting ? t('common.loading') : "Upload"}
+                {submitting ? t('common.loading') : t('admin.upload')}
               </button>
             </div>
           </div>

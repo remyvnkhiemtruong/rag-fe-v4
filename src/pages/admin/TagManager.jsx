@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 export default function TagManager({ onBack }) {
-  useTranslation();
+  const { t } = useTranslation();
   const {
     tags,
     categories,
@@ -78,16 +78,16 @@ export default function TagManager({ onBack }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.nameEn.trim()) {
-      showNotification('Vui lòng điền đầy đủ thông tin', 'error');
+      showNotification(t('admin.fillRequired'), 'error');
       return;
     }
 
     if (editingTag) {
       updateTag(editingTag.id, formData);
-      showNotification('Cập nhật tag thành công!');
+      showNotification(t('admin.tagUpdateSuccess'));
     } else {
       addTag(formData);
-      showNotification('Thêm tag mới thành công!');
+      showNotification(t('admin.tagAddSuccess'));
     }
 
     closeModal();
@@ -137,16 +137,16 @@ export default function TagManager({ onBack }) {
   const confirmDelete = () => {
     if (deleteConfirm) {
       deleteTag(deleteConfirm.id);
-      showNotification('Đã xóa tag thành công!');
+      showNotification(t('admin.tagDeleteSuccess'));
       setDeleteConfirm(null);
     }
   };
 
   // Handle reset
   const handleReset = () => {
-    if (window.confirm('Bạn có chắc chắn muốn đặt lại tất cả tags về mặc định?')) {
+    if (window.confirm(t('admin.confirmResetTags'))) {
       resetTags();
-      showNotification('Đã đặt lại tags về mặc định!');
+      showNotification(t('admin.tagResetSuccess'));
     }
   };
 
@@ -186,10 +186,10 @@ export default function TagManager({ onBack }) {
               </div>
               <div>
                 <h1 className="text-xl font-display font-bold text-heritage-earth-900 dark:text-gray-100">
-                  Quản lý Tags
+                  {t('admin.tagManagement')}
                 </h1>
                 <p className="text-sm text-heritage-earth-600 dark:text-gray-400">
-                  {tags.length} tags trong hệ thống
+                  {t('admin.totalTags')}: {tags.length}
                 </p>
               </div>
             </div>
@@ -201,14 +201,14 @@ export default function TagManager({ onBack }) {
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 transition-colors"
             >
               <RefreshCw className="w-4 h-4" />
-              <span className="hidden sm:inline">Đặt lại</span>
+              <span className="hidden sm:inline">{t('admin.resetTags')}</span>
             </button>
             <button
               onClick={openNewTagModal}
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-pink-600 hover:bg-pink-700 text-white transition-colors shadow-lg"
             >
               <Plus className="w-4 h-4" />
-              <span>Thêm Tag</span>
+              <span>{t('admin.addTag')}</span>
             </button>
           </div>
         </div>
@@ -221,7 +221,7 @@ export default function TagManager({ onBack }) {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 type="text"
-                placeholder="Tìm kiếm tag..."
+                placeholder={t('admin.searchTag')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-heritage-earth-200 dark:border-gray-600 bg-heritage-cream-50 dark:bg-gray-700 text-heritage-earth-900 dark:text-gray-100 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
@@ -236,7 +236,7 @@ export default function TagManager({ onBack }) {
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="px-4 py-2.5 rounded-xl border border-heritage-earth-200 dark:border-gray-600 bg-heritage-cream-50 dark:bg-gray-700 text-heritage-earth-900 dark:text-gray-100 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
               >
-                <option value="all">Tất cả danh mục</option>
+                <option value="all">{t('admin.allCategories')}</option>
                 {categories.map(cat => (
                   <option key={cat.id} value={cat.id}>{cat.name}</option>
                 ))}
@@ -316,7 +316,7 @@ export default function TagManager({ onBack }) {
                   </div>
                 ) : (
                   <div className="text-center py-8 text-heritage-earth-500 dark:text-gray-400">
-                    Không tìm thấy tag nào
+                    {t('admin.noData')}
                   </div>
                 )}
               </div>
@@ -330,7 +330,7 @@ export default function TagManager({ onBack }) {
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md">
               <div className="flex items-center justify-between p-4 border-b border-heritage-earth-200 dark:border-gray-700">
                 <h3 className="text-lg font-display font-bold text-heritage-earth-900 dark:text-gray-100">
-                  {editingTag ? 'Chỉnh sửa Tag' : 'Thêm Tag mới'}
+                  {editingTag ? t('admin.editTag') : t('admin.addTagNew')}
                 </h3>
                 <button
                   onClick={closeModal}
@@ -344,14 +344,14 @@ export default function TagManager({ onBack }) {
                 {/* Name Vietnamese */}
                 <div>
                   <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1">
-                    Tên tiếng Việt *
+                    {t('admin.tagName')} *
                   </label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-xl border border-heritage-earth-200 dark:border-gray-600 bg-heritage-cream-50 dark:bg-gray-700 text-heritage-earth-900 dark:text-gray-100 focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                    placeholder="VD: Lịch sử địa phương"
+                    placeholder={t('admin.placeholderTagExample')}
                     required
                   />
                 </div>
@@ -359,14 +359,14 @@ export default function TagManager({ onBack }) {
                 {/* Name English */}
                 <div>
                   <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1">
-                    Tên tiếng Anh *
+                    {t('admin.tagNameEn')} *
                   </label>
                   <input
                     type="text"
                     value={formData.nameEn}
                     onChange={(e) => setFormData({ ...formData, nameEn: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-xl border border-heritage-earth-200 dark:border-gray-600 bg-heritage-cream-50 dark:bg-gray-700 text-heritage-earth-900 dark:text-gray-100 focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                    placeholder="VD: Local History"
+                    placeholder={t('admin.placeholderTagExample')}
                     required
                   />
                 </div>
@@ -374,7 +374,7 @@ export default function TagManager({ onBack }) {
                 {/* Category */}
                 <div>
                   <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1">
-                    Danh mục *
+                    {t('admin.tagCategory')} *
                   </label>
                   <select
                     value={formData.category}
@@ -390,7 +390,7 @@ export default function TagManager({ onBack }) {
                 {/* Color */}
                 <div>
                   <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-2">
-                    Màu sắc
+                    {t('admin.tagColor')}
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {colorOptions.map(color => (
@@ -424,7 +424,7 @@ export default function TagManager({ onBack }) {
                 {/* Preview */}
                 <div>
                   <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-2">
-                    Xem trước
+                    {t('admin.tagPreview')}
                   </label>
                   <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
                     <span
@@ -432,7 +432,7 @@ export default function TagManager({ onBack }) {
                       style={{ backgroundColor: formData.color }}
                     >
                       <Tag className="w-3.5 h-3.5" />
-                      {formData.name || 'Tên tag'}
+                      {formData.name || t('admin.tagName')}
                     </span>
                   </div>
                 </div>
@@ -444,13 +444,13 @@ export default function TagManager({ onBack }) {
                     onClick={closeModal}
                     className="flex-1 px-4 py-2.5 rounded-xl border border-heritage-earth-200 dark:border-gray-600 text-heritage-earth-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                   >
-                    Hủy
+                    {t('common.cancel')}
                   </button>
                   <button
                     type="submit"
                     className="flex-1 px-4 py-2.5 rounded-xl bg-pink-600 hover:bg-pink-700 text-white transition-colors"
                   >
-                    {editingTag ? 'Cập nhật' : 'Thêm mới'}
+                    {editingTag ? t('admin.updateBtn') : t('admin.addNewBtn')}
                   </button>
                 </div>
               </form>
@@ -467,23 +467,23 @@ export default function TagManager({ onBack }) {
                   <Trash2 className="w-6 h-6 text-red-600 dark:text-red-400" />
                 </div>
                 <h3 className="text-lg font-bold text-heritage-earth-900 dark:text-gray-100 mb-2">
-                  Xác nhận xóa
+                  {t('admin.confirmDeleteTitle')}
                 </h3>
                 <p className="text-heritage-earth-600 dark:text-gray-400 mb-4">
-                  Bạn có chắc chắn muốn xóa tag "<strong>{deleteConfirm.name}</strong>"?
+                  {t('admin.confirmDeleteTag', { name: deleteConfirm.name })}
                 </p>
                 <div className="flex gap-3">
                   <button
                     onClick={() => setDeleteConfirm(null)}
                     className="flex-1 px-4 py-2.5 rounded-xl border border-heritage-earth-200 dark:border-gray-600 text-heritage-earth-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                   >
-                    Hủy
+                    {t('common.cancel')}
                   </button>
                   <button
                     onClick={confirmDelete}
                     className="flex-1 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white transition-colors"
                   >
-                    Xóa
+                    {t('admin.delete')}
                   </button>
                 </div>
               </div>
@@ -497,6 +497,7 @@ export default function TagManager({ onBack }) {
 
 // Tag Item Component
 function TagItem({ tag, onEdit, onDelete }) {
+  const { t } = useTranslation();
   return (
     <div
       className="group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-white transition-all hover:shadow-md"
@@ -508,14 +509,14 @@ function TagItem({ tag, onEdit, onDelete }) {
         <button
           onClick={onEdit}
           className="p-0.5 hover:bg-white/20 rounded transition-colors"
-          title="Chỉnh sửa"
+          title={t('admin.editItem')}
         >
           <Edit3 className="w-3.5 h-3.5" />
         </button>
         <button
           onClick={onDelete}
           className="p-0.5 hover:bg-white/20 rounded transition-colors"
-          title="Xóa"
+          title={t('admin.deleteItem')}
         >
           <Trash2 className="w-3.5 h-3.5" />
         </button>

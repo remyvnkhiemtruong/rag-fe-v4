@@ -319,7 +319,7 @@ export default function QuizPage() {
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-heritage-gold-600 to-heritage-gold-700 text-white rounded-xl font-medium hover:from-heritage-gold-700 hover:to-heritage-gold-800 transition-all shadow-md mr-3"
             >
               <Share2 className="w-5 h-5" />
-              Share Results
+              {t('common.shareResults')}
             </button>
 
             {/* Share Menu */}
@@ -336,21 +336,21 @@ export default function QuizPage() {
                     className="flex items-center gap-2 w-full px-4 py-2 text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
                   >
                     <Twitter className="w-4 h-4" />
-                    Twitter
+                    {t('common.twitter')}
                   </button>
                   <button
                     onClick={() => shareResults('facebook')}
                     className="flex items-center gap-2 w-full px-4 py-2 text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
                   >
                     <Facebook className="w-4 h-4" />
-                    Facebook
+                    {t('common.facebook')}
                   </button>
                   <button
                     onClick={() => shareResults('copy')}
                     className="flex items-center gap-2 w-full px-4 py-2 text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
                   >
                     <Link2 className="w-4 h-4" />
-                    Copy Link
+                    {t('common.copyLink')}
                   </button>
                 </motion.div>
               )}

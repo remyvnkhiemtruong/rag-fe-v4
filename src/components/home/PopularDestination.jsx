@@ -17,8 +17,8 @@ const PopularDestinations = () => {
   ];
 
   return (
-    <section className="py-16 px-4 bg-white dark:bg-gray-900 theme-transition">
-      <div className="max-w-5xl mx-auto">
+    <section className="section-spacing-main px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 theme-transition">
+      <div className="max-w-7xl mx-auto">
         
         {/* Header Section */}
         <div className="text-center mb-12">

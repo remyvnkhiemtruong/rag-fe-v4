@@ -147,20 +147,19 @@ export function AchievementGrid({
  * Larger card view of an achievement with description
  */
 export function AchievementCard({ achievement, unlocked = false, onClick }) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isVietnamese = i18n.language === 'vi';
 
   const rarity = RARITY_STYLES[achievement.rarity] || RARITY_STYLES.common;
 
-  const rarityLabels = {
-    common: { vi: 'Phổ thông', en: 'Common' },
-    uncommon: { vi: 'Không phổ biến', en: 'Uncommon' },
-    rare: { vi: 'Hiếm', en: 'Rare' },
-    epic: { vi: 'Sử thi', en: 'Epic' },
-    legendary: { vi: 'Huyền thoại', en: 'Legendary' },
+  const RARITY_KEYS = {
+    common: 'gamification.rarityCommon',
+    uncommon: 'gamification.rarityUncommon',
+    rare: 'gamification.rarityRare',
+    epic: 'gamification.rarityEpic',
+    legendary: 'gamification.rarityLegendary',
   };
-
-  const label = rarityLabels[achievement.rarity] || rarityLabels.common;
+  const label = t(RARITY_KEYS[achievement.rarity] || RARITY_KEYS.common);
 
   return (
     <div
@@ -195,7 +194,7 @@ export function AchievementCard({ achievement, unlocked = false, onClick }) {
             }`}>
               {unlocked
                 ? (isVietnamese ? achievement.name : achievement.nameEn)
-                : '???'
+                : t('gamification.notUnlocked')
               }
             </h3>
             {unlocked && (

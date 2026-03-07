@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   BarChart3,
   TrendingUp,
@@ -18,6 +19,7 @@ import {
 } from 'lucide-react';
 
 export default function AnalyticsDashboard({ heritages = [] }) {
+  const { t } = useTranslation();
   const [timeRange, setTimeRange] = useState('all'); // 'all', 'year', 'month'
 
   // Calculate statistics
@@ -214,7 +216,7 @@ export default function AnalyticsDashboard({ heritages = [] }) {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
             <MapPin className="w-5 h-5 text-blue-600" />
-            Top 10 Xã/Phường
+            {t('admin.top10Communes')}
           </h3>
           <div className="space-y-2 max-h-80 overflow-y-auto">
             {topCommunes.map(([commune, count], idx) => (

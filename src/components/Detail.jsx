@@ -247,10 +247,10 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                 </div>
 
                 {/* Content */}
-                <div className="p-6 sm:p-8 overflow-y-auto max-h-[calc(90vh-320px)] scrollbar-heritage bg-white dark:bg-gray-800">
+                <div className="p-6 overflow-y-auto max-h-[calc(90vh-320px)] scrollbar-heritage bg-white dark:bg-gray-800 space-y-6">
                     {/* Audio Control */}
                     {item.audio_url && (
-                        <div className="mb-6 p-5 rounded-xl bg-gradient-to-r from-heritage-gold-50 to-heritage-cream-100 dark:from-gray-700 dark:to-gray-700 border-2 border-heritage-gold-200 dark:border-gray-600 relative overflow-hidden">
+                        <div className="p-6 rounded-xl bg-gradient-to-r from-heritage-gold-50 to-heritage-cream-100 dark:from-gray-700 dark:to-gray-700 border-2 border-heritage-gold-200 dark:border-gray-600 relative overflow-hidden">
                             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-heritage-red-600 via-heritage-gold-500 to-heritage-red-600" />
 
                             <div className="flex items-center justify-between mb-4">
@@ -259,8 +259,8 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                                         <Volume2 className="w-5 h-5 text-white" />
                                     </div>
                                     <div>
-                                        <span className="font-display font-semibold text-heritage-earth-900 dark:text-gray-100">Nghe giới thiệu</span>
-                                        <p className="text-xs text-heritage-earth-500 dark:text-gray-400">Bản audio thuyết minh</p>
+                                        <span className="font-display font-semibold text-heritage-earth-900 dark:text-gray-100">{t('detail.listenIntro')}</span>
+                                        <p className="text-xs text-heritage-earth-500 dark:text-gray-400">{t('detail.audioDescription')}</p>
                                     </div>
                                 </div>
                                 {isPlaying && (
@@ -313,7 +313,7 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                                         onClick={handleStopAudio}
                                         className="px-6 py-3 rounded-xl font-semibold bg-heritage-earth-100 dark:bg-gray-600 text-heritage-earth-700 dark:text-gray-200 hover:bg-heritage-earth-200 dark:hover:bg-gray-500 transition-colors border border-heritage-earth-200 dark:border-gray-500"
                                     >
-                                        Dừng
+                                        {t('detail.stop')}
                                     </button>
                                 )}
                             </div>
@@ -321,7 +321,7 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                             {audioError && (
                                 <p className="text-sm text-heritage-red-600 mt-3 flex items-center gap-2">
                                     <span className="w-5 h-5 rounded-full bg-heritage-red-100 flex items-center justify-center text-heritage-red-600">!</span>
-                                    Không thể phát audio. Vui lòng thử lại.
+                                    {t('detail.audioError')}
                                 </p>
                             )}
                         </div>
@@ -329,26 +329,26 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
 
                     {/* Music audio (file âm thanh âm nhạc) */}
                     {item.music_audio_url && (
-                        <div className="mb-6 p-5 rounded-xl bg-gradient-to-r from-emerald-50 to-heritage-cream-100 dark:from-gray-700 dark:to-gray-700 border-2 border-emerald-200 dark:border-gray-600">
+                        <div className="p-6 rounded-xl bg-gradient-to-r from-emerald-50 to-heritage-cream-100 dark:from-gray-700 dark:to-gray-700 border-2 border-emerald-200 dark:border-gray-600">
                             <div className="flex items-center gap-3 mb-3">
                                 <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center">
                                     <Volume2 className="w-5 h-5 text-white" />
                                 </div>
                                 <div>
-                                    <span className="font-display font-semibold text-heritage-earth-900 dark:text-gray-100">Âm nhạc</span>
-                                    <p className="text-xs text-heritage-earth-500 dark:text-gray-400">File âm thanh âm nhạc</p>
+                                    <span className="font-display font-semibold text-heritage-earth-900 dark:text-gray-100">{t('detail.music')}</span>
+                                    <p className="text-xs text-heritage-earth-500 dark:text-gray-400">{t('detail.musicAudio')}</p>
                                 </div>
                             </div>
                             <audio controls className="w-full mt-2 h-10">
                                 <source src={item.music_audio_url} />
-                                Trình duyệt không hỗ trợ audio
+                                {t('detail.browserNoAudio')}
                             </audio>
                         </div>
                     )}
 
                     {/* YouTube Videos */}
                     {item.youtube_links && item.youtube_links.length > 0 && (
-                        <div className="mb-6">
+                        <div>
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-10 h-10 rounded-lg bg-heritage-red-100 dark:bg-heritage-red-900/30 flex items-center justify-center border border-heritage-red-200 dark:border-heritage-red-700">
                                     <Video className="w-5 h-5 text-heritage-red-700 dark:text-heritage-red-400" />
@@ -397,16 +397,16 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
 
                     {/* Gallery */}
                     {item.gallery && item.gallery.length > 0 && (
-                        <div className="mb-6">
+                        <div>
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-10 h-10 rounded-lg bg-heritage-jade-100 dark:bg-heritage-jade-900/30 flex items-center justify-center border border-heritage-jade-200 dark:border-heritage-jade-700">
                                     <ImageIcon className="w-5 h-5 text-heritage-jade-700 dark:text-heritage-jade-400" />
                                 </div>
                                 <div>
                                     <h3 className="text-lg font-display font-bold text-heritage-earth-900 dark:text-gray-100">
-                                        Thư viện ảnh ({item.gallery.length})
+                                        {t('detail.imageGallery')} ({item.gallery.length})
                                     </h3>
-                                    <p className="text-xs text-heritage-earth-500 dark:text-gray-400">Hình ảnh chi tiết</p>
+                                    <p className="text-xs text-heritage-earth-500 dark:text-gray-400">{t('detail.imageGallery')}</p>
                                 </div>
                             </div>
 
@@ -426,16 +426,16 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
 
                     {/* Information */}
                     {item.information && (
-                        <div className="mb-6">
+                        <div>
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-10 h-10 rounded-lg bg-heritage-red-100 dark:bg-heritage-red-900/30 flex items-center justify-center border border-heritage-red-200 dark:border-heritage-red-700">
                                     <Info className="w-5 h-5 text-heritage-red-700 dark:text-heritage-red-400" />
                                 </div>
                                 <div>
                                     <h3 className="text-lg font-display font-bold text-heritage-earth-900 dark:text-gray-100">
-                                        Thông tin chi tiết
+                                        {t('detail.information')}
                                     </h3>
-                                    <p className="text-xs text-heritage-earth-500 dark:text-gray-400">Lịch sử và giá trị văn hóa</p>
+                                    <p className="text-xs text-heritage-earth-500 dark:text-gray-400">{t('detail.historyAndCulture')}</p>
                                 </div>
                             </div>
 
@@ -457,7 +457,7 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                             <div className="p-4 rounded-xl bg-heritage-cream-50 dark:bg-gray-700 border border-heritage-earth-200 dark:border-gray-600">
                                 <div className="flex items-center gap-2 text-sm text-heritage-earth-500 dark:text-gray-400 mb-1">
                                     <MapPin className="w-4 h-4 text-heritage-gold-500" />
-                                    <span>Xã/Phường</span>
+                                    <span>{t('detail.commune')}</span>
                                 </div>
                                 <div className="font-semibold text-heritage-earth-900 dark:text-gray-100">{item.commune}</div>
                             </div>
@@ -467,7 +467,7 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                             <div className="p-4 rounded-xl bg-heritage-cream-50 dark:bg-gray-700 border border-heritage-earth-200 dark:border-gray-600">
                                 <div className="flex items-center gap-2 text-sm text-heritage-earth-500 dark:text-gray-400 mb-1">
                                     <MapPin className="w-4 h-4 text-heritage-gold-500" />
-                                    <span>Quận/Huyện</span>
+                                    <span>{t('detail.district')}</span>
                                 </div>
                                 <div className="font-semibold text-heritage-earth-900 dark:text-gray-100">{item.district}</div>
                             </div>
@@ -477,7 +477,7 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                             <div className="p-4 rounded-xl bg-heritage-cream-50 dark:bg-gray-700 border border-heritage-earth-200 dark:border-gray-600">
                                 <div className="flex items-center gap-2 text-sm text-heritage-earth-500 dark:text-gray-400 mb-1">
                                     <MapPin className="w-4 h-4 text-heritage-red-600 dark:text-heritage-red-400" />
-                                    <span>Tỉnh/Thành phố</span>
+                                    <span>{t('detail.province')}</span>
                                 </div>
                                 <div className="font-semibold text-heritage-earth-900 dark:text-gray-100">{item.province}</div>
                             </div>
@@ -495,10 +495,10 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                     </div>
 
                     {/* Legal Basis */}
-                    <div className="mt-6 p-4 rounded-xl bg-heritage-cream-50 dark:bg-gray-700 border border-heritage-earth-200 dark:border-gray-600">
+                    <div className="p-4 rounded-xl bg-heritage-cream-50 dark:bg-gray-700 border border-heritage-earth-200 dark:border-gray-600">
                         <div className="flex items-center gap-2 text-sm text-heritage-earth-500 dark:text-gray-400 mb-2">
                             <Landmark className="w-4 h-4 text-heritage-gold-500" />
-                            <span>Căn cứ pháp lý cập nhật hành chính</span>
+                            <span>{t('detail.legalBasis')}</span>
                         </div>
                         <ul className="space-y-1.5">
                             {ADMIN_LEGAL_BASIS.map((doc) => (
@@ -518,7 +518,7 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                 </div>
 
                 {/* Footer */}
-                <div className="p-5 border-t border-heritage-earth-200 dark:border-gray-700 bg-heritage-cream-50 dark:bg-gray-800">
+                <div className="p-6 border-t border-heritage-earth-200 dark:border-gray-700 bg-heritage-cream-50 dark:bg-gray-800">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <div className="flex items-center gap-1.5 text-sm text-heritage-earth-500 dark:text-gray-400">

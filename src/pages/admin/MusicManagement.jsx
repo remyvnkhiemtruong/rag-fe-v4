@@ -34,7 +34,7 @@ export default function MusicManagement() {
       await musicApi.delete(id);
       fetchMusic();
     } catch {
-      alert("Delete failed");
+      alert(t('admin.deleteFailed'));
     }
   };
 
@@ -142,7 +142,7 @@ export default function MusicManagement() {
         <div className="fixed inset-0 bg-black/50 dark:bg-black/60 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded w-full max-w-lg border border-gray-200 dark:border-gray-600 shadow-xl">
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              Add Multiple Music Links
+              {t('admin.addMultipleMusicLinks')}
             </h3>
 
             <div className="space-y-3">
@@ -150,7 +150,7 @@ export default function MusicManagement() {
                 <div key={index} className="flex gap-2">
                   <input
                     type="text"
-                    placeholder="Enter YouTube link"
+                    placeholder={t('admin.placeholderYoutubeLink')}
                     value={link}
                     onChange={(e) =>
                       handleChange(index, e.target.value)
@@ -173,7 +173,7 @@ export default function MusicManagement() {
               onClick={handleAddInput}
               className="mt-3 text-blue-600 dark:text-blue-400 text-sm hover:underline"
             >
-              + Add another link
+              {t('admin.addAnotherLink')}
             </button>
 
             <div className="flex justify-end gap-3 mt-6">

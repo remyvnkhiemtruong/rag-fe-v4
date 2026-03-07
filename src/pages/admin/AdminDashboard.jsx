@@ -153,7 +153,7 @@ export default function AdminDashboard({ onNavigate, currentPage }) {
                 >
                   <Mountain className="w-8 h-8 text-amber-600 dark:text-amber-400" />
                   <span className="text-sm font-medium text-heritage-earth-700 dark:text-gray-300">
-                    {t('Địa lý')}
+                    {t('admin.geographyManagement')}
                   </span>
                 </button>
                 <button
@@ -162,7 +162,7 @@ export default function AdminDashboard({ onNavigate, currentPage }) {
                 >
                   <BookAIcon className="w-8 h-8 text-amber-600 dark:text-amber-400" />
                   <span className="text-sm font-medium text-heritage-earth-700 dark:text-gray-300">
-                    {t('Văn học')}
+                    {t('admin.literatureManagement')}
                   </span>
                 </button>
                 <button
@@ -171,7 +171,7 @@ export default function AdminDashboard({ onNavigate, currentPage }) {
                 >
                   <Coins className="w-8 h-8 text-amber-600 dark:text-amber-400" />
                   <span className="text-sm font-medium text-heritage-earth-700 dark:text-gray-300">
-                    {t('Kinh tế')}
+                    {t('admin.economicsManagement')}
                   </span>
                 </button>
                 <button

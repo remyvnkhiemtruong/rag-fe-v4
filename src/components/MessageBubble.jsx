@@ -1,8 +1,10 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useTranslation } from 'react-i18next';
 import { User, Landmark } from 'lucide-react';
 
 export function MessageBubble({ message, isStreaming = false }) {
+  const { t } = useTranslation();
   const isUser = message.role === 'user';
 
   const sources =
@@ -177,7 +179,7 @@ export function MessageBubble({ message, isStreaming = false }) {
                       </p>
 
                       <p className="text-gray-400 mt-1">
-                        Độ liên quan: {(src.score * 100).toFixed(1)}%
+                        {t('common.relevance')}: {(src.score * 100).toFixed(1)}%
                       </p>
                     </li>
                   ))}
