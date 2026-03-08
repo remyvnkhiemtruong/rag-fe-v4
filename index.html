@@ -41,9 +41,6 @@
   <link rel="icon" type="image/svg+xml" href="/logo-camau.svg" />
   <link rel="apple-touch-icon" href="/logo-camau.svg" />
 
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="/manifest.json" />
-
   <link href='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css' rel='stylesheet' />
 
   <!-- Pannellum CSS -->
@@ -74,21 +71,6 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
   
   <script type="module" src="/src/main.jsx"></script>
-
-  <!-- Service Worker Registration -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(registration => {
-            console.log('ServiceWorker registration successful:', registration.scope);
-          })
-          .catch(err => {
-            console.log('ServiceWorker registration failed:', err);
-          });
-      });
-    }
-  </script>
 </body>
 
 </html>

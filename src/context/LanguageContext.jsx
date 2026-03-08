@@ -1,53 +1,60 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import i18n from '../i18n';
+import i18n, {
+  DEFAULT_LANGUAGE,
+  LANGUAGE_STORAGE_KEY,
+  SUPPORTED_LANGUAGE_CODES,
+  languages,
+} from '../i18n';
 
 const LanguageContext = createContext(null);
+const LEGACY_LANGUAGE_STORAGE_KEY = 'i18nextLng';
 
-const LANGUAGE_KEY = 'heritage-language';
+const normalizeLanguageCode = (rawValue) => {
+  if (!rawValue || typeof rawValue !== 'string') return null;
+  const [languageOnly] = rawValue.trim().toLowerCase().split('-');
+  return SUPPORTED_LANGUAGE_CODES.includes(languageOnly) ? languageOnly : null;
+};
 
-const languages = [
-  { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳', dir: 'ltr' },
-  { code: 'en', name: 'Tiếng Anh', flag: '🇺🇸', dir: 'ltr' },
-  { code: 'zh', name: 'Tiếng Hoa', flag: '🇨🇳', dir: 'ltr' },
-  { code: 'km', name: 'Tiếng Khmer', flag: '🇰🇭', dir: 'ltr' },
-];
+const getInitialLanguage = () => {
+  if (typeof window === 'undefined') return DEFAULT_LANGUAGE;
+
+  const saved = normalizeLanguageCode(localStorage.getItem(LANGUAGE_STORAGE_KEY));
+  if (saved) return saved;
+
+  const legacySaved = normalizeLanguageCode(localStorage.getItem(LEGACY_LANGUAGE_STORAGE_KEY));
+  if (legacySaved) {
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, legacySaved);
+    localStorage.removeItem(LEGACY_LANGUAGE_STORAGE_KEY);
+    return legacySaved;
+  }
+
+  const browserLang = normalizeLanguageCode(navigator.language);
+  return browserLang || DEFAULT_LANGUAGE;
+};
 
 export function LanguageProvider({ children }) {
-  const [currentLanguage, setCurrentLanguage] = useState(() => {
-    // Try to get saved language from localStorage
-    const saved = localStorage.getItem(LANGUAGE_KEY);
-    if (saved && languages.find(l => l.code === saved)) {
-      return saved;
-    }
-    // Try browser language
-    const browserLang = navigator.language?.split('-')[0];
-    if (languages.find(l => l.code === browserLang)) {
-      return browserLang;
-    }
-    // Default to Vietnamese
-    return 'vi';
-  });
+  const [currentLanguage, setCurrentLanguage] = useState(getInitialLanguage);
 
   useEffect(() => {
-    // Update i18n language
-    i18n.changeLanguage(currentLanguage);
-    // Save to localStorage
-    localStorage.setItem(LANGUAGE_KEY, currentLanguage);
-    // Update document lang attribute
-    document.documentElement.lang = currentLanguage;
-    // Update text direction if needed
-    const langConfig = languages.find(l => l.code === currentLanguage);
+    const normalizedLanguage = normalizeLanguageCode(currentLanguage) || DEFAULT_LANGUAGE;
+
+    i18n.changeLanguage(normalizedLanguage);
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, normalizedLanguage);
+    document.documentElement.lang = normalizedLanguage;
+
+    const langConfig = languages.find((lang) => lang.code === normalizedLanguage);
     document.documentElement.dir = langConfig?.dir || 'ltr';
   }, [currentLanguage]);
 
   const changeLanguage = (langCode) => {
-    if (languages.find(l => l.code === langCode)) {
-      setCurrentLanguage(langCode);
+    const normalizedLanguage = normalizeLanguageCode(langCode);
+    if (normalizedLanguage) {
+      setCurrentLanguage(normalizedLanguage);
     }
   };
 
   const getCurrentLanguageInfo = () => {
-    return languages.find(l => l.code === currentLanguage) || languages[0];
+    return languages.find((lang) => lang.code === currentLanguage) || languages[0];
   };
 
   const value = {
@@ -58,11 +65,7 @@ export function LanguageProvider({ children }) {
     t: i18n.t,
   };
 
-  return (
-    <LanguageContext.Provider value={value}>
-      {children}
-    </LanguageContext.Provider>
-  );
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
 
 export function useLanguage() {

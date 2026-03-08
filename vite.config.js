@@ -19,6 +19,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      devOptions: {
+        enabled: false,
+      },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
         name: 'Di sản Văn hóa Cà Mau',
@@ -39,6 +42,7 @@ export default defineConfig({
         ]
       },
       workbox: {
+        cleanupOutdatedCaches: true,
         // QUAN TRỌNG: Chỉ cache các file tĩnh thông thường
         globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg}'],
         

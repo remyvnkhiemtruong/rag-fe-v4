@@ -5,6 +5,7 @@ import {
   BarChart3, FileText, Eye, Loader2, Upload, Image as ImageIcon,
   Video, Trash, Link as LinkIcon
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import AnalyticsDashboard from '../../components/admin/AnalyticsDashboard';
 import { heritageApi } from '../../services/api';
 
@@ -35,6 +36,7 @@ const inputLanguages = [
 const ITEMS_PER_PAGE = 10;
 
 export default function HeritageManagement() {
+  const { t } = useTranslation();
   const [heritages, setHeritages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -86,7 +88,7 @@ export default function HeritageManagement() {
     } finally {
       setLoading(false);
     }
-  }, [showNotification]);
+  }, [showNotification, t]);
 
   useEffect(() => {
     fetchHeritages(currentPage);
