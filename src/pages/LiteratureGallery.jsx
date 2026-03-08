@@ -3,42 +3,48 @@ import { useTranslation } from "react-i18next";
 import { X, BookOpen } from "lucide-react";
 import { literatureApi } from "../services/api";
 
+const PAGE_SIZE = 9;
+
 export const LiteratureGallery = () => {
   const { t } = useTranslation();
 
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const [selectedId, setSelectedId] = useState(null);
   const [detail, setDetail] = useState(null);
   const [detailLoading, setDetailLoading] = useState(false);
-
   const [page, setPage] = useState(1);
-  const [limit] = useState(9);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
+    let isActive = true;
+
+    const fetchList = async () => {
+      try {
+        setIsLoading(true);
+        const res = await literatureApi.getAll(page, PAGE_SIZE);
+        if (!isActive) return;
+
+        setItems(res.data || []);
+        setTotalPages(res.pagination?.totalPages || 1);
+      } catch (e) {
+        console.error("Failed to load literature list", e);
+      } finally {
+        if (isActive) {
+          setIsLoading(false);
+        }
+      }
+    };
+
     fetchList();
+
+    return () => {
+      isActive = false;
+    };
   }, [page]);
-
-  const fetchList = async () => {
-    try {
-      setIsLoading(true);
-      const res = await literatureApi.getAll(page, limit);
-      setItems(res.data || []);
-      setTotalPages(res.pagination?.totalPages || 1);
-
-    } catch (e) {
-      console.error("Failed to load literature list", e);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const fetchDetail = async (id) => {
     try {
       setDetailLoading(true);
-      setSelectedId(id);
       const res = await literatureApi.getById(id);
       setDetail(res);
     } catch (e) {
@@ -48,9 +54,6 @@ export const LiteratureGallery = () => {
     }
   };
 
-  /* =====================
-     LOADING / EMPTY
-  ====================== */
   if (isLoading) {
     return (
       <div className="h-96 flex items-center justify-center text-gray-500">
@@ -63,7 +66,7 @@ export const LiteratureGallery = () => {
     return (
       <div className="h-96 flex flex-col items-center justify-center text-gray-400">
         <BookOpen className="w-14 h-14 mb-3 opacity-50" />
-        <p>{t("literature.noData", "Chưa có dữ liệu văn học")}</p>
+        <p>{t("literature.noData", "ChÆ°a cÃ³ dá»¯ liá»‡u vÄƒn há»c")}</p>
       </div>
     );
   }
@@ -73,35 +76,33 @@ export const LiteratureGallery = () => {
 
     return (
       <div className="flex justify-center items-center gap-2 mt-8">
-        {/* PREV */}
         <button
-          onClick={() => setPage(p => Math.max(1, p - 1))}
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
           disabled={page === 1}
           className="px-3 py-1 text-sm rounded border disabled:opacity-40"
         >
           Prev
         </button>
 
-        {/* PAGE NUMBERS */}
         {Array.from({ length: totalPages }).map((_, i) => {
           const p = i + 1;
           return (
             <button
               key={p}
               onClick={() => setPage(p)}
-              className={`w-8 h-8 rounded-full text-sm transition ${p === page
-                ? "bg-blue-600 text-white"
-                : "border hover:bg-gray-100 dark:hover:bg-gray-800"
-                }`}
+              className={`w-8 h-8 rounded-full text-sm transition ${
+                p === page
+                  ? "bg-blue-600 text-white"
+                  : "border hover:bg-gray-100 dark:hover:bg-gray-800"
+              }`}
             >
               {p}
             </button>
           );
         })}
 
-        {/* NEXT */}
         <button
-          onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
           disabled={page === totalPages}
           className="px-3 py-1 text-sm rounded border disabled:opacity-40"
         >
@@ -111,9 +112,6 @@ export const LiteratureGallery = () => {
     );
   };
 
-  /* =====================
-     LIST
-  ====================== */
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -135,9 +133,7 @@ export const LiteratureGallery = () => {
               <h3 className="font-semibold text-gray-800 dark:text-gray-100">
                 {item.title}
               </h3>
-              <p className="text-sm text-gray-500">
-                {item.author}
-              </p>
+              <p className="text-sm text-gray-500">{item.author}</p>
             </div>
           </div>
         ))}
@@ -145,15 +141,11 @@ export const LiteratureGallery = () => {
 
       <Pagination />
 
-      {/* =====================
-          DETAIL MODAL
-      ====================== */}
       {detail && (
         <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center">
           <div className="bg-white dark:bg-gray-900 w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-lg p-6 relative">
             <button
               onClick={() => {
-                setSelectedId(null);
                 setDetail(null);
               }}
               className="absolute top-4 right-4"
@@ -162,18 +154,12 @@ export const LiteratureGallery = () => {
             </button>
 
             {detailLoading || !detail ? (
-              <div className="text-center py-20">
-                {t("common.loading")}
-              </div>
+              <div className="text-center py-20">{t("common.loading")}</div>
             ) : (
               <>
-                <h2 className="text-2xl font-bold mb-1">
-                  {detail.title}
-                </h2>
+                <h2 className="text-2xl font-bold mb-1">{detail.title}</h2>
 
-                <p className="text-sm text-gray-500 mb-4">
-                  {detail.author}
-                </p>
+                <p className="text-sm text-gray-500 mb-4">{detail.author}</p>
 
                 {detail.image_url && (
                   <img
@@ -186,13 +172,13 @@ export const LiteratureGallery = () => {
                 <div className="grid grid-cols-2 gap-4 text-sm mb-4 text-gray-600 dark:text-gray-400">
                   <div>
                     <span className="font-semibold">
-                      {t("literature.genre", "Thể loại")}:
+                      {t("literature.genre", "Thá»ƒ loáº¡i")}:
                     </span>{" "}
                     {detail.genre}
                   </div>
                   <div>
                     <span className="font-semibold">
-                      {t("literature.period", "Giai đoạn")}:
+                      {t("literature.period", "Giai Ä‘oáº¡n")}:
                     </span>{" "}
                     {detail.period}
                   </div>

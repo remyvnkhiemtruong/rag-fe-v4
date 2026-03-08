@@ -150,7 +150,6 @@ export default function FloatingNavbar() {
 
             {/* Nav Items */}
             <div className="flex items-center gap-0.5 flex-wrap justify-center flex-1 min-w-0">
-              {/* eslint-disable-next-line no-unused-vars -- Icon used in JSX */}
               {navItems.map(({ icon: Icon, labelKey }, index) => {
                 const isActive = activeIndex === index;
                 return (
@@ -219,7 +218,6 @@ export default function FloatingNavbar() {
           <div className="flex items-center bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border border-gray-200 dark:border-gray-700 rounded-2xl sm:rounded-3xl shadow-[0_-4px_24px_rgba(0,0,0,0.12)] dark:shadow-[0_-4px_24px_rgba(0,0,0,0.5)] relative overflow-hidden">
             {/* Navigation items */}
             <div className="flex items-center justify-around relative z-10 w-full py-2 px-0.5 sm:py-2.5">
-              {/* eslint-disable-next-line no-unused-vars -- Icon used in JSX */}
               {navItems.map(({ icon: Icon, labelKey }, index) => {
                 const isActive = activeIndex === index;
                 return (

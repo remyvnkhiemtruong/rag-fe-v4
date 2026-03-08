@@ -50,7 +50,8 @@
     "copyLink": "复制链接",
     "document": "文档",
     "relevance": "相关度",
-    "searchAria": "搜索"
+    "searchAria": "搜索",
+    "retry": "??"
   },
   "errors": {
     "network": "连接错误，请检查网络后重试。",
@@ -493,7 +494,14 @@
     "vietnamese": "越南语",
     "english": "英语",
     "chinese": "中文",
-    "khmer": "高棉语"
+    "khmer": "高棉语",
+    "mute": "??",
+    "unmute": "????",
+    "restart": "????",
+    "seekSlider": "?????",
+    "skipBack": "??10?",
+    "skipForward": "??10?",
+    "volume": "??"
   },
   "admin": {
     "title": "管理页面",
@@ -664,7 +672,6 @@
     "searchAudio": "搜索音频...",
     "tagManagement": "标签管理",
     "totalTags": "标签总数",
-    "addTag": "添加标签",
     "editTag": "编辑标签",
     "deleteTag": "删除标签",
     "tagName": "标签名称",
@@ -740,7 +747,10 @@
       "location": "地点",
       "period": "时期",
       "topic": "主题"
-    }
+    },
+    "addComponent": "?????",
+    "componentName": "?????",
+    "economicsDistribution": "????"
   },
   "favoritesPage": {
     "title": "收藏的遗产",
@@ -1060,5 +1070,18 @@
       "phone": "电话",
       "github": "GitHub"
     }
+  },
+  "economic": {
+    "noData": "??????"
+  },
+  "geography": {
+    "noData": "??????",
+    "area": "??",
+    "terrain": "??"
+  },
+  "literature": {
+    "noData": "??????",
+    "genre": "??",
+    "period": "??"
   }
 }
