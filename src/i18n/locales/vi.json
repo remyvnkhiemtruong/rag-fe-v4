@@ -50,7 +50,8 @@
     "copyLink": "Sao chép link",
     "document": "Tài liệu",
     "relevance": "Độ liên quan",
-    "searchAria": "Tìm kiếm"
+    "searchAria": "Tìm kiếm",
+    "retry": "Th? l?i"
   },
   "errors": {
     "network": "Lỗi kết nối. Vui lòng kiểm tra mạng và thử lại.",
@@ -493,7 +494,14 @@
     "vietnamese": "Tiếng Việt",
     "english": "English",
     "chinese": "中文",
-    "khmer": "ភាសាខ្មែរ"
+    "khmer": "ភាសាខ្មែរ",
+    "mute": "T?t ti?ng",
+    "unmute": "B?t ti?ng",
+    "restart": "Ph?t l?i",
+    "seekSlider": "Thanh tua ?m thanh",
+    "skipBack": "L?i 10 gi?y",
+    "skipForward": "T?i 10 gi?y",
+    "volume": "?m l??ng"
   },
   "admin": {
     "title": "Trang Quản trị",
@@ -739,7 +747,10 @@
       "location": "Địa điểm",
       "period": "Thời kỳ",
       "topic": "Chủ đề"
-    }
+    },
+    "addComponent": "Th?m th?nh ph?n",
+    "componentName": "T?n th?nh ph?n",
+    "economicsDistribution": "C? c?u ph?n b?"
   },
   "favoritesPage": {
     "title": "Di Sản Yêu Thích",
@@ -1059,5 +1070,18 @@
       "phone": "Điện thoại",
       "github": "GitHub"
     }
+  },
+  "economic": {
+    "noData": "Ch?a c? d? li?u kinh t?"
+  },
+  "geography": {
+    "noData": "Ch?a c? d? li?u ??a l?",
+    "area": "Di?n t?ch",
+    "terrain": "??a h?nh"
+  },
+  "literature": {
+    "noData": "Ch?a c? d? li?u v?n h?c",
+    "genre": "Th? lo?i",
+    "period": "Th?i k?"
   }
 }

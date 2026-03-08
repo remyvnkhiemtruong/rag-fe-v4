@@ -3,42 +3,48 @@ import { useTranslation } from "react-i18next";
 import { X, BarChart3 } from "lucide-react";
 import { economicsApi } from "../services/api";
 
+const PAGE_SIZE = 9;
+
 export const EconomicGallery = () => {
   const { t } = useTranslation();
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [selectedId, setSelectedId] = useState(null);
   const [detail, setDetail] = useState(null);
   const [detailLoading, setDetailLoading] = useState(false);
 
   const [page, setPage] = useState(1);
-  const [limit] = useState(9);
   const [totalPages, setTotalPages] = useState(1);
 
-
-
   useEffect(() => {
-    fetchList();
-  }, [page]);
+    let isActive = true;
 
-  const fetchList = async () => {
-    try {
-      setIsLoading(true);
-      const res = await economicsApi.getAll(page, limit);
-      setItems(res.data || []);
-      setTotalPages(res.pagination?.totalPages || 1);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const fetchList = async () => {
+      try {
+        setIsLoading(true);
+        const res = await economicsApi.getAll(page, PAGE_SIZE);
+        if (!isActive) return;
+        setItems(res.data || []);
+        setTotalPages(res.pagination?.totalPages || 1);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        if (isActive) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchList();
+
+    return () => {
+      isActive = false;
+    };
+  }, [page]);
 
   const fetchDetail = async (id) => {
     try {
       setDetailLoading(true);
-      setSelectedId(id);
       const res = await economicsApi.getById(id);
       setDetail(res);
     } catch (e) {
@@ -150,7 +156,6 @@ export const EconomicGallery = () => {
           <div className="bg-white dark:bg-gray-900 w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-lg p-6 relative">
             <button
               onClick={() => {
-                setSelectedId(null);
                 setDetail(null);
               }}
               className="absolute top-4 right-4"

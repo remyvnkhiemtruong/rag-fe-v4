@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const SECTION_CONFIG = {
@@ -43,12 +43,13 @@ export default function InfoSectionManagement({
 }) {
   const { t } = useTranslation();
   const config = SECTION_CONFIG[sectionType] || { extraFields: [], listSubtitleKey: null };
+  const extraFields = config.extraFields;
 
   const initialForm = useMemo(() => {
     const base = { title: "", content: "", image_url: "" };
-    config.extraFields.forEach((f) => (base[f.key] = ""));
+    extraFields.forEach((f) => (base[f.key] = ""));
     return base;
-  }, [sectionType]);
+  }, [extraFields]);
 
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -58,7 +59,7 @@ export default function InfoSectionManagement({
   const [submitting, setSubmitting] = useState(false);
   const [distributions, setDistributions] = useState([]);
 
-  const fetchList = async () => {
+  const fetchList = useCallback(async () => {
     try {
       setLoading(true);
       const result = await api.getAll(1, 100);
@@ -68,11 +69,11 @@ export default function InfoSectionManagement({
     } finally {
       setLoading(false);
     }
-  };
+  }, [api, t]);
 
   useEffect(() => {
     fetchList();
-  }, []);
+  }, [fetchList]);
 
   const openCreate = () => {
     setEditingId(null);
@@ -94,7 +95,7 @@ export default function InfoSectionManagement({
 
     next.image_url = resolveImageUrl(item);
 
-    config.extraFields.forEach((f) => (next[f.key] = item[f.key] ?? ""));
+    extraFields.forEach((f) => (next[f.key] = item[f.key] ?? ""));
 
     setForm(next);
     setDistributions(item.distributions || []);
@@ -118,7 +119,7 @@ export default function InfoSectionManagement({
       image_url: form.image_url?.trim() || null,
     };
 
-    config.extraFields.forEach((f) => {
+    extraFields.forEach((f) => {
       body[f.key] = form[f.key]?.trim() || null;
     });
 
@@ -148,7 +149,7 @@ export default function InfoSectionManagement({
       setEditingId(null);
       setForm({ ...initialForm });
       fetchList();
-    } catch (error) {
+    } catch {
       alert(t("admin.errGeneric"));
     } finally {
       setSubmitting(false);
@@ -251,7 +252,7 @@ export default function InfoSectionManagement({
                   placeholder={t("admin.infoContentPlaceholder")}
                 />
               </div>
-              {config.extraFields.map((field) => (
+              {extraFields.map((field) => (
                 <div key={field.key}>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     {t(field.labelKey)}

@@ -57,30 +57,32 @@ export default function QuizPage() {
 
   // Animate score counter when results are shown
   useEffect(() => {
-    if (showResult) {
-      const percentage = (score / questions.length) * 100;
-
-      // Trigger confetti for good scores (>=70%)
-      if (percentage >= 70) {
-        setTimeout(() => triggerConfetti(), 500);
-      }
-
-      // Animate score counter
-      let currentScore = 0;
-      const increment = score / 30; // 30 steps for smooth animation
-      const timer = setInterval(() => {
-        currentScore += increment;
-        if (currentScore >= score) {
-          setAnimatedScore(score);
-          clearInterval(timer);
-        } else {
-          setAnimatedScore(Math.floor(currentScore));
-        }
-      }, 50);
-
-      return () => clearInterval(timer);
+    if (!showResult || questions.length === 0) {
+      return undefined;
     }
-  }, [showResult, score]);
+
+    const percentage = (score / questions.length) * 100;
+
+    // Trigger confetti for good scores (>=70%)
+    if (percentage >= 70) {
+      setTimeout(() => triggerConfetti(), 500);
+    }
+
+    // Animate score counter
+    let currentScore = 0;
+    const increment = score / 30; // 30 steps for smooth animation
+    const timer = setInterval(() => {
+      currentScore += increment;
+      if (currentScore >= score) {
+        setAnimatedScore(score);
+        clearInterval(timer);
+      } else {
+        setAnimatedScore(Math.floor(currentScore));
+      }
+    }, 50);
+
+    return () => clearInterval(timer);
+  }, [showResult, score, questions.length]);
 
   // Share functionality
   const shareResults = (platform) => {

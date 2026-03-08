@@ -1,5 +1,4 @@
 import React from 'react';
-/* eslint-disable-next-line no-unused-vars -- used as motion.div in JSX */
 import { motion } from 'framer-motion';
 import { Heart, Users, Target, Award, Mail, Github, Globe, BookOpen, Phone } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

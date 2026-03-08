@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Home, BookOpen, Map, MessageSquare, Gamepad2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-/* eslint-disable-next-line no-unused-vars -- motion used in JSX (motion.div, motion.button, etc.) */
 import { motion, useMotionValue, animate } from 'framer-motion';
 
 export default function MobileNav() {
@@ -69,7 +68,7 @@ export default function MobileNav() {
 
         {/* Navigation items */}
         <div className="flex items-center justify-around relative z-10 py-2">
-          {navItems.map(({ path, icon: Icon, label }, index) => { // eslint-disable-line no-unused-vars -- Icon used in JSX below
+          {navItems.map(({ path, icon: Icon, label }, index) => {
             const isActive = activeIndex === index;
 
             return (

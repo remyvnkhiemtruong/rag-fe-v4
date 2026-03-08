@@ -50,7 +50,8 @@
     "copyLink": "ចម្លង link",
     "document": "ឯកសារ",
     "relevance": "ពាក់ព័ន្ធ",
-    "searchAria": "ស្វែងរក"
+    "searchAria": "ស្វែងរក",
+    "retry": "Retry"
   },
   "errors": {
     "network": "កំហុសការភ្ជាប់។ សូមពិនិត្យបណ្តាញ និងព្យាយាមម្តងទៀត។",
@@ -493,7 +494,14 @@
     "vietnamese": "Tiếng Việt",
     "english": "English",
     "chinese": "中文",
-    "khmer": "ភាសាខ្មែរ"
+    "khmer": "ភាសាខ្មែរ",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "restart": "Restart",
+    "seekSlider": "Audio seek slider",
+    "skipBack": "Back 10 seconds",
+    "skipForward": "Forward 10 seconds",
+    "volume": "Volume"
   },
   "admin": {
     "title": "ទំព័រគ្រប់គ្រង",
@@ -664,7 +672,6 @@
     "searchAudio": "ស្វែងរកអូឌីយ៉ូ...",
     "tagManagement": "គ្រប់គ្រង Tags",
     "totalTags": "Tags សរុប",
-    "addTag": "បន្ថែម Tag",
     "editTag": "កែសម្រួល Tag",
     "deleteTag": "លុប Tag",
     "tagName": "ឈ្មោះ tag",
@@ -740,7 +747,10 @@
       "location": "ទីតាំង",
       "period": "សម័យកាល",
       "topic": "ប្រធានបទ"
-    }
+    },
+    "addComponent": "Add component",
+    "componentName": "Component name",
+    "economicsDistribution": "Distribution"
   },
   "favoritesPage": {
     "title": "បេតិកភណ្ឌចូលចិត្ត",
@@ -1060,5 +1070,18 @@
       "phone": "ទូរស័ព្ទ",
       "github": "GitHub"
     }
+  },
+  "economic": {
+    "noData": "No economics data available"
+  },
+  "geography": {
+    "noData": "No geography data available",
+    "area": "Area",
+    "terrain": "Terrain"
+  },
+  "literature": {
+    "noData": "No literature data available",
+    "genre": "Genre",
+    "period": "Period"
   }
 }

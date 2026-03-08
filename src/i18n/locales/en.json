@@ -50,7 +50,8 @@
     "copyLink": "Copy Link",
     "document": "Document",
     "relevance": "Relevance",
-    "searchAria": "Search"
+    "searchAria": "Search",
+    "retry": "Retry"
   },
   "errors": {
     "network": "Connection error. Please check your network and try again.",
@@ -493,7 +494,14 @@
     "vietnamese": "Vietnamese",
     "english": "English",
     "chinese": "Chinese",
-    "khmer": "Khmer"
+    "khmer": "Khmer",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "restart": "Restart",
+    "seekSlider": "Audio seek slider",
+    "skipBack": "Back 10 seconds",
+    "skipForward": "Forward 10 seconds",
+    "volume": "Volume"
   },
   "admin": {
     "title": "Admin Panel",
@@ -664,7 +672,6 @@
     "searchAudio": "Search audio...",
     "tagManagement": "Tag Management",
     "totalTags": "Total Tags",
-    "addTag": "Add Tag",
     "editTag": "Edit Tag",
     "deleteTag": "Delete Tag",
     "tagName": "Tag name",
@@ -740,7 +747,10 @@
       "location": "Location",
       "period": "Period",
       "topic": "Topic"
-    }
+    },
+    "addComponent": "Add component",
+    "componentName": "Component name",
+    "economicsDistribution": "Distribution"
   },
   "favoritesPage": {
     "title": "Favorite Heritage",
@@ -1060,5 +1070,18 @@
       "phone": "Phone",
       "github": "GitHub"
     }
+  },
+  "economic": {
+    "noData": "No economics data available"
+  },
+  "geography": {
+    "noData": "No geography data available",
+    "area": "Area",
+    "terrain": "Terrain"
+  },
+  "literature": {
+    "noData": "No literature data available",
+    "genre": "Genre",
+    "period": "Period"
   }
 }
