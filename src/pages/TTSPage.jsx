@@ -268,7 +268,7 @@ export default function TextToSpeechPage() {
                                             className="w-full px-4 py-2 border-2 border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:border-purple-400 dark:focus:border-purple-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                                         />
                                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                            {t('tts.apiKeyHelp')} <a href="https://makersuite.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="text-purple-600 dark:text-purple-400 hover:underline">Google AI Studio</a>
+                                            {t('tts.apiKeyHelp')} <a href="https://makersuite.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="text-purple-600 dark:text-purple-400 hover:underline">{t('tts.googleAiStudio')}</a>
                                         </p>
                                     </div>
 

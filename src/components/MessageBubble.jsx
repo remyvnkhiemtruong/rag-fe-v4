@@ -161,7 +161,7 @@ export function MessageBubble({ message, isStreaming = false }) {
             <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-600">
               <details className="group">
                 <summary className="cursor-pointer text-xs font-semibold text-heritage-red-700 dark:text-heritage-gold-400 hover:underline">
-                  Nguồn tham khảo ({sources.length})
+                  {t('chat.sources')} ({sources.length})
                 </summary>
 
                 <ol className="mt-2 space-y-2 text-xs">
@@ -171,7 +171,7 @@ export function MessageBubble({ message, isStreaming = false }) {
                       className="p-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600"
                     >
                       <p className="font-medium text-gray-700 dark:text-gray-200">
-                        [{index + 1}] {src.document_name || "Tài liệu"}
+                        [{index + 1}] {src.document_name || t('chat.documentDefault')}
                       </p>
 
                       <p className="text-gray-600 dark:text-gray-400 line-clamp-3">

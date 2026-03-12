@@ -195,10 +195,10 @@ const heritageApi = {
       return {
         success: true,
         data: [
-          { code: 'vi', name: 'Tiếng Việt', ttsCode: 'vi-VN' },
+          { code: 'vi', name: 'Vietnamese', ttsCode: 'vi-VN' },
           { code: 'en', name: 'English', ttsCode: 'en-US' },
-          { code: 'km', name: 'ភាសាខ្មែរ', ttsCode: 'km-KH' },
-          { code: 'zh', name: '中文', ttsCode: 'zh-CN' }
+          { code: 'km', name: 'Khmer', ttsCode: 'km-KH' },
+          { code: 'zh', name: 'Traditional Chinese', ttsCode: 'zh-TW' }
         ]
       };
     }

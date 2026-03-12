@@ -1,30 +1,39 @@
-import { useState, useCallback, useRef } from "react";
+﻿import { useState, useCallback, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { CHAT_ERROR_MESSAGES, CHAT_WELCOME_MESSAGES } from '../data/chatPrompts';
+import { normalizeLanguageCode } from '../utils/i18nField';
 
-// Dify API Configuration
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-// Generate a unique user ID for the session
 const generateUserId = () => {
   const stored = localStorage.getItem('dify_user_id');
   if (stored) return stored;
-  const newId = 'user-' + Math.random().toString(36).substring(2, 15);
+  const newId = `user-${Math.random().toString(36).substring(2, 15)}`;
   localStorage.setItem('dify_user_id', newId);
   return newId;
 };
 
+const getByLanguage = (map, languageCode) => map[languageCode] || map.vi;
+
 export function useStreamingChat() {
-  const [messages, setMessages] = useState([
+  const { i18n } = useTranslation();
+  const languageCode = normalizeLanguageCode(i18n.resolvedLanguage || i18n.language);
+  const getWelcomeMessage = useCallback(
+    () => getByLanguage(CHAT_WELCOME_MESSAGES, languageCode),
+    [languageCode]
+  );
+
+  const [messages, setMessages] = useState(() => [
     {
       role: 'assistant',
-      content: 'Xin chào! Tôi là trợ lý AI về di sản văn hóa tỉnh Cà Mau. Bạn có thể hỏi tôi về các di sản như Lễ Hội Đờn Ca Tài Tử hoặc bất kỳ di sản văn hóa nào khác.',
-      metadata: null
-    }
+      content: getByLanguage(CHAT_WELCOME_MESSAGES, languageCode),
+      metadata: null,
+    },
   ]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState(null);
 
-  // Store conversation_id for multi-turn conversations
   const conversationIdRef = useRef(null);
   const userIdRef = useRef(generateUserId());
 
@@ -32,14 +41,12 @@ export function useStreamingChat() {
     setIsStreaming(true);
     setError(null);
 
-    // Add empty assistant message for streaming
-    setMessages(prev => [
+    setMessages((prev) => [
       ...prev,
-      { role: 'assistant', content: '', metadata: null }
+      { role: 'assistant', content: '', metadata: null },
     ]);
 
     try {
-      // Build request body for Dify chat-messages API
       const requestBody = {
         inputs: {},
         query: userMessage,
@@ -47,7 +54,6 @@ export function useStreamingChat() {
         user: userIdRef.current,
       };
 
-      // Include conversation_id for multi-turn conversations
       if (conversationIdRef.current) {
         requestBody.conversation_id = conversationIdRef.current;
       }
@@ -56,9 +62,9 @@ export function useStreamingChat() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${API_KEY}`,
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
@@ -79,54 +85,46 @@ export function useStreamingChat() {
         const lines = chunk.split('\n');
 
         for (const line of lines) {
-          // Skip empty lines
           if (!line.trim()) continue;
 
-          // Handle SSE data format
           if (line.startsWith('data: ')) {
             const data = line.slice(6);
 
             try {
               const parsed = JSON.parse(data);
 
-              // Handle Dify streaming format
               if (parsed.event === 'message') {
-                // Store conversation_id for future messages
                 if (parsed.conversation_id) {
                   conversationIdRef.current = parsed.conversation_id;
                 }
 
-                // Append the answer chunk
                 if (parsed.answer) {
                   fullResponse += parsed.answer;
 
-                  setMessages(prev => {
+                  setMessages((prev) => {
                     const updated = [...prev];
                     updated[updated.length - 1] = {
                       role: 'assistant',
                       content: fullResponse,
-                      metadata: messageMetadata // Keep existing metadata during streaming
+                      metadata: messageMetadata,
                     };
                     return updated;
                   });
                 }
               } else if (parsed.event === 'message_end') {
-                // Message complete - capture metadata with citations
                 if (parsed.conversation_id) {
                   conversationIdRef.current = parsed.conversation_id;
                 }
 
-                // Store the complete metadata including retriever_resources (citations)
                 if (parsed.metadata) {
                   messageMetadata = parsed.metadata;
-                  
-                  // Update the last message with final content and metadata
-                  setMessages(prev => {
+
+                  setMessages((prev) => {
                     const updated = [...prev];
                     updated[updated.length - 1] = {
                       role: 'assistant',
                       content: fullResponse,
-                      metadata: messageMetadata
+                      metadata: messageMetadata,
                     };
                     return updated;
                   });
@@ -135,35 +133,30 @@ export function useStreamingChat() {
                 throw new Error(parsed.message || 'API Error');
               }
             } catch (parseError) {
-              // If JSON parsing fails, just continue
-              if (parseError.message !== 'API Error') {
-                // Failed to parse SSE data - silent catch
-              } else {
+              if (parseError.message === 'API Error') {
                 throw parseError;
               }
             }
           }
         }
       }
-
     } catch (err) {
       setError(err.message);
+      const errorMessage = getByLanguage(CHAT_ERROR_MESSAGES, languageCode);
 
-      // Update the last message with error
-      const errorMessage = 'Xin lỗi, đã có lỗi xảy ra khi kết nối với server. Vui lòng thử lại sau.';
-      setMessages(prev => {
+      setMessages((prev) => {
         const updated = [...prev];
         if (updated.length > 0 && updated[updated.length - 1].role === 'assistant') {
           updated[updated.length - 1] = {
             role: 'assistant',
             content: errorMessage,
-            metadata: null
+            metadata: null,
           };
         } else {
-          updated.push({ 
-            role: 'assistant', 
+          updated.push({
+            role: 'assistant',
             content: errorMessage,
-            metadata: null
+            metadata: null,
           });
         }
         return updated;
@@ -171,7 +164,7 @@ export function useStreamingChat() {
     } finally {
       setIsStreaming(false);
     }
-  }, []);
+  }, [languageCode]);
 
   const sendMessage = useCallback(async (text) => {
     if (!text.trim()) return;
@@ -179,13 +172,10 @@ export function useStreamingChat() {
     const userMessage = {
       role: 'user',
       content: text,
-      metadata: null
+      metadata: null,
     };
 
-    // Add user message
-    setMessages(prev => [...prev, userMessage]);
-
-    // Stream response from Dify API
+    setMessages((prev) => [...prev, userMessage]);
     await streamFromBackend(text);
   }, [streamFromBackend]);
 
@@ -193,14 +183,13 @@ export function useStreamingChat() {
     setMessages([
       {
         role: 'assistant',
-        content: 'Xin chào! Tôi là trợ lý AI về di sản văn hóa tỉnh Cà Mau. Bạn có thể hỏi tôi về các di sản như Lễ Hội Đờn Ca Tài Tử hoặc bất kỳ di sản văn hóa nào khác.',
-        metadata: null
-      }
+        content: getWelcomeMessage(),
+        metadata: null,
+      },
     ]);
-    // Reset conversation for a fresh start
     conversationIdRef.current = null;
     setError(null);
-  }, []);
+  }, [getWelcomeMessage]);
 
   return { messages, isStreaming, sendMessage, error, clearMessages };
 }

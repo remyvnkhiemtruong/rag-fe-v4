@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { X, Share2, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { getLocalizedField, normalizeLanguageCode } from '../../utils/i18nField';
 
 // Rarity colors
 const RARITY_COLORS = {
@@ -47,7 +48,7 @@ const RARITY_KEYS = {
 export function AchievementModal({ achievement, isOpen, onClose, points = 100 }) {
   const { t, i18n } = useTranslation();
   const [isAnimating, setIsAnimating] = useState(false);
-  const isVietnamese = i18n.language === 'vi';
+  const languageCode = normalizeLanguageCode(i18n.resolvedLanguage || i18n.language);
 
   useEffect(() => {
     if (isOpen) {
@@ -64,11 +65,11 @@ export function AchievementModal({ achievement, isOpen, onClose, points = 100 })
 
   const rarity = RARITY_COLORS[achievement.rarity] || RARITY_COLORS.common;
   const rarityLabel = t(RARITY_KEYS[achievement.rarity] || RARITY_KEYS.common);
+  const achievementName = getLocalizedField(achievement, 'name', languageCode, '');
+  const achievementDescription = getLocalizedField(achievement, 'description', languageCode, '');
 
   const handleShare = async () => {
-    const text = isVietnamese
-      ? `🏆 Tôi vừa mở khóa thành tựu "${achievement.name}" trong ứng dụng Di sản Văn hóa Cà Mau!`
-      : `🏆 I just unlocked the "${achievement.nameEn}" achievement in Ca Mau Cultural Heritage app!`;
+    const text = `🏆 ${t('gamification.newAchievement')} "${achievementName}"`;
 
     if (navigator.share) {
       try {
@@ -125,7 +126,7 @@ export function AchievementModal({ achievement, isOpen, onClose, points = 100 })
           <div className="mb-6">
             <span className="text-4xl animate-bounce inline-block">🎉</span>
             <h2 className="text-2xl font-display font-bold text-gray-900 dark:text-gray-100 mt-2">
-              {isVietnamese ? 'Thành tựu mới!' : 'New Achievement!'}
+              {t('gamification.newAchievement')}
             </h2>
           </div>
 
@@ -144,19 +145,19 @@ export function AchievementModal({ achievement, isOpen, onClose, points = 100 })
 
           {/* Achievement name */}
           <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-            {isVietnamese ? achievement.name : achievement.nameEn}
+            {achievementName}
           </h3>
 
           {/* Achievement description */}
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            {isVietnamese ? achievement.description : achievement.descriptionEn}
+            {achievementDescription}
           </p>
 
           {/* Points earned */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-heritage-gold-100 dark:bg-heritage-gold-900/30 rounded-full mb-6">
             <span className="text-xl">⭐</span>
             <span className="font-bold text-heritage-gold-700 dark:text-heritage-gold-300">
-              +{points} {isVietnamese ? 'điểm' : 'points'}
+              +{points} {t('gamification.points')}
             </span>
           </div>
 
@@ -167,13 +168,13 @@ export function AchievementModal({ achievement, isOpen, onClose, points = 100 })
               className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
             >
               <Share2 className="w-4 h-4" />
-              {isVietnamese ? 'Chia sẻ' : 'Share'}
+              {t('gamification.share')}
             </button>
             <button
               onClick={onClose}
               className="flex-1 px-4 py-3 bg-gradient-to-r from-heritage-red-700 to-heritage-red-800 text-white rounded-xl font-medium hover:from-heritage-red-800 hover:to-heritage-red-900 transition-all"
             >
-              {isVietnamese ? 'Tuyệt vời!' : 'Awesome!'}
+              {t('gamification.awesome')}
             </button>
           </div>
         </div>

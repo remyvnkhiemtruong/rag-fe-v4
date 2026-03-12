@@ -4,9 +4,10 @@ import { Trophy, RotateCcw, ArrowRight, Sparkles, CheckCircle, XCircle, Landmark
 import { AnimatePresence, motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { getRandomQuestions } from '../data/quiz';
+import { getLocalizedArrayField, getLocalizedField, normalizeLanguageCode } from '../utils/i18nField';
 
 export default function QuizPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -87,7 +88,7 @@ export default function QuizPage() {
   // Share functionality
   const shareResults = (platform) => {
     const percentage = Math.round((score / questions.length) * 100);
-    const text = `I scored ${score}/${questions.length} (${percentage}%) on the Roman Heritage Quiz! 🏛️ Test your knowledge too!`;
+    const text = `${t('quiz.title')}: ${score}/${questions.length} (${percentage}%). ${t('quiz.subtitle')}`;
     const url = window.location.href;
 
     switch (platform) {
@@ -378,6 +379,15 @@ export default function QuizPage() {
   }
 
   // Quiz Screen
+  const currentLanguageCode = normalizeLanguageCode(i18n.resolvedLanguage || i18n.language);
+  const currentQuestionData = questions[currentQuestion];
+  const fallbackOptions = Array.isArray(currentQuestionData?.options) ? currentQuestionData.options : [];
+  const currentQuestionContent = {
+    question: getLocalizedField(currentQuestionData, 'question', currentLanguageCode, ''),
+    options: getLocalizedArrayField(currentQuestionData, 'options', currentLanguageCode, fallbackOptions, fallbackOptions.length),
+    explanation: getLocalizedField(currentQuestionData, 'explanation', currentLanguageCode, ''),
+  };
+
   return (
     <div className="flex items-center justify-center p-3 sm:p-4 lg:p-6 xl:p-8 min-h-[80vh]">
       <div className="max-w-3xl w-full">
@@ -500,15 +510,15 @@ export default function QuizPage() {
                   transition={{ delay: 0.2 }}
                   className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100 leading-relaxed"
                 >
-                  {questions[currentQuestion].question}
+                  {currentQuestionContent.question}
                 </motion.h2>
               </div>
             </div>
 
             {/* Options */}
             <div className="space-y-3 mb-6">
-              {questions[currentQuestion].options.map((option, index) => {
-                const isCorrect = index === questions[currentQuestion].correct;
+              {currentQuestionContent.options.map((option, index) => {
+                const isCorrect = index === currentQuestionData.correct;
                 const isSelected = index === selectedAnswer;
 
                 let buttonClass = `
@@ -586,7 +596,7 @@ export default function QuizPage() {
                     <div>
                       <p className="text-sm font-semibold text-heritage-gold-800 dark:text-heritage-gold-300 mb-1">{t('quiz.explanation')}</p>
                       <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        {questions[currentQuestion].explanation}
+                        {currentQuestionContent.explanation}
                       </p>
                     </div>
                   </div>

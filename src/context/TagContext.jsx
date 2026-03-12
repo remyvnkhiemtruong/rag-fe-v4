@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { TAGS_DATA, TAG_CATEGORIES } from '../data/tags';
+import { getLocalizedField } from '../utils/i18nField';
 
 const TagContext = createContext(null);
 
@@ -74,13 +75,24 @@ export function TagProvider({ children }) {
     const lowerQuery = query.toLowerCase();
     return tags.filter(tag =>
       tag.name.toLowerCase().includes(lowerQuery) ||
-      tag.nameEn.toLowerCase().includes(lowerQuery)
+      tag.nameEn.toLowerCase().includes(lowerQuery) ||
+      (tag.nameZh || '').toLowerCase().includes(lowerQuery) ||
+      (tag.nameKm || '').toLowerCase().includes(lowerQuery)
     );
   };
 
   // Get category info
   const getCategoryInfo = (categoryId) => {
     return categories.find(cat => cat.id === categoryId);
+  };
+
+  // Localized display helpers (fallback handled in helper)
+  const getTagDisplayName = (tag, languageCode) => {
+    return getLocalizedField(tag, 'name', languageCode, tag?.name || '');
+  };
+
+  const getCategoryDisplayName = (category, languageCode) => {
+    return getLocalizedField(category, 'name', languageCode, category?.name || '');
   };
 
   // Get category color class
@@ -137,6 +149,8 @@ export function TagProvider({ children }) {
     getTagsByCategory,
     searchTags,
     getCategoryInfo,
+    getTagDisplayName,
+    getCategoryDisplayName,
     getCategoryColorClass,
     resetTags,
     totalTags: tags.length

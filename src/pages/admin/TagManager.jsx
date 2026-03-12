@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTags } from '../../context/TagContext';
+import { normalizeLanguageCode } from '../../utils/i18nField';
 import {
   ChevronLeft,
   Search,
@@ -16,16 +17,19 @@ import {
 } from 'lucide-react';
 
 export default function TagManager({ onBack }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const {
     tags,
     categories,
     addTag,
     updateTag,
     deleteTag,
+    getTagDisplayName,
+    getCategoryDisplayName,
     getCategoryColorClass,
     resetTags
   } = useTags();
+  const languageCode = normalizeLanguageCode(i18n.resolvedLanguage || i18n.language);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -38,6 +42,8 @@ export default function TagManager({ onBack }) {
   const [formData, setFormData] = useState({
     name: '',
     nameEn: '',
+    nameZh: '',
+    nameKm: '',
     category: 'topic',
     color: '#ea580c'
   });
@@ -53,7 +59,9 @@ export default function TagManager({ onBack }) {
     return tags.filter(tag => {
       const matchesSearch = !searchQuery ||
         tag.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        tag.nameEn.toLowerCase().includes(searchQuery.toLowerCase());
+        tag.nameEn.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (tag.nameZh || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (tag.nameKm || '').toLowerCase().includes(searchQuery.toLowerCase());
       const matchesCategory = selectedCategory === 'all' || tag.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
@@ -77,7 +85,7 @@ export default function TagManager({ onBack }) {
   // Handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.nameEn.trim()) {
+    if (!formData.name.trim() || !formData.nameEn.trim() || !formData.nameZh.trim() || !formData.nameKm.trim()) {
       showNotification(t('admin.fillRequired'), 'error');
       return;
     }
@@ -98,6 +106,8 @@ export default function TagManager({ onBack }) {
     setFormData({
       name: '',
       nameEn: '',
+      nameZh: '',
+      nameKm: '',
       category: 'topic',
       color: '#ea580c'
     });
@@ -110,6 +120,8 @@ export default function TagManager({ onBack }) {
     setFormData({
       name: tag.name,
       nameEn: tag.nameEn,
+      nameZh: tag.nameZh || '',
+      nameKm: tag.nameKm || '',
       category: tag.category,
       color: tag.color
     });
@@ -124,6 +136,8 @@ export default function TagManager({ onBack }) {
     setFormData({
       name: '',
       nameEn: '',
+      nameZh: '',
+      nameKm: '',
       category: 'topic',
       color: '#ea580c'
     });
@@ -238,7 +252,7 @@ export default function TagManager({ onBack }) {
               >
                 <option value="all">{t('admin.allCategories')}</option>
                 {categories.map(cat => (
-                  <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  <option key={cat.id} value={cat.id}>{getCategoryDisplayName(cat, languageCode)}</option>
                 ))}
               </select>
             </div>
@@ -263,7 +277,7 @@ export default function TagManager({ onBack }) {
                 <div className={`text-2xl font-bold ${selectedCategory === cat.id ? colorClass.text : 'text-heritage-earth-900 dark:text-gray-100'}`}>
                   {count}
                 </div>
-                <div className="text-xs text-heritage-earth-600 dark:text-gray-400">{cat.name}</div>
+                <div className="text-xs text-heritage-earth-600 dark:text-gray-400">{getCategoryDisplayName(cat, languageCode)}</div>
               </button>
             );
           })}
@@ -282,7 +296,7 @@ export default function TagManager({ onBack }) {
                 <div key={cat.id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-elegant border border-heritage-earth-200 dark:border-gray-700 overflow-hidden">
                   <div className={`px-4 py-3 ${colorClass.bg} border-b ${colorClass.border}`}>
                     <h3 className={`font-semibold ${colorClass.text}`}>
-                      {cat.name} ({catTags.length})
+                      {getCategoryDisplayName(cat, languageCode)} ({catTags.length})
                     </h3>
                   </div>
                   <div className="p-4">
@@ -291,6 +305,7 @@ export default function TagManager({ onBack }) {
                         <TagItem
                           key={tag.id}
                           tag={tag}
+                          languageCode={languageCode}
                           onEdit={() => openEditModal(tag)}
                           onDelete={() => handleDelete(tag)}
                         />
@@ -309,6 +324,7 @@ export default function TagManager({ onBack }) {
                       <TagItem
                         key={tag.id}
                         tag={tag}
+                        languageCode={languageCode}
                         onEdit={() => openEditModal(tag)}
                         onDelete={() => handleDelete(tag)}
                       />
@@ -371,6 +387,36 @@ export default function TagManager({ onBack }) {
                   />
                 </div>
 
+                {/* Name Traditional Chinese */}
+                <div>
+                  <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1">
+                    {t('admin.tagNameZh')} *
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.nameZh}
+                    onChange={(e) => setFormData({ ...formData, nameZh: e.target.value })}
+                    className="w-full px-4 py-2.5 rounded-xl border border-heritage-earth-200 dark:border-gray-600 bg-heritage-cream-50 dark:bg-gray-700 text-heritage-earth-900 dark:text-gray-100 focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    placeholder={t('admin.placeholderTagExample')}
+                    required
+                  />
+                </div>
+
+                {/* Name Khmer */}
+                <div>
+                  <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1">
+                    {t('admin.tagNameKm')} *
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.nameKm}
+                    onChange={(e) => setFormData({ ...formData, nameKm: e.target.value })}
+                    className="w-full px-4 py-2.5 rounded-xl border border-heritage-earth-200 dark:border-gray-600 bg-heritage-cream-50 dark:bg-gray-700 text-heritage-earth-900 dark:text-gray-100 focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    placeholder={t('admin.placeholderTagExample')}
+                    required
+                  />
+                </div>
+
                 {/* Category */}
                 <div>
                   <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1">
@@ -382,7 +428,9 @@ export default function TagManager({ onBack }) {
                     className="w-full px-4 py-2.5 rounded-xl border border-heritage-earth-200 dark:border-gray-600 bg-heritage-cream-50 dark:bg-gray-700 text-heritage-earth-900 dark:text-gray-100 focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   >
                     {categories.map(cat => (
-                      <option key={cat.id} value={cat.id}>{cat.name} ({cat.nameEn})</option>
+                      <option key={cat.id} value={cat.id}>
+                        {getCategoryDisplayName(cat, languageCode)}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -432,7 +480,11 @@ export default function TagManager({ onBack }) {
                       style={{ backgroundColor: formData.color }}
                     >
                       <Tag className="w-3.5 h-3.5" />
-                      {formData.name || t('admin.tagName')}
+                      {(languageCode === 'en' && formData.nameEn) ||
+                        (languageCode === 'zh' && formData.nameZh) ||
+                        (languageCode === 'km' && formData.nameKm) ||
+                        formData.name ||
+                        t('admin.tagName')}
                     </span>
                   </div>
                 </div>
@@ -470,7 +522,7 @@ export default function TagManager({ onBack }) {
                   {t('admin.confirmDeleteTitle')}
                 </h3>
                 <p className="text-heritage-earth-600 dark:text-gray-400 mb-4">
-                  {t('admin.confirmDeleteTag', { name: deleteConfirm.name })}
+                  {t('admin.confirmDeleteTag', { name: getTagDisplayName(deleteConfirm, languageCode) })}
                 </p>
                 <div className="flex gap-3">
                   <button
@@ -496,15 +548,19 @@ export default function TagManager({ onBack }) {
 }
 
 // Tag Item Component
-function TagItem({ tag, onEdit, onDelete }) {
+function TagItem({ tag, languageCode, onEdit, onDelete }) {
   const { t } = useTranslation();
+  const displayName = (languageCode === 'en' && tag.nameEn) ||
+    (languageCode === 'zh' && tag.nameZh) ||
+    (languageCode === 'km' && tag.nameKm) ||
+    tag.name;
   return (
     <div
       className="group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-white transition-all hover:shadow-md"
       style={{ backgroundColor: tag.color }}
     >
       <Tag className="w-3.5 h-3.5" />
-      <span>{tag.name}</span>
+      <span>{displayName}</span>
       <div className="hidden group-hover:flex items-center gap-0.5 ml-1">
         <button
           onClick={onEdit}

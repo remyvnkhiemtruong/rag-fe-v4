@@ -4,26 +4,27 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 export default function SocialShare({
-  url = window.location.href,
-  title = 'Di sản văn hóa Cà Mau',
+  url = typeof window !== 'undefined' ? window.location.href : '',
+  title,
   description: _description = '',
   compact = false
 }) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const shareTitle = title || t('common.appName');
 
   const shareLinks = [
     {
-      name: 'Facebook',
+      name: t('common.facebook'),
       icon: Facebook,
       url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
       color: 'bg-blue-600 hover:bg-blue-700',
     },
     {
-      name: 'Twitter',
+      name: t('common.twitter'),
       icon: Twitter,
-      url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+      url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareTitle)}`,
       color: 'bg-sky-500 hover:bg-sky-600',
     },
   ];
@@ -44,7 +45,7 @@ export default function SocialShare({
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-          aria-label="Share"
+          aria-label={t('common.share')}
         >
           <Share2 className="w-5 h-5 text-gray-600 dark:text-gray-400" />
         </button>
@@ -90,7 +91,7 @@ export default function SocialShare({
                   <button
                     onClick={copyToClipboard}
                     className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                    title="Copy link"
+                    title={t('common.copyLink')}
                   >
                     {copied ? (
                       <Check className="w-5 h-5 text-green-600" />

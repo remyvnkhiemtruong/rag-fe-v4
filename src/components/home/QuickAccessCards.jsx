@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 function FeatureCard({ feature, index }) {
+  const { t } = useTranslation();
   const Icon = feature.icon;
 
   return (
@@ -38,7 +39,7 @@ function FeatureCard({ feature, index }) {
 
           {/* Nút giả lập - Thêm tính hướng dẫn cho Modern UI */}
           <div className="mt-6 flex items-center text-xs font-bold tracking-wider text-slate-400 group-hover:text-brand-accent uppercase transition-colors">
-            <span>Khám phá ngay</span>
+            <span>{t('home.features.exploreNow')}</span>
             <motion.span
               className="ml-2"
               animate={{ x: [0, 5, 0] }}
@@ -118,9 +119,9 @@ export default function QuickAccessCards() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl md:text-5xl font-display font-bold text-brand-dark dark:text-white leading-tight mb-6">
-              Hành trình khám phá <br />
+              {t('home.features.journeyTitleLine1')} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-heritage-red-600 to-heritage-gold-600">
-                Di sản Đất Mũi
+                {t('home.features.journeyTitleLine2')}
               </span>
             </h2>
 

@@ -91,6 +91,29 @@ export default function SettingsPage({ onBack }) {
   };
 
   const currentFontInfo = getCurrentFontSize();
+  const fontSizeLabelKeyMap = {
+    small: 'settings.fontSmall',
+    normal: 'settings.fontNormal',
+    large: 'settings.fontLarge',
+    xlarge: 'settings.fontXLarge',
+  };
+
+  const getFontSizeLabel = (sizeOption) => {
+    const key = fontSizeLabelKeyMap[sizeOption?.id];
+    if (!key) {
+      return sizeOption?.label || '';
+    }
+    const translated = t(key);
+    return translated === key ? (sizeOption?.label || '') : translated;
+  };
+
+  const getLanguageLabel = (lang) => {
+    const key = `language.${lang.code}`;
+    const translated = t(key);
+    const normalized = typeof translated === 'string' ? translated.trim() : '';
+    const looksCorrupted = /^\?{2,}(?:\s*\(\?{2,}\))?$/.test(normalized);
+    return translated === key || looksCorrupted ? lang.name : translated;
+  };
 
   return (
     <div className="min-h-screen bg-heritage-cream-50 dark:bg-gray-900 p-4 sm:p-6 lg:p-8 theme-transition">
@@ -180,7 +203,7 @@ export default function SettingsPage({ onBack }) {
                     {t('settings.fontSize')}
                   </h3>
                   <p className="text-sm text-heritage-earth-500 dark:text-gray-400">
-                    {currentFontInfo.label}
+                    {getFontSizeLabel(currentFontInfo)}
                   </p>
                 </div>
               </div>
@@ -197,7 +220,7 @@ export default function SettingsPage({ onBack }) {
                     }`}
                   >
                     <span style={{ fontSize: `${size.scale * 12}px` }}>Aa</span>
-                    <span className="ml-2">{size.label}</span>
+                    <span className="ml-2">{getFontSizeLabel(size)}</span>
                   </button>
                 ))}
               </div>
@@ -228,14 +251,22 @@ export default function SettingsPage({ onBack }) {
                       : 'bg-heritage-cream-50 dark:bg-gray-700 border border-heritage-earth-200 dark:border-gray-600 hover:bg-heritage-cream-100 dark:hover:bg-gray-600'
                   }`}
                 >
-                  <span className="text-2xl">{lang.flag}</span>
+                  <span
+                    className={`w-8 text-center text-sm font-bold tracking-wide ${
+                      currentLanguage === lang.code
+                        ? 'text-amber-700 dark:text-amber-300'
+                        : 'text-heritage-earth-700 dark:text-gray-300'
+                    }`}
+                  >
+                    {lang.flag}
+                  </span>
                   <div className="text-left">
                     <div className={`font-medium text-sm ${
                       currentLanguage === lang.code
                         ? 'text-amber-800 dark:text-amber-200'
                         : 'text-heritage-earth-700 dark:text-gray-300'
                     }`}>
-                      {lang.name}
+                      {getLanguageLabel(lang)}
                     </div>
                   </div>
                   {currentLanguage === lang.code && (
@@ -416,16 +447,16 @@ export default function SettingsPage({ onBack }) {
                 <div className="font-medium text-heritage-earth-900 dark:text-gray-100">1.0.0</div>
               </div>
               <div className="p-3 bg-heritage-cream-50 dark:bg-gray-700 rounded-xl">
-                <div className="text-heritage-earth-500 dark:text-gray-400 mb-1">Framework</div>
-                <div className="font-medium text-heritage-earth-900 dark:text-gray-100">React + Vite</div>
+                <div className="text-heritage-earth-500 dark:text-gray-400 mb-1">{t('settings.framework')}</div>
+                <div className="font-medium text-heritage-earth-900 dark:text-gray-100">{t('settings.frameworkValue')}</div>
               </div>
               <div className="p-3 bg-heritage-cream-50 dark:bg-gray-700 rounded-xl">
                 <div className="text-heritage-earth-500 dark:text-gray-400 mb-1">{t('settings.languageSupport')}</div>
                 <div className="font-medium text-heritage-earth-900 dark:text-gray-100">{t('settings.fourLanguages')}</div>
               </div>
               <div className="p-3 bg-heritage-cream-50 dark:bg-gray-700 rounded-xl">
-                <div className="text-heritage-earth-500 dark:text-gray-400 mb-1">AI Backend</div>
-                <div className="font-medium text-heritage-earth-900 dark:text-gray-100">RAG + LLM</div>
+                <div className="text-heritage-earth-500 dark:text-gray-400 mb-1">{t('settings.aiBackend')}</div>
+                <div className="font-medium text-heritage-earth-900 dark:text-gray-100">{t('settings.aiBackendValue')}</div>
               </div>
             </div>
           </div>

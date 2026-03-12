@@ -13,10 +13,10 @@ import {
 } from 'lucide-react';
 
 const languages = [
-  { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'zh', name: '中文', flag: '🇨🇳' },
-  { code: 'km', name: 'ភាសាខ្មែរ', flag: '🇰🇭' },
+  { code: 'vi', flag: '????' },
+  { code: 'en', flag: '????' },
+  { code: 'zh', flag: '????' },
+  { code: 'km', flag: '????' },
 ];
 
 export function AudioPlayer({ audioSrc, title, onLanguageChange, currentLanguage = 'vi' }) {
@@ -349,7 +349,7 @@ export function AudioPlayer({ audioSrc, title, onLanguageChange, currentLanguage
                       }`}
                     >
                       <span className="text-lg">{lang.flag}</span>
-                      <span className="text-sm">{lang.name}</span>
+                      <span className="text-sm">{t(`language.${lang.code}`)}</span>
                     </button>
                   ))}
                 </div>

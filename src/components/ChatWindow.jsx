@@ -182,7 +182,7 @@ export function ChatWindow() {
                 scrollToBottom();
               }}
               className="sticky bottom-3 right-3 sm:bottom-4 sm:right-4 p-2.5 sm:p-3 bg-heritage-red-700 text-white rounded-full shadow-lg hover:bg-heritage-red-800 transition-all animate-fade-in z-10"
-              aria-label="Scroll to bottom"
+              aria-label={t('chat.scrollToBottom')}
             >
               <ArrowDown className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>

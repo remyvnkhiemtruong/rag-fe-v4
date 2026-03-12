@@ -180,7 +180,7 @@ export default function FestivalManager({ onBack }) {
                 {t('admin.festivalManagement')}
               </h2>
               <p className="text-sm text-heritage-earth-600 dark:text-gray-400">
-                {filteredFestivals.length} lễ hội
+                {t('admin.festivalCount', { count: filteredFestivals.length })}
               </p>
             </div>
           </div>
@@ -210,7 +210,7 @@ export default function FestivalManager({ onBack }) {
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-elegant border border-heritage-earth-200 dark:border-gray-700 p-6 theme-transition">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-display font-bold text-heritage-earth-900 dark:text-gray-100">
-                {isCreating ? 'Thêm lễ hội mới' : 'Chỉnh sửa lễ hội'}
+                {isCreating ? t('admin.addFestivalNew') : t('admin.editFestival')}
               </h3>
               <button
                 onClick={handleCancel}
@@ -224,14 +224,14 @@ export default function FestivalManager({ onBack }) {
               {/* Name */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
-                  Tên lễ hội *
+                  {t('admin.festivalNameLabel')}
                 </label>
                 <input
                   type="text"
                   value={formData.name || ''}
                   onChange={(e) => handleFormChange('name', e.target.value)}
                   className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                  placeholder="Nhập tên lễ hội"
+                  placeholder={t('admin.placeholderFestivalName')}
                 />
               </div>
 
@@ -239,14 +239,14 @@ export default function FestivalManager({ onBack }) {
               <div>
                 <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
                   <MapPin className="inline w-4 h-4 mr-1" />
-                  Địa điểm
+                  {t('admin.festivalLocationLabel')}
                 </label>
                 <input
                   type="text"
                   value={formData.location || ''}
                   onChange={(e) => handleFormChange('location', e.target.value)}
                   className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                  placeholder="Nhập địa điểm"
+                  placeholder={t('admin.placeholderFestivalPlace')}
                 />
               </div>
 
@@ -254,21 +254,21 @@ export default function FestivalManager({ onBack }) {
               <div>
                 <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
                   <Calendar className="inline w-4 h-4 mr-1" />
-                  Thời gian tổ chức
+                  {t('admin.festivalTimeLabel')}
                 </label>
                 <input
                   type="text"
                   value={formData.time || ''}
                   onChange={(e) => handleFormChange('time', e.target.value)}
                   className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                  placeholder="VD: Tháng 3 âm lịch"
+                  placeholder={t('admin.placeholderFestivalTime')}
                 />
               </div>
 
               {/* Image URL */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
-                  URL hình ảnh
+                  {t('admin.imageUrlLabel')}
                 </label>
                 <input
                   type="text"
@@ -282,14 +282,14 @@ export default function FestivalManager({ onBack }) {
               {/* Description */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
-                  Mô tả
+                  {t('admin.festivalDescriptionLabel')}
                 </label>
                 <textarea
                   value={formData.description || ''}
                   onChange={(e) => handleFormChange('description', e.target.value)}
                   rows={4}
                   className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                  placeholder="Nhập mô tả về lễ hội..."
+                  placeholder={t('admin.placeholderFestivalDesc')}
                 />
               </div>
             </div>
@@ -320,16 +320,16 @@ export default function FestivalManager({ onBack }) {
               <thead>
                 <tr className="bg-heritage-cream-50 dark:bg-gray-700/50 border-b border-heritage-earth-200 dark:border-gray-600">
                   <th className="text-left px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300">
-                    Tên lễ hội
+                    {t('admin.festivalNameLabel')}
                   </th>
                   <th className="text-left px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300 hidden md:table-cell">
-                    Địa điểm
+                    {t('admin.festivalLocationLabel')}
                   </th>
                   <th className="text-left px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300 hidden sm:table-cell">
-                    Thời gian
+                    {t('admin.festivalTimeLabel')}
                   </th>
                   <th className="text-right px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300">
-                    Thao tác
+                    {t('admin.actions')}
                   </th>
                 </tr>
               </thead>
@@ -337,7 +337,7 @@ export default function FestivalManager({ onBack }) {
                 {paginatedFestivals.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="px-4 py-12 text-center text-heritage-earth-500 dark:text-gray-400">
-                      {searchQuery ? 'Không tìm thấy lễ hội phù hợp' : t('admin.noData')}
+                      {searchQuery ? t('admin.noFestivalMatch') : t('admin.noData')}
                     </td>
                   </tr>
                 ) : (
@@ -390,7 +390,7 @@ export default function FestivalManager({ onBack }) {
           {totalPages > 1 && (
             <div className="flex items-center justify-between px-4 py-3 border-t border-heritage-earth-100 dark:border-gray-700">
               <div className="text-sm text-heritage-earth-600 dark:text-gray-400">
-                Trang {currentPage} / {totalPages}
+                {t('admin.pageOfTotal', { current: currentPage, total: totalPages, count: filteredFestivals.length })}
               </div>
               <div className="flex items-center gap-2">
                 <button

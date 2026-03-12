@@ -1,22 +1,23 @@
 import { useState } from 'react';
-import { Eye, EyeOff, Code, Type, Bold, Italic, List, Link, Image as ImageIcon, Hash, CheckSquare } from 'lucide-react';
+import { Eye, Code, Type, Bold, Italic, List, Link, Image as ImageIcon, Hash, CheckSquare } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 export default function MarkdownEditor({ value, onChange, label, placeholder }) {
-  const [activeTab, setActiveTab] = useState('edit'); // 'edit' or 'preview' or 'split'
+  const { t } = useTranslation();
+  const [activeTab, setActiveTab] = useState('edit');
 
   const insertMarkdown = (before, after = '') => {
     const textarea = document.getElementById('markdown-textarea');
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
     const text = value || '';
-    const selectedText = text.substring(start, end) || 'text';
+    const selectedText = text.substring(start, end) || t('admin.markdownDefaultSelection');
 
     const newText = text.substring(0, start) + before + selectedText + after + text.substring(end);
     onChange({ target: { value: newText } });
 
-    // Set cursor position
     setTimeout(() => {
       textarea.focus();
       textarea.setSelectionRange(
@@ -29,53 +30,47 @@ export default function MarkdownEditor({ value, onChange, label, placeholder }) 
   const markdownButtons = [
     {
       icon: Hash,
-      label: 'Heading',
       action: () => insertMarkdown('## '),
-      tooltip: 'Tiêu đề (## )'
+      tooltip: t('admin.markdownHeadingTooltip'),
     },
     {
       icon: Bold,
-      label: 'Bold',
       action: () => insertMarkdown('**', '**'),
-      tooltip: 'In đậm (**text**)'
+      tooltip: t('admin.markdownBoldTooltip'),
     },
     {
       icon: Italic,
-      label: 'Italic',
       action: () => insertMarkdown('*', '*'),
-      tooltip: 'In nghiêng (*text*)'
+      tooltip: t('admin.markdownItalicTooltip'),
     },
     {
       icon: List,
-      label: 'List',
       action: () => insertMarkdown('\n- '),
-      tooltip: 'Danh sách (- item)'
+      tooltip: t('admin.markdownListTooltip'),
     },
     {
       icon: CheckSquare,
-      label: 'Checklist',
       action: () => insertMarkdown('\n- [ ] '),
-      tooltip: 'Checkbox (- [ ] item)'
+      tooltip: t('admin.markdownChecklistTooltip'),
     },
     {
       icon: Link,
-      label: 'Link',
       action: () => insertMarkdown('[', '](url)'),
-      tooltip: 'Link ([text](url))'
+      tooltip: t('admin.markdownLinkTooltip'),
     },
     {
       icon: ImageIcon,
-      label: 'Image',
       action: () => insertMarkdown('![alt](', ')'),
-      tooltip: 'Ảnh (![alt](url))'
+      tooltip: t('admin.markdownImageTooltip'),
     },
     {
       icon: Code,
-      label: 'Code',
       action: () => insertMarkdown('`', '`'),
-      tooltip: 'Code (`code`)'
+      tooltip: t('admin.markdownCodeTooltip'),
     },
   ];
+
+  const editorPlaceholder = placeholder || t('admin.markdownPlaceholder');
 
   return (
     <div className="space-y-2">
@@ -85,10 +80,8 @@ export default function MarkdownEditor({ value, onChange, label, placeholder }) 
         </label>
       )}
 
-      {/* Toolbar */}
       <div className="border border-gray-300 dark:border-gray-600 rounded-t-lg bg-gray-50 dark:bg-gray-700">
         <div className="flex items-center justify-between p-2 border-b border-gray-300 dark:border-gray-600">
-          {/* Tabs */}
           <div className="flex gap-1">
             <button
               type="button"
@@ -100,7 +93,7 @@ export default function MarkdownEditor({ value, onChange, label, placeholder }) 
               }`}
             >
               <Type className="w-4 h-4 inline mr-1" />
-              Chỉnh sửa
+              {t('admin.markdownTabEdit')}
             </button>
             <button
               type="button"
@@ -112,7 +105,7 @@ export default function MarkdownEditor({ value, onChange, label, placeholder }) 
               }`}
             >
               <Eye className="w-4 h-4 inline mr-1" />
-              Xem trước
+              {t('admin.markdownTabPreview')}
             </button>
             <button
               type="button"
@@ -123,17 +116,15 @@ export default function MarkdownEditor({ value, onChange, label, placeholder }) 
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
               }`}
             >
-              Chia đôi
+              {t('admin.markdownTabSplit')}
             </button>
           </div>
 
-          {/* Quick actions */}
           <div className="text-xs text-gray-500 dark:text-gray-400">
-            {value?.length || 0} ký tự
+            {t('admin.markdownCharCount', { count: value?.length || 0 })}
           </div>
         </div>
 
-        {/* Markdown buttons - only show in edit mode */}
         {(activeTab === 'edit' || activeTab === 'split') && (
           <div className="flex flex-wrap gap-1 p-2">
             {markdownButtons.map((btn, idx) => (
@@ -154,14 +145,13 @@ export default function MarkdownEditor({ value, onChange, label, placeholder }) 
         )}
       </div>
 
-      {/* Editor/Preview Area */}
       <div className="border border-t-0 border-gray-300 dark:border-gray-600 rounded-b-lg bg-white dark:bg-gray-800 min-h-[400px]">
         {activeTab === 'edit' && (
           <textarea
             id="markdown-textarea"
             value={value || ''}
             onChange={onChange}
-            placeholder={placeholder || 'Nhập nội dung markdown ở đây...\n\n## Tiêu đề\n\n**In đậm**, *in nghiêng*\n\n- Danh sách\n- Item 2'}
+            placeholder={editorPlaceholder}
             className="w-full h-[400px] p-4 bg-transparent border-0 focus:ring-0 focus:outline-none resize-none font-mono text-sm dark:text-gray-200"
           />
         )}
@@ -173,7 +163,7 @@ export default function MarkdownEditor({ value, onChange, label, placeholder }) 
                 {value}
               </ReactMarkdown>
             ) : (
-              <p className="text-gray-400 italic">Chưa có nội dung để xem trước...</p>
+              <p className="text-gray-400 italic">{t('admin.markdownPreviewEmpty')}</p>
             )}
           </div>
         )}
@@ -185,7 +175,7 @@ export default function MarkdownEditor({ value, onChange, label, placeholder }) 
                 id="markdown-textarea"
                 value={value || ''}
                 onChange={onChange}
-                placeholder={placeholder || 'Nhập markdown...'}
+                placeholder={placeholder || t('admin.markdownPlaceholderShort')}
                 className="w-full h-[400px] p-4 bg-transparent border-0 focus:ring-0 focus:outline-none resize-none font-mono text-sm dark:text-gray-200"
               />
             </div>
@@ -195,23 +185,22 @@ export default function MarkdownEditor({ value, onChange, label, placeholder }) 
                   {value}
                 </ReactMarkdown>
               ) : (
-                <p className="text-gray-400 italic">Xem trước sẽ hiển thị ở đây...</p>
+                <p className="text-gray-400 italic">{t('admin.markdownSplitPreviewEmpty')}</p>
               )}
             </div>
           </div>
         )}
       </div>
 
-      {/* Helper text */}
       <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
-        <p className="font-medium">💡 Hướng dẫn nhanh:</p>
+        <p className="font-medium">{t('admin.markdownQuickGuide')}</p>
         <div className="grid grid-cols-2 gap-2 mt-1">
-          <div><code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">## Tiêu đề</code> - Tiêu đề cấp 2</div>
-          <div><code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">### Tiêu đề</code> - Tiêu đề cấp 3</div>
-          <div><code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">**text**</code> - In đậm</div>
-          <div><code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">*text*</code> - In nghiêng</div>
-          <div><code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">- item</code> - Danh sách</div>
-          <div><code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">[link](url)</code> - Liên kết</div>
+          <div><code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">{t('admin.markdownGuideHeading2Code')}</code> - {t('admin.markdownGuideHeading2')}</div>
+          <div><code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">{t('admin.markdownGuideHeading3Code')}</code> - {t('admin.markdownGuideHeading3')}</div>
+          <div><code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">{t('admin.markdownGuideBoldCode')}</code> - {t('admin.markdownGuideBold')}</div>
+          <div><code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">{t('admin.markdownGuideItalicCode')}</code> - {t('admin.markdownGuideItalic')}</div>
+          <div><code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">{t('admin.markdownGuideListCode')}</code> - {t('admin.markdownGuideList')}</div>
+          <div><code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">{t('admin.markdownGuideLinkCode')}</code> - {t('admin.markdownGuideLink')}</div>
         </div>
       </div>
     </div>

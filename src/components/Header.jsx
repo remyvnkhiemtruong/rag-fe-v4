@@ -23,6 +23,23 @@ export function Header({ onMenuClick }) {
 
   const currentLangInfo = getCurrentLanguageInfo();
   const currentFontInfo = getCurrentFontSize();
+  const fontSizeLabelKeyMap = {
+    small: 'settings.fontSmall',
+    normal: 'settings.fontNormal',
+    large: 'settings.fontLarge',
+    xlarge: 'settings.fontXLarge',
+  };
+  const getFontSizeLabel = (sizeOption) => {
+    const key = fontSizeLabelKeyMap[sizeOption?.id];
+    if (!key) return sizeOption?.label || '';
+    const translated = t(key);
+    return translated === key ? (sizeOption?.label || '') : translated;
+  };
+  const getLanguageLabel = (langCode, fallback = '') => {
+    const key = `language.${langCode}`;
+    const translated = t(key);
+    return translated === key ? fallback : translated;
+  };
 
   // Combine all heritage data
   const allData = useMemo(() => [
@@ -97,7 +114,7 @@ export function Header({ onMenuClick }) {
             <button
               onClick={onMenuClick}
               className="lg:hidden p-2 hover:bg-heritage-red-600 dark:hover:bg-gray-700 rounded-lg transition-colors flex-shrink-0"
-              aria-label="Menu"
+              aria-label={t('common.system')}
             >
               <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
@@ -186,7 +203,7 @@ export function Header({ onMenuClick }) {
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
               className="md:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all border border-white/20 hover:border-white/30"
-              aria-label="Search"
+              aria-label={t('common.searchAria')}
               title={t('search.placeholder')}
             >
               <Search className="w-4 h-4 sm:w-5 sm:h-5 text-heritage-gold-300" />
@@ -197,11 +214,11 @@ export function Header({ onMenuClick }) {
               <button
                 onClick={() => setIsFontOpen(!isFontOpen)}
                 className="flex items-center gap-1 px-2 py-1.5 sm:py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all border border-white/20 hover:border-white/30"
-                aria-label="Font size"
-                title={t('settings.fontSize') || 'Font size'}
+                aria-label={t('settings.fontSize')}
+                title={t('settings.fontSize')}
               >
                 <Type className="w-4 h-4 text-heritage-gold-300" />
-                <span className="text-xs font-medium hidden md:inline">{currentFontInfo.labelEn}</span>
+                <span className="text-xs font-medium hidden md:inline">{getFontSizeLabel(currentFontInfo)}</span>
                 <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isFontOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -229,7 +246,7 @@ export function Header({ onMenuClick }) {
                         <Minus className="w-4 h-4 text-gray-600 dark:text-gray-300" />
                       </button>
                       <span className="text-sm font-medium text-gray-700 dark:text-gray-300 min-w-[80px] text-center">
-                        {currentFontInfo.label}
+                        {getFontSizeLabel(currentFontInfo)}
                       </span>
                       <button
                         onClick={() => increaseFontSize()}
@@ -254,7 +271,7 @@ export function Header({ onMenuClick }) {
                         }`}
                       >
                         <span className="text-sm" style={{ fontSize: `${size.scale * 14}px` }}>Aa</span>
-                        <span className="text-sm font-medium flex-1">{size.label}</span>
+                        <span className="text-sm font-medium flex-1">{getFontSizeLabel(size)}</span>
                         {fontSize === size.id && (
                           <svg className="w-4 h-4 text-heritage-red-600 dark:text-heritage-red-400" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -271,8 +288,8 @@ export function Header({ onMenuClick }) {
             <button
               onClick={toggleDarkMode}
               className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all border border-white/20 hover:border-white/30"
-              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-              title={isDarkMode ? t('settings.lightMode') || 'Light mode' : t('settings.darkMode') || 'Dark mode'}
+              aria-label={isDarkMode ? t('settings.lightMode') : t('settings.darkMode')}
+              title={isDarkMode ? t('settings.lightMode') : t('settings.darkMode')}
             >
               {isDarkMode ? (
                 <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-heritage-gold-300" />
@@ -286,11 +303,13 @@ export function Header({ onMenuClick }) {
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
                 className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all border border-white/20 hover:border-white/30"
-                aria-label="Select language"
+                aria-label={t('language.select')}
               >
                 <Globe className="w-4 h-4 text-heritage-gold-300" />
                 <span className="text-base sm:text-lg">{currentLangInfo.flag}</span>
-                <span className="hidden md:inline text-sm font-medium">{currentLangInfo.name}</span>
+                <span className="hidden md:inline text-sm font-medium">
+                  {getLanguageLabel(currentLangInfo.code, currentLangInfo.name)}
+                </span>
                 <ChevronDown className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200 ${isLangOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -320,7 +339,9 @@ export function Header({ onMenuClick }) {
                         }`}
                       >
                         <span className="text-xl">{lang.flag}</span>
-                        <span className="text-sm font-medium flex-1">{lang.name}</span>
+                        <span className="text-sm font-medium flex-1">
+                          {getLanguageLabel(lang.code, lang.name)}
+                        </span>
                         {currentLanguage === lang.code && (
                           <svg className="w-4 h-4 text-heritage-red-600 dark:text-heritage-red-400" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />

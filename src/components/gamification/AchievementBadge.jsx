@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Lock } from 'lucide-react';
+import { getLocalizedField, normalizeLanguageCode } from '../../utils/i18nField';
 
 // Rarity styles
 const RARITY_STYLES = {
@@ -47,7 +48,7 @@ export function AchievementBadge({
   onClick
 }) {
   const { i18n } = useTranslation();
-  const isVietnamese = i18n.language === 'vi';
+  const languageCode = normalizeLanguageCode(i18n.resolvedLanguage || i18n.language);
 
   const rarity = RARITY_STYLES[achievement.rarity] || RARITY_STYLES.common;
 
@@ -97,7 +98,7 @@ export function AchievementBadge({
               : 'text-gray-400 dark:text-gray-500'
           }`}>
             {unlocked
-              ? (isVietnamese ? achievement.name : achievement.nameEn)
+              ? getLocalizedField(achievement, 'name', languageCode, '???')
               : '???'
             }
           </p>
@@ -148,7 +149,7 @@ export function AchievementGrid({
  */
 export function AchievementCard({ achievement, unlocked = false, onClick }) {
   const { t, i18n } = useTranslation();
-  const isVietnamese = i18n.language === 'vi';
+  const languageCode = normalizeLanguageCode(i18n.resolvedLanguage || i18n.language);
 
   const rarity = RARITY_STYLES[achievement.rarity] || RARITY_STYLES.common;
 
@@ -193,13 +194,13 @@ export function AchievementCard({ achievement, unlocked = false, onClick }) {
               unlocked ? 'text-gray-900 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500'
             }`}>
               {unlocked
-                ? (isVietnamese ? achievement.name : achievement.nameEn)
+                ? getLocalizedField(achievement, 'name', languageCode, t('gamification.notUnlocked'))
                 : t('gamification.notUnlocked')
               }
             </h3>
             {unlocked && (
               <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${rarity.bg} ${rarity.text}`}>
-                {isVietnamese ? label.vi : label.en}
+                {label}
               </span>
             )}
           </div>
@@ -207,8 +208,8 @@ export function AchievementCard({ achievement, unlocked = false, onClick }) {
             unlocked ? 'text-gray-600 dark:text-gray-400' : 'text-gray-400 dark:text-gray-500'
           }`}>
             {unlocked
-              ? (isVietnamese ? achievement.description : achievement.descriptionEn)
-              : (isVietnamese ? 'Chưa mở khóa' : 'Not unlocked yet')
+              ? getLocalizedField(achievement, 'description', languageCode, '')
+              : t('gamification.notUnlocked')
             }
           </p>
         </div>
@@ -227,8 +228,7 @@ export function AchievementCard({ achievement, unlocked = false, onClick }) {
  * Shows progress toward achievements
  */
 export function AchievementProgress({ totalAchievements, unlockedCount }) {
-  const { i18n } = useTranslation();
-  const isVietnamese = i18n.language === 'vi';
+  const { t } = useTranslation();
 
   const percentage = totalAchievements > 0
     ? Math.round((unlockedCount / totalAchievements) * 100)
@@ -238,7 +238,7 @@ export function AchievementProgress({ totalAchievements, unlockedCount }) {
     <div className="space-y-2">
       <div className="flex items-center justify-between text-sm">
         <span className="text-gray-600 dark:text-gray-400">
-          {isVietnamese ? 'Thành tựu' : 'Achievements'}
+          {t('gamification.achievements')}
         </span>
         <span className="font-semibold text-gray-900 dark:text-gray-100">
           {unlockedCount} / {totalAchievements}
@@ -251,7 +251,7 @@ export function AchievementProgress({ totalAchievements, unlockedCount }) {
         />
       </div>
       <p className="text-xs text-center text-gray-500 dark:text-gray-400">
-        {percentage}% {isVietnamese ? 'hoàn thành' : 'complete'}
+        {percentage}% {t('gamification.complete')}
       </p>
     </div>
   );

@@ -1,5 +1,9 @@
+import { useTranslation } from 'react-i18next';
+
 const DocIframe = ({ source }) => {
-  if (!source) return <div>Loading...</div>;
+  const { t } = useTranslation();
+
+  if (!source) return <div>{t('common.loading')}</div>;
 
   const previewUrl = source.includes('/document/')
     ? source.replace(/\/edit.*$/, '') + '/preview'
@@ -8,7 +12,7 @@ const DocIframe = ({ source }) => {
   return (
     <iframe
       src={previewUrl}
-      title="Google Doc Preview"
+      title={t('chat.documentDefault')}
       width="100%"
       height="600"
       style={{ border: 'none' }}

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { X, CheckCircle, XCircle, ArrowRight, Brain, Sparkles, Award } from 'lucide-react';
 import { useGamification, POINTS } from '../../context/GamificationContext';
 import { getRandomQuestions } from '../../data/postReadingQuizzes';
+import { getLocalizedArrayField, getLocalizedField, normalizeLanguageCode } from '../../utils/i18nField';
 
 /**
  * PostReadingQuiz Component
@@ -16,9 +17,9 @@ export function PostReadingQuiz({
   onClose,
   onComplete,
 }) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { addPoints } = useGamification();
-  const isVietnamese = i18n.language === 'vi';
+  const currentLanguageCode = normalizeLanguageCode(i18n.resolvedLanguage || i18n.language);
 
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -44,6 +45,10 @@ export function PostReadingQuiz({
 
   const currentQuestion = questions[currentIndex];
   const isLastQuestion = currentIndex === questions.length - 1;
+  const fallbackOptions = Array.isArray(currentQuestion?.options) ? currentQuestion.options : [];
+  const localizedQuestion = getLocalizedField(currentQuestion, 'question', currentLanguageCode, '');
+  const localizedOptions = getLocalizedArrayField(currentQuestion, 'options', currentLanguageCode, fallbackOptions, fallbackOptions.length);
+  const localizedExplanation = getLocalizedField(currentQuestion, 'explanation', currentLanguageCode, '');
 
   const handleAnswer = (answer) => {
     if (isAnswered) return;
@@ -117,10 +122,10 @@ export function PostReadingQuiz({
             {/* Title */}
             <h3 className="text-xl font-display font-bold text-gray-900 dark:text-gray-100 mb-2">
               {isPerfect
-                ? (isVietnamese ? 'Xuất sắc!' : 'Excellent!')
+                ? t('gamification.excellent')
                 : percentage >= 50
-                ? (isVietnamese ? 'Làm tốt lắm!' : 'Good job!')
-                : (isVietnamese ? 'Tiếp tục cố gắng!' : 'Keep trying!')}
+                ? t('gamification.goodJob')
+                : t('gamification.keepTrying')}
             </h3>
 
             {/* Score */}
@@ -128,14 +133,14 @@ export function PostReadingQuiz({
               {totalCorrect} / {questions.length}
             </p>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              {isVietnamese ? 'câu trả lời đúng' : 'correct answers'}
+              {t('gamification.correctAnswers')}
             </p>
 
             {/* Points earned */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-heritage-gold-100 dark:bg-heritage-gold-900/30 rounded-full mb-6">
               <Award className="w-4 h-4 text-heritage-gold-600 dark:text-heritage-gold-400" />
               <span className="font-bold text-heritage-gold-700 dark:text-heritage-gold-300">
-                +{totalCorrect * POINTS.POST_QUIZ_CORRECT} {isVietnamese ? 'điểm' : 'points'}
+                +{totalCorrect * POINTS.POST_QUIZ_CORRECT} {t('gamification.points')}
               </span>
             </div>
 
@@ -144,7 +149,7 @@ export function PostReadingQuiz({
               onClick={handleClose}
               className="w-full py-3 bg-gradient-to-r from-heritage-red-700 to-heritage-red-800 text-white rounded-xl font-medium hover:from-heritage-red-800 hover:to-heritage-red-900 transition-all"
             >
-              {isVietnamese ? 'Đóng' : 'Close'}
+              {t('common.close')}
             </button>
           </div>
         </div>
@@ -179,10 +184,10 @@ export function PostReadingQuiz({
             </div>
             <div>
               <h3 className="text-lg font-bold text-white">
-                {isVietnamese ? 'Kiểm tra nhanh' : 'Quick Quiz'}
+                {t('gamification.quickQuiz')}
               </h3>
               <p className="text-heritage-gold-300 text-sm truncate max-w-[200px]">
-                {heritageName || (isVietnamese ? 'Di sản văn hóa' : 'Cultural Heritage')}
+                {heritageName || t('heritageDetail.culturalHeritage')}
               </p>
             </div>
           </div>
@@ -209,14 +214,14 @@ export function PostReadingQuiz({
           {/* Question number */}
           <div className="flex items-center gap-2 mb-4">
             <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-              {isVietnamese ? 'Câu hỏi' : 'Question'} {currentIndex + 1}/{questions.length}
+              {t('gamification.question')} {currentIndex + 1}/{questions.length}
             </span>
             <Sparkles className="w-4 h-4 text-heritage-gold-500" />
           </div>
 
           {/* Question text */}
           <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6">
-            {isVietnamese ? currentQuestion.question : currentQuestion.questionEn}
+            {localizedQuestion}
           </h4>
 
           {/* Answer options */}
@@ -246,9 +251,7 @@ export function PostReadingQuiz({
                       } ${!isAnswered ? 'cursor-pointer' : 'cursor-default'}`}
                     >
                       <span className="flex-1 text-gray-800 dark:text-gray-200">
-                        {option
-                          ? (isVietnamese ? 'Đúng' : 'True')
-                          : (isVietnamese ? 'Sai' : 'False')}
+                        {option ? t('gamification.true') : t('gamification.false')}
                       </span>
                       {showCorrect && <CheckCircle className="w-5 h-5 text-emerald-600" />}
                       {showIncorrect && <XCircle className="w-5 h-5 text-red-500" />}
@@ -259,7 +262,7 @@ export function PostReadingQuiz({
             ) : (
               <>
                 {/* Multiple choice options */}
-                {currentQuestion.options.map((option, idx) => {
+                {localizedOptions.map((option, idx) => {
                   const isSelected = selectedAnswer === idx;
                   const isCorrect = currentQuestion.correct === idx;
                   const showCorrect = isAnswered && isCorrect;
@@ -292,7 +295,7 @@ export function PostReadingQuiz({
                         {String.fromCharCode(65 + idx)}
                       </div>
                       <span className="flex-1 text-gray-800 dark:text-gray-200">
-                        {isVietnamese ? option : currentQuestion.optionsEn[idx]}
+                        {option}
                       </span>
                       {showCorrect && <CheckCircle className="w-5 h-5 text-emerald-600" />}
                       {showIncorrect && <XCircle className="w-5 h-5 text-red-500" />}
@@ -307,10 +310,10 @@ export function PostReadingQuiz({
           {isAnswered && (
             <div className="bg-heritage-gold-50 dark:bg-heritage-gold-900/20 border-l-4 border-heritage-gold-500 p-4 rounded-r-lg mb-6 animate-fade-in">
               <p className="text-sm font-semibold text-heritage-gold-800 dark:text-heritage-gold-300 mb-1">
-                {isVietnamese ? 'Giải thích' : 'Explanation'}
+                {t('gamification.explanation')}
               </p>
               <p className="text-gray-700 dark:text-gray-300 text-sm">
-                {isVietnamese ? currentQuestion.explanation : currentQuestion.explanationEn}
+                {localizedExplanation}
               </p>
             </div>
           )}
@@ -322,8 +325,8 @@ export function PostReadingQuiz({
               className="w-full py-3 bg-gradient-to-r from-heritage-red-700 to-heritage-red-800 text-white rounded-xl font-medium hover:from-heritage-red-800 hover:to-heritage-red-900 transition-all flex items-center justify-center gap-2"
             >
               {isLastQuestion
-                ? (isVietnamese ? 'Xem kết quả' : 'View Results')
-                : (isVietnamese ? 'Câu tiếp theo' : 'Next Question')}
+                ? t('gamification.viewResults')
+                : t('gamification.nextQuestion')}
               <ArrowRight className="w-4 h-4" />
             </button>
           )}

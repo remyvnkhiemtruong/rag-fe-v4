@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { normalizeLanguageCode } from '../../utils/i18nField';
 import {
   Volume2,
   Plus,
@@ -15,24 +16,63 @@ import {
 } from 'lucide-react';
 
 const languages = [
-  { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'zh', name: '中文', flag: '🇨🇳' },
-  { code: 'km', name: 'ភាសាខ្មែរ', flag: '🇰🇭' },
+  { code: 'vi', flag: '🇻🇳' },
+  { code: 'en', flag: '🇺🇸' },
+  { code: 'zh', flag: '🇨🇳' },
+  { code: 'km', flag: '🇰🇭' },
 ];
 
 export default function AudioManager({ onBack }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const languageCode = normalizeLanguageCode(i18n.resolvedLanguage || i18n.language);
   const [selectedLanguage, setSelectedLanguage] = useState('vi');
   const [searchQuery, setSearchQuery] = useState('');
   const [playingId, setPlayingId] = useState(null);
 
   // Placeholder audio data - in production, this would come from API/storage
   const [audioFiles] = useState([
-    { id: 1, name: 'Căn cứ Cái Chanh', heritageId: 1, languages: ['vi'], duration: '3:45' },
-    { id: 2, name: 'Chùa Phật Tổ', heritageId: 2, languages: ['vi', 'en'], duration: '2:30' },
-    { id: 3, name: 'Đình Tân Hưng', heritageId: 3, languages: ['vi'], duration: '4:12' },
+    {
+      id: 1,
+      name: {
+        vi: 'Căn cứ Cái Chanh',
+        en: 'Cai Chanh Base',
+        zh: '蓋政基地',
+        km: 'មូលដ្ឋាន កៃចាញ់',
+      },
+      heritageId: 1,
+      languages: ['vi'],
+      duration: '3:45',
+    },
+    {
+      id: 2,
+      name: {
+        vi: 'Chùa Phật Tổ',
+        en: 'Patriarch Pagoda',
+        zh: '佛祖寺',
+        km: 'វត្ត ព្រះបុព្វាចារ្យ',
+      },
+      heritageId: 2,
+      languages: ['vi', 'en'],
+      duration: '2:30',
+    },
+    {
+      id: 3,
+      name: {
+        vi: 'Đình Tân Hưng',
+        en: 'Tan Hung Communal House',
+        zh: '新興亭',
+        km: 'ឃុំ តាន់ហ៊ឹង',
+      },
+      heritageId: 3,
+      languages: ['vi'],
+      duration: '4:12',
+    },
   ]);
+
+  const getAudioName = (audio) => {
+    if (typeof audio?.name === 'string') return audio.name;
+    return audio?.name?.[languageCode] || audio?.name?.vi || '';
+  };
 
   const handlePlay = (id) => {
     if (playingId === id) {
@@ -42,9 +82,17 @@ export default function AudioManager({ onBack }) {
     }
   };
 
-  const filteredAudio = audioFiles.filter(audio =>
-    audio.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredAudio = audioFiles.filter((audio) => {
+    const searchTarget = [
+      audio?.name?.vi || '',
+      audio?.name?.en || '',
+      audio?.name?.zh || '',
+      audio?.name?.km || '',
+    ].join(' ').toLowerCase();
+    const matchesSearch = searchTarget.includes(searchQuery.toLowerCase());
+    const matchesLanguage = selectedLanguage === 'all' || audio.languages.includes(selectedLanguage);
+    return matchesSearch && matchesLanguage;
+  });
 
   return (
     <div className="min-h-screen bg-heritage-cream-50 dark:bg-gray-900 p-4 sm:p-6 lg:p-8 theme-transition">
@@ -93,7 +141,7 @@ export default function AudioManager({ onBack }) {
                   : 'bg-heritage-cream-50 dark:bg-gray-700 text-heritage-earth-600 dark:text-gray-300 border border-heritage-earth-200 dark:border-gray-600 hover:bg-heritage-cream-100 dark:hover:bg-gray-600'
               }`}
             >
-              Tất cả
+              {t('common.all')}
             </button>
             {languages.map(lang => (
               <button
@@ -106,7 +154,7 @@ export default function AudioManager({ onBack }) {
                 }`}
               >
                 <span>{lang.flag}</span>
-                <span>{lang.name}</span>
+                <span>{t(`language.${lang.code}`)}</span>
               </button>
             ))}
           </div>
@@ -132,10 +180,10 @@ export default function AudioManager({ onBack }) {
             </div>
             <div>
               <h3 className="font-display font-bold text-heritage-earth-900 dark:text-gray-100 mb-2">
-                Text-to-Speech API
+                {t('admin.ttsApiTitle')}
               </h3>
               <p className="text-sm text-heritage-earth-600 dark:text-gray-400 mb-3">
-                Hệ thống hỗ trợ tự động tạo audio từ văn bản sử dụng các dịch vụ TTS như Google Cloud Text-to-Speech hoặc Azure Cognitive Services.
+                {t('admin.ttsApiDesc')}
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white dark:bg-gray-800 rounded-full text-xs font-medium text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-700">
@@ -147,7 +195,7 @@ export default function AudioManager({ onBack }) {
                   Azure TTS
                 </span>
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white dark:bg-gray-800 rounded-full text-xs font-medium text-heritage-earth-600 dark:text-gray-400 border border-heritage-earth-200 dark:border-gray-600">
-                  4 ngôn ngữ
+                  {t('settings.fourLanguages')}
                 </span>
               </div>
             </div>
@@ -158,7 +206,7 @@ export default function AudioManager({ onBack }) {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-elegant border border-heritage-earth-200 dark:border-gray-700 overflow-hidden theme-transition">
           <div className="p-4 border-b border-heritage-earth-100 dark:border-gray-700">
             <h3 className="font-display font-bold text-heritage-earth-900 dark:text-gray-100">
-              Audio đã tạo ({filteredAudio.length})
+              {t('admin.audioCreatedCount', { count: filteredAudio.length })}
             </h3>
           </div>
 
@@ -194,10 +242,10 @@ export default function AudioManager({ onBack }) {
                     {/* Info */}
                     <div className="flex-1 min-w-0">
                       <h4 className="font-medium text-heritage-earth-900 dark:text-gray-100 truncate">
-                        {audio.name}
+                        {getAudioName(audio)}
                       </h4>
                       <p className="text-sm text-heritage-earth-500 dark:text-gray-400">
-                        Thời lượng: {audio.duration}
+                        {t('admin.duration', { value: audio.duration })}
                       </p>
                     </div>
 
@@ -209,7 +257,7 @@ export default function AudioManager({ onBack }) {
                           <span
                             key={lang}
                             className="text-lg"
-                            title={langInfo?.name}
+                            title={langInfo ? t(`language.${langInfo.code}`) : ''}
                           >
                             {langInfo?.flag}
                           </span>
@@ -220,7 +268,7 @@ export default function AudioManager({ onBack }) {
                     {/* Actions */}
                     <button
                       className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg transition-colors text-red-600 dark:text-red-400"
-                      title="Xóa"
+                      title={t('common.delete')}
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -235,36 +283,36 @@ export default function AudioManager({ onBack }) {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-elegant border border-heritage-earth-200 dark:border-gray-700 p-6 theme-transition">
           <h3 className="font-display font-bold text-heritage-earth-900 dark:text-gray-100 mb-4 flex items-center gap-2">
             <Plus className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-            Tạo Audio mới từ Text-to-Speech
+            {t('admin.createAudio')}
           </h3>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
-                Chọn di sản
+                {t('admin.selectHeritage')}
               </label>
               <select className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
-                <option value="">-- Chọn di sản --</option>
-                <option value="1">Căn cứ Cái Chanh</option>
-                <option value="2">Chùa Phật Tổ</option>
-                <option value="3">Đình Tân Hưng</option>
+                <option value="">-- {t('admin.selectHeritage')} --</option>
+                <option value="1">{t('admin.sampleHeritage1')}</option>
+                <option value="2">{t('admin.sampleHeritage2')}</option>
+                <option value="3">{t('admin.sampleHeritage3')}</option>
               </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
-                Chọn ngôn ngữ
+                {t('settings.language')}
               </label>
               <div className="flex flex-wrap gap-2">
                 {languages.map(lang => (
                   <label key={lang.code} className="flex items-center gap-2 px-3 py-2 bg-heritage-cream-50 dark:bg-gray-700 rounded-lg border border-heritage-earth-200 dark:border-gray-600 cursor-pointer hover:bg-heritage-cream-100 dark:hover:bg-gray-600 transition-colors">
                     <input type="checkbox" className="rounded border-heritage-earth-300 dark:border-gray-500 text-purple-600 focus:ring-purple-500 bg-white dark:bg-gray-600" />
                     <span>{lang.flag}</span>
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{lang.name}</span>
+                    <span className="text-sm text-gray-700 dark:text-gray-300">{t(`language.${lang.code}`)}</span>
                   </label>
                 ))}
               </div>
             </div>
             <button className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg">
-              Tạo Audio
+              {t('admin.createAudio')}
             </button>
           </div>
         </div>

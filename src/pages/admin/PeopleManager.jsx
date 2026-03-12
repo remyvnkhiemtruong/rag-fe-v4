@@ -197,7 +197,7 @@ export default function PeopleManager({ onBack }) {
               {t('admin.peopleManagement')}
             </h2>
             <p className="text-sm text-heritage-earth-600 dark:text-gray-400">
-              {filteredPeople.length} nhân vật
+              {t('admin.peopleCount', { count: filteredPeople.length })}
             </p>
           </div>
         </div>
@@ -217,7 +217,7 @@ export default function PeopleManager({ onBack }) {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Tìm kiếm nhân vật..."
+          placeholder={t('admin.searchPeople')}
           className="w-full pl-12 pr-4 py-3 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-heritage-gold-500 focus:border-heritage-gold-500 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
         />
       </div>
@@ -227,7 +227,7 @@ export default function PeopleManager({ onBack }) {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-elegant border border-heritage-earth-200 dark:border-gray-700 p-6 theme-transition">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-display font-bold text-heritage-earth-900 dark:text-gray-100">
-              {isCreating ? 'Thêm nhân vật mới' : 'Chỉnh sửa nhân vật'}
+              {isCreating ? t('admin.addPeopleNew') : t('admin.editPeople')}
             </h3>
             <button
               onClick={handleCancel}
@@ -241,14 +241,14 @@ export default function PeopleManager({ onBack }) {
             {/* Name */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
-                Tên nhân vật *
+                {t('admin.peopleNameLabel')}
               </label>
               <input
                 type="text"
                 value={formData.name || ''}
                 onChange={(e) => handleFormChange('name', e.target.value)}
                 className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-heritage-gold-500 focus:border-heritage-gold-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                placeholder="Nhập tên nhân vật"
+                placeholder={t('admin.placeholderPeopleName')}
               />
             </div>
 
@@ -256,14 +256,14 @@ export default function PeopleManager({ onBack }) {
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
                 <MapPin className="inline w-4 h-4 mr-1" />
-                Quê quán
+                {t('admin.hometownLabel')}
               </label>
               <input
                 type="text"
                 value={formData.address || ''}
                 onChange={(e) => handleFormChange('address', e.target.value)}
                 className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-heritage-gold-500 focus:border-heritage-gold-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                placeholder="Nhập quê quán"
+                placeholder={t('admin.placeholderHometown')}
               />
             </div>
 
@@ -271,28 +271,28 @@ export default function PeopleManager({ onBack }) {
             <div>
               <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
                 <Calendar className="inline w-4 h-4 mr-1" />
-                Năm sinh
+                {t('admin.birthYearLabel')}
               </label>
               <input
                 type="text"
                 value={formData.birthYear || ''}
                 onChange={(e) => handleFormChange('birthYear', e.target.value)}
                 className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-heritage-gold-500 focus:border-heritage-gold-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                placeholder="VD: 1890"
+                placeholder={t('admin.exampleBirthYear')}
               />
             </div>
 
             {/* Death Year */}
             <div>
               <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
-                Năm mất
+                {t('admin.deathYearLabel')}
               </label>
               <input
                 type="text"
                 value={formData.deathYear || ''}
                 onChange={(e) => handleFormChange('deathYear', e.target.value)}
                 className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-heritage-gold-500 focus:border-heritage-gold-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                placeholder="VD: 1975"
+                placeholder={t('admin.exampleDeathYear')}
               />
             </div>
 
@@ -300,21 +300,21 @@ export default function PeopleManager({ onBack }) {
             <div>
               <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
                 <BookOpen className="inline w-4 h-4 mr-1" />
-                Vai trò / Chức vụ
+                {t('admin.roleLabel')}
               </label>
               <input
                 type="text"
                 value={formData.role || ''}
                 onChange={(e) => handleFormChange('role', e.target.value)}
                 className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-heritage-gold-500 focus:border-heritage-gold-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                placeholder="VD: Nhà cách mạng"
+                placeholder={t('admin.placeholderExample')}
               />
             </div>
 
             {/* Image URL */}
             <div>
               <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
-                URL hình ảnh
+                {t('admin.imageUrlLabel')}
               </label>
               <input
                 type="text"
@@ -328,28 +328,28 @@ export default function PeopleManager({ onBack }) {
             {/* Information */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
-                Tiểu sử
+                {t('admin.biographyLabel')}
               </label>
               <textarea
                 value={formData.information || ''}
                 onChange={(e) => handleFormChange('information', e.target.value)}
                 rows={4}
                 className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-heritage-gold-500 focus:border-heritage-gold-500 resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                placeholder="Nhập tiểu sử nhân vật..."
+                placeholder={t('admin.placeholderBio')}
               />
             </div>
 
             {/* Achievements */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-heritage-earth-700 dark:text-gray-300 mb-1.5">
-                Thành tựu / Đóng góp
+                {t('admin.achievementsLabel')}
               </label>
               <textarea
                 value={formData.achievements || ''}
                 onChange={(e) => handleFormChange('achievements', e.target.value)}
                 rows={3}
                 className="w-full px-4 py-2.5 border border-heritage-earth-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-heritage-gold-500 focus:border-heritage-gold-500 resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                placeholder="Liệt kê các thành tựu..."
+                placeholder={t('admin.placeholderAchievements')}
               />
             </div>
           </div>
@@ -380,19 +380,19 @@ export default function PeopleManager({ onBack }) {
             <thead>
               <tr className="bg-heritage-cream-50 dark:bg-gray-700/50 border-b border-heritage-earth-200 dark:border-gray-600">
                 <th className="text-left px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300">
-                  Tên nhân vật
+                  {t('admin.peopleNameLabel')}
                 </th>
                 <th className="text-left px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300 hidden md:table-cell">
-                  Quê quán
+                  {t('admin.hometownLabel')}
                 </th>
                 <th className="text-left px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300 hidden sm:table-cell">
-                  Vai trò
+                  {t('admin.roleLabel')}
                 </th>
                 <th className="text-left px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300 hidden lg:table-cell">
-                  Năm sinh
+                  {t('admin.birthYearLabel')}
                 </th>
                 <th className="text-right px-4 py-3 text-sm font-semibold text-heritage-earth-700 dark:text-gray-300">
-                  Thao tác
+                  {t('admin.actions')}
                 </th>
               </tr>
             </thead>
@@ -400,7 +400,7 @@ export default function PeopleManager({ onBack }) {
               {paginatedPeople.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-4 py-12 text-center text-heritage-earth-500 dark:text-gray-400">
-                    {searchQuery ? 'Không tìm thấy nhân vật phù hợp' : t('admin.noData')}
+                    {searchQuery ? t('admin.noPeopleMatch') : t('admin.noData')}
                   </td>
                 </tr>
               ) : (
@@ -421,7 +421,7 @@ export default function PeopleManager({ onBack }) {
                     </td>
                     <td className="px-4 py-3 hidden sm:table-cell">
                       <span className="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-heritage-gold-100 dark:bg-heritage-gold-900/30 text-heritage-gold-700 dark:text-heritage-gold-300">
-                        {person.role || 'Chưa xác định'}
+                        {person.role || t('admin.roleUndefined')}
                       </span>
                     </td>
                     <td className="px-4 py-3 hidden lg:table-cell">
@@ -458,7 +458,7 @@ export default function PeopleManager({ onBack }) {
         {totalPages > 1 && (
           <div className="flex items-center justify-between px-4 py-3 border-t border-heritage-earth-100 dark:border-gray-700">
             <div className="text-sm text-heritage-earth-600 dark:text-gray-400">
-              Trang {currentPage} / {totalPages}
+              {t('admin.pageOfTotal', { current: currentPage, total: totalPages, count: filteredPeople.length })}
             </div>
             <div className="flex items-center gap-2">
               <button

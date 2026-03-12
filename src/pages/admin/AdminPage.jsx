@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import AdminLogin from './AdminLogin';
 import AdminDashboard from './AdminDashboard';
@@ -17,6 +18,7 @@ import LiteratureManagement from './LiteratureManagement';
 import SettingsPage from './SettingsPage';
 
 export default function AdminPage() {
+  const { t } = useTranslation();
   const { isAuthenticated, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('dashboard');
 
@@ -26,7 +28,7 @@ export default function AdminPage() {
       <div className="min-h-screen flex items-center justify-center bg-heritage-cream-50">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-heritage-red-600 border-t-transparent rounded-full animate-spin" />
-          <p className="text-heritage-earth-600">Đang tải...</p>
+          <p className="text-heritage-earth-600">{t('common.loading')}</p>
         </div>
       </div>
     );

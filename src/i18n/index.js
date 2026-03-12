@@ -78,10 +78,10 @@ i18n
 export default i18n;
 
 export const languages = [
-  { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳', dir: 'ltr' },
-  { code: 'en', name: 'Tiếng Anh', flag: '🇺🇸', dir: 'ltr' },
-  { code: 'zh', name: 'Tiếng Hoa', flag: '🇨🇳', dir: 'ltr' },
-  { code: 'km', name: 'Tiếng Khmer', flag: '🇰🇭', dir: 'ltr' },
+  { code: 'vi', name: 'Vietnamese', flag: 'VN', dir: 'ltr' },
+  { code: 'en', name: 'English', flag: 'US', dir: 'ltr' },
+  { code: 'zh', name: 'Traditional Chinese', flag: 'CN', dir: 'ltr' },
+  { code: 'km', name: 'Khmer', flag: 'KH', dir: 'ltr' },
 ];
 
 export const getCurrentLanguage = () => {
