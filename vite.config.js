@@ -1,19 +1,39 @@
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
 // https://vite.dev/config/
 export default defineConfig({
   resolve: {
-    dedupe: ['react', 'react-dom'],
+    dedupe: ['react', 'react-dom', 'react/jsx-runtime'],
     alias: {
-      react: path.resolve(process.cwd(), 'node_modules/react'),
-      'react-dom': path.resolve(process.cwd(), 'node_modules/react-dom'),
+      react: path.resolve(__dirname, 'node_modules/react'),
+      'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
+      'void-elements': path.resolve(__dirname, 'src/shims/void-elements.js'),
     },
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-i18next', 'i18next'],
+    include: [
+      'react',
+      'react-dom',
+      'react/jsx-runtime',
+      'i18next',
+      'react-i18next',
+      'framer-motion',
+      'react-markdown',
+      'remark-gfm',
+    ],
+    exclude: ['html-parse-stringify'],
+  },
+  server: {
+    port: 5173,
+    strictPort: false,
+    // Tắt HMR để tránh lỗi WebSocket khi kết nối ws:// thất bại (firewall/proxy). Sửa code xong refresh trang.
+    hmr: false,
   },
   plugins: [
     react(),

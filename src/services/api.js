@@ -265,22 +265,33 @@ const musicApi = {
   },
 
   /**
-   * Admin: Create music (multiple links)
+   * Admin: Create one music (metadata + YouTube link or MP3 file)
    * POST /api/admin/music
-   * Body: { links: string[] }
+   * Body: { title, author, performer, year_signed, source_type, youtube_url } or FormData with music_mp3
    */
-  async create(links) {
+  async create(body) {
+    const isForm = body instanceof FormData;
     const res = await fetch(`${API_BASE_URL}/admin/music`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ links }),
+      ...(isForm ? { body } : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }),
     });
     const result = await parseJsonResponse(res);
-    if (!res.ok) {
-      throw new Error(result?.error || 'Failed to create music');
-    }
+    if (!res.ok) throw new Error(result?.error || 'Failed to create music');
+    return result;
+  },
+
+  /**
+   * Admin: Update music
+   * PUT /api/admin/music/:id
+   */
+  async update(id, body) {
+    const isForm = body instanceof FormData;
+    const res = await fetch(`${API_BASE_URL}/admin/music/${id}`, {
+      method: 'PUT',
+      ...(isForm ? { body } : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }),
+    });
+    const result = await parseJsonResponse(res);
+    if (!res.ok) throw new Error(result?.error || 'Failed to update music');
     return result;
   },
 
@@ -359,20 +370,33 @@ const fineArtApi = {
   },
 
   /**
-   * Admin: Create fineart (upload multiple images)
+   * Admin: Create one fineart (metadata + upload image or image link)
    * POST /api/admin/fineart
-   * Body: FormData
-   * - fineart (files[])
+   * Body: FormData (title, author, created_date, fineart) or JSON { title, author, created_date, image_link }
    */
-  async create(formData) {
+  async create(body) {
+    const isForm = body instanceof FormData;
     const res = await fetch(`${API_BASE_URL}/admin/fineart`, {
       method: 'POST',
-      body: formData,
+      ...(isForm ? { body } : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...body, image_link: body.image_link || null }) }),
     });
     const result = await parseJsonResponse(res);
-    if (!res.ok) {
-      throw new Error(result?.error || 'Failed to upload fineart');
-    }
+    if (!res.ok) throw new Error(result?.error || 'Failed to create fineart');
+    return result;
+  },
+
+  /**
+   * Admin: Update fineart
+   * PUT /api/admin/fineart/:id
+   */
+  async update(id, body) {
+    const isForm = body instanceof FormData;
+    const res = await fetch(`${API_BASE_URL}/admin/fineart/${id}`, {
+      method: 'PUT',
+      ...(isForm ? { body } : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...body, image_link: body.image_link || null }) }),
+    });
+    const result = await parseJsonResponse(res);
+    if (!res.ok) throw new Error(result?.error || 'Failed to update fineart');
     return result;
   },
 
@@ -473,7 +497,31 @@ const literatureApi = createPublicInfoApi('literature');
 // ===== ADMIN APIs (used by CMS, dashboard)
 const adminEconomicsApi = createAdminInfoApi('economics');
 const adminGeographyApi = createAdminInfoApi('geography');
-const adminLiteratureApi = createAdminInfoApi('literature');
+
+// Literature admin: create/update accept JSON or FormData (for audio upload)
+const adminLiteratureApi = {
+  ...createAdminInfoApi('literature'),
+  async create(body) {
+    const isForm = body instanceof FormData;
+    const res = await fetch(`${API_BASE_URL}/admin/literature`, {
+      method: 'POST',
+      ...(isForm ? { body } : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }),
+    });
+    const result = await parseJsonResponse(res);
+    if (!res.ok) throw new Error(result?.error || 'Failed to create literature');
+    return result;
+  },
+  async update(id, body) {
+    const isForm = body instanceof FormData;
+    const res = await fetch(`${API_BASE_URL}/admin/literature/${id}`, {
+      method: 'PUT',
+      ...(isForm ? { body } : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }),
+    });
+    const result = await parseJsonResponse(res);
+    if (!res.ok) throw new Error(result?.error || 'Failed to update literature');
+    return result;
+  },
+};
 
 export {
   heritageApi,

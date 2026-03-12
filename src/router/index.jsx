@@ -10,7 +10,7 @@ function RouteErrorFallback() {
   const { t } = useTranslation();
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center p-6 bg-heritage-cream-50 dark:bg-gray-900">
-      <p className="text-gray-700 dark:text-gray-300 mb-4">{t('map.mapError')}</p>
+      <p className="text-gray-700 dark:text-gray-300 mb-4">{t('common.errorOccurred') || 'Đã xảy ra lỗi.'}</p>
       <button
         type="button"
         onClick={() => navigate(-1)}
@@ -45,11 +45,31 @@ const SettingsPage = lazy(() => import('../pages/admin/SettingsPage'));
 function PageLoader() {
   const { t } = useTranslation();
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-heritage-cream-50 dark:bg-gray-900">
-      <div className="text-center">
-        <img src="/logo-camau.svg" alt="" className="h-24 w-auto mx-auto mb-6 animate-pulse" />
-        <div className="w-10 h-10 border-2 border-heritage-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-gray-600 dark:text-gray-400 text-sm">{t('common.loading')}</p>
+    <div
+      className="min-h-screen w-full flex flex-col items-center justify-center bg-heritage-cream-50 dark:bg-gray-900"
+      style={{ padding: 'clamp(1rem, 5vw, 2rem)' }}
+    >
+      <div className="flex flex-col items-center justify-center w-full max-w-[280px]">
+        {/* Logo: vùng cố định để pulse không làm lệch bố cục */}
+        <div className="flex items-center justify-center h-[7rem] w-full shrink-0">
+          <img
+            src="/logo-camau.svg"
+            alt=""
+            className="h-24 w-auto max-h-[7rem] object-contain object-center animate-pulse"
+          />
+        </div>
+        {/* Khoảng cách cố định giữa logo và spinner */}
+        <div className="h-8 shrink-0" aria-hidden />
+        {/* Spinner + chữ: nhóm thống nhất, căn giữa */}
+        <div className="flex flex-col items-center justify-center gap-2 w-full">
+          <div
+            className="w-10 h-10 sm:w-12 sm:h-12 border-2 border-heritage-red-600 border-t-transparent rounded-full animate-spin shrink-0"
+            aria-hidden
+          />
+          <p className="text-gray-600 dark:text-gray-400 text-sm text-center w-full max-w-[12rem] leading-snug">
+            {t('common.loading')}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -170,7 +190,9 @@ const routes = [
   },
 ];
 
-const router = createBrowserRouter(routes);
+const router = createBrowserRouter(routes, {
+  future: { v7_startTransition: true },
+});
 
 export default function AppRouter() {
   return <RouterProvider router={router} />;

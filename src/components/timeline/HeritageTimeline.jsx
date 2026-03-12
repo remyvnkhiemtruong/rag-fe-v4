@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Calendar, MapPin, Award, ArrowRight } from 'lucide-react';
 import { formatHeritageLocation } from '../../utils/formatLocation';

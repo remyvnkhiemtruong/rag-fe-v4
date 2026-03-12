@@ -5,15 +5,15 @@ const PopularDestinations = () => {
   const { t } = useTranslation();
   
   const destinationsData = [
-    { id: 1, name: 'Mũi Cà Mau', places: '05', imageUrl: 'https://i1-dulich.vnecdn.net/2019/10/14/Dat-Mui-Ca-Mau-Vnexpress8-1571050207.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=K8J7AdLWVcwKS9v0uof-9w' },
-    { id: 2, name: 'Vườn QG U Minh Hạ', places: '03', imageUrl: 'https://res.cloudinary.com/dybmh6wnf/image/upload/v1770215239/vuonquocgia_rgz2mx.jpg' },
+    { id: 1, name: 'Mũi Cà Mau', places: '05', imageUrl: 'https://sqrtos.my.canva.site/dahduj4wfyw/_assets/media/8818f84b1d0cc5cfffdfe9aef95ce19a.jpg' },
+    { id: 2, name: 'Vườn Quốc gia U Minh Hạ', places: '03', imageUrl: 'https://res.cloudinary.com/dybmh6wnf/image/upload/v1770215239/vuonquocgia_rgz2mx.jpg' },
     { id: 3, name: 'Hòn Khoai', places: '02', imageUrl: 'https://res.cloudinary.com/dybmh6wnf/image/upload/v1770215043/dao-hon-khoai_mv6mal.jpg' },
     { id: 4, name: 'Mẹ Quan âm Nam Hải', places: '04', imageUrl: 'https://thamhiemmekong.com/wp-content/uploads/2020/04/phatbanamhaibaclieu.jpg' },
-    { id: 5, name: 'Nhà Công Tử Bạc Liêu', places: '06', imageUrl: 'https://res.cloudinary.com/dybmh6wnf/image/upload/v1770215041/congtubaclieu_eaqpd7.jpg' },
-    { id: 6, name: 'Cánh Đồng Điện Gió', places: '08', imageUrl: 'https://res.cloudinary.com/dybmh6wnf/image/upload/v1770215042/canhdongdiengio_djnmfh.jpg' },
+    { id: 5, name: 'Nhà Công tử Bạc Liêu', places: '06', imageUrl: 'https://res.cloudinary.com/dybmh6wnf/image/upload/v1770215041/congtubaclieu_eaqpd7.jpg' },
+    { id: 6, name: 'Cánh đồng điện gió', places: '08', imageUrl: 'https://res.cloudinary.com/dybmh6wnf/image/upload/v1770215042/canhdongdiengio_djnmfh.jpg' },
     { id: 7, name: 'Khu lưu niệm nhạc sĩ Cao Văn Lầu', places: '04', imageUrl: 'https://thamhiemmekong.com/wp-content/uploads/2020/06/khuluuniemnhacsicaovanlau01.jpg' },
     { id: 8, name: 'Đầm Thị Tường', places: '04', imageUrl: 'https://thamhiemmekong.com/wp-content/uploads/2020/05/damthituongcamau.jpg' },
-    { id: 9, name: 'Quãng trường Phan Ngọc Hiển', places: '04', imageUrl: 'https://images2.thanhnien.vn/528068263637045248/2025/10/14/anh-1-1760416257166897519129.jpg' },
+    { id: 9, name: 'Quảng trường Phan Ngọc Hiển', places: '04', imageUrl: 'https://images2.thanhnien.vn/528068263637045248/2025/10/14/anh-1-1760416257166897519129.jpg' },
   ];
 
   return (

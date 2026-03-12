@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { MessageSquare, Gamepad2, Map, Clock, Volume2, Heart } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 function FeatureCard({ feature, index }) {
