@@ -130,7 +130,7 @@ export function Header({ onMenuClick }) {
               {/* Title */}
               <div className="min-w-0 flex-1">
                 <h1 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-white leading-tight truncate">
-                  <span className="font-serif">{t('header.heritage')}</span>
+                  <span className="font-display">{t('header.heritage')}</span>
                   <span className="hidden sm:inline text-heritage-gold-300 font-normal mx-2">—</span>
                   <span className="hidden sm:inline text-heritage-gold-300 font-normal text-sm sm:text-base md:text-lg lg:text-xl">
                     {t('header.location')}

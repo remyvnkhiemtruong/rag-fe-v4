@@ -49,7 +49,7 @@ const PopularDestinations = () => {
 
               {/* Card Content */}
               <div className="absolute bottom-0 left-0 p-6 w-full">
-                <h3 className="text-white text-xl font-bold drop-shadow-md">
+                <h3 className="text-white text-xl font-bold drop-shadow-md text-outline-black-1">
                   {item.name}
                 </h3>
                 

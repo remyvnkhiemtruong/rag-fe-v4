@@ -168,7 +168,7 @@ export default function SettingsPage({ onBack }) {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 flex-wrap">
+              <div className="flex items-center gap-3 flex-wrap ml-8">
                 <button
                   onClick={() => setDarkMode(false)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${

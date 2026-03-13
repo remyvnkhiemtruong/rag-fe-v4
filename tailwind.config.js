@@ -50,9 +50,10 @@ export default {
       },
       fontFamily: {
         // Tiêu đề sang trọng kiểu tạp chí du lịch
-        display: ['Cormorant Garamond', 'serif'],
+        sans: ['Be Vietnam Pro', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['Inter', 'system-ui', 'sans-serif'],
         // Nội dung cực kỳ dễ đọc, chuẩn modern UI
-        body: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+        body: ['Be Vietnam Pro', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       boxShadow: {
         // Soft ambient shadows (đặc trưng của modern design)
