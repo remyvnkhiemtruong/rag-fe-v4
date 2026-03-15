@@ -1,8 +1,75 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Mail, School, Users, Landmark, MapPin, ExternalLink } from 'lucide-react';
 
+const FAKE_VISIT_COUNT_KEY = 'fake-visit-count';
+
+function getRandomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export function Footer() {
   const { t } = useTranslation();
+  const [fakeVisits, setFakeVisits] = useState(() => {
+    if (typeof window === 'undefined') {
+      return 1000;
+    }
+
+    const storedValue = window.localStorage.getItem(FAKE_VISIT_COUNT_KEY);
+
+    if (storedValue) {
+      const parsedValue = Number(storedValue);
+
+      if (Number.isFinite(parsedValue)) {
+        return parsedValue;
+      }
+    }
+
+    const initialValue = getRandomInteger(1000, 2000);
+    window.localStorage.setItem(FAKE_VISIT_COUNT_KEY, String(initialValue));
+    return initialValue;
+  });
+  const [onlineUsers, setOnlineUsers] = useState(() => getRandomInteger(15, 20));
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
+    const storedValue = window.localStorage.getItem(FAKE_VISIT_COUNT_KEY);
+
+    if (!storedValue) {
+      const initialValue = getRandomInteger(1000, 2000);
+      window.localStorage.setItem(FAKE_VISIT_COUNT_KEY, String(initialValue));
+      setFakeVisits(initialValue);
+      return undefined;
+    }
+
+    const parsedValue = Number(storedValue);
+
+    if (Number.isFinite(parsedValue)) {
+      setFakeVisits(parsedValue);
+      return undefined;
+    }
+
+    const fallbackValue = getRandomInteger(1000, 2000);
+    window.localStorage.setItem(FAKE_VISIT_COUNT_KEY, String(fallbackValue));
+    setFakeVisits(fallbackValue);
+    return undefined;
+  }, []);
+
+  useEffect(() => {
+    const updateOnlineUsers = () => {
+      setOnlineUsers(getRandomInteger(15, 20));
+    };
+
+    const intervalId = window.setInterval(updateOnlineUsers, getRandomInteger(5000, 8000));
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <footer className="bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-t border-slate-200 dark:border-gray-700 relative mb-20 md:mb-0">
       <div className="h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-gray-600 to-transparent" />
@@ -82,6 +149,11 @@ export function Footer() {
         </div>
         <div className="border-t border-slate-200 dark:border-gray-700 mt-12 pt-6 text-center text-sm text-slate-400 dark:text-gray-500">
           {t('footer.copyright')}
+          <div className="mt-2 text-xs text-slate-500 dark:text-gray-400 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+            <span>{'T\u1ed5ng truy c\u1eadp: '} {fakeVisits.toLocaleString('vi-VN')}</span>
+            <span className="hidden sm:inline" aria-hidden="true">&bull;</span>
+            <span>{'\u0110ang truy c\u1eadp: '} {onlineUsers}</span>
+          </div>
         </div>
       </div>
     </footer>
