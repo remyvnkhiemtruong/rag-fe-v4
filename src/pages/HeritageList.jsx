@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Search, Grid, List, MapPin, Landmark, RotateCcw, Calendar, ChevronRight, ChevronsRight, Filter, X } from 'lucide-react';
+import { Search, Grid, List, MapPin, RotateCcw, Calendar, Filter, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { HeritageDetailModal } from '../components/Detail';
 import { MusicGallery } from './MusicGallery';
@@ -10,8 +10,14 @@ import EconomicGallery from './EconomicGallery';
 import GeographyGallery from './GeographyGallery';
 import LiteratureGallery from './LiteratureGallery';
 import { formatHeritageLocation } from '../utils/formatLocation';
+import { hasRecognizedYear } from '../utils/heritageDisplay';
+import { getRankingStyle, hasDisplayableRanking, normalizeRankingCode } from '../utils/ranking';
 
 const getItemCommune = (item) => item.commune || '';
+const locationTextOutlineStyle = {
+  WebkitTextStroke: '1px #000000',
+  paintOrder: 'stroke fill',
+};
 
 export const getCategoryBadgeStyle = (category) => {
   switch (category) {
@@ -29,7 +35,7 @@ export const getCategoryBadgeStyle = (category) => {
 export function formatCategoryLabel(value, t) {
   if (!t) return value;
   switch (value) {
-    case 'di_san': return t('heritageList.categoryDiSan');
+    case 'di_san': return t('heritageList.filterLocation');
     case 'di_tich': return t('heritageList.categoryDiTich');
     case 'cong_trinh_nghe_thuat': return t('heritageList.categoryCongTrinh');
     case 'kinh_te': return t('heritageList.categoryKinhTe');
@@ -48,6 +54,10 @@ export default function HeritageListPage() {
   const { t, i18n } = useTranslation();
   const formatCategoryLabel = useCategoryLabel(t);
   const lang = i18n.language || 'vi';
+  const formatRankingLabel = (value) => {
+    const code = normalizeRankingCode(value);
+    return code ? t(`ranking.${code}`) : value;
+  };
 
   const [filters, setFilters] = useState({ ranking: '', type: '', commune: '', category: '' });
   const [viewMode, setViewMode] = useState('grid');
@@ -61,7 +71,7 @@ export default function HeritageListPage() {
   const [pagination, setPagination] = useState({ page: 1, limit: 12, total: 0, totalPages: 0 });
 
   const navTabs = [
-    { key: 'heritage', labelKey: 'heritageList.tabHeritage' },
+    { key: 'heritage', labelKey: 'heritageList.filterLocation' },
     { key: 'music', labelKey: 'heritageList.tabMusic' },
     { key: 'finearts', labelKey: 'heritageList.tabFineArts' },
     { key: 'kinh_te', labelKey: 'heritageList.tabKinhTe' },
@@ -106,7 +116,10 @@ export default function HeritageListPage() {
   }, [heritageData, filters, searchQuery, activeTab]);
 
   const availableCommunes = useMemo(() => Array.from(new Set(heritageData.map(getItemCommune).filter(Boolean))).sort(), [heritageData]);
-  const availableRankings = useMemo(() => Array.from(new Set(heritageData.map(i => i.ranking_type).filter(Boolean))).sort(), [heritageData]);
+  const availableRankings = useMemo(
+    () => Array.from(new Set(heritageData.map(i => i.ranking_type).filter(hasDisplayableRanking))).sort(),
+    [heritageData]
+  );
   const availableCategories = useMemo(() => Array.from(new Set(heritageData.map(i => i.category).filter(Boolean))), [heritageData]);
 
   const handleFilterChange = (key, value) => setFilters(prev => ({ ...prev, [key]: value }));
@@ -126,12 +139,6 @@ export default function HeritageListPage() {
           {num}
         </button>
       ))}
-      <button className="w-10 h-10 rounded-full flex items-center justify-center border border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-        <ChevronRight size={18} />
-      </button>
-      <button className="w-10 h-10 rounded-full flex items-center justify-center border border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-        <ChevronsRight size={18} />
-      </button>
     </div>
   );
 
@@ -193,19 +200,19 @@ export default function HeritageListPage() {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="overflow-hidden border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50"
             >
-              <div className="py-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 gap-4 py-6 md:grid-cols-4 md:items-end">
                 {[
                   { labelKey: 'heritageList.filterLocation', value: filters.commune, key: 'commune', options: availableCommunes, display: (v) => v },
                   { labelKey: 'heritageList.filterLevel', value: filters.ranking, key: 'ranking', options: availableRankings, display: (v) => v },
                   { labelKey: 'heritageList.filterCategory', value: filters.category, key: 'category', options: availableCategories, display: formatCategoryLabel }
                 ].map((field) => (
-                  <div key={field.key}>
+                  <div key={field.key} className="flex h-full flex-col">
                     <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">{t(field.labelKey)}</label>
                     <div className="relative">
                       <select
                         value={field.value}
                         onChange={(e) => handleFilterChange(field.key, e.target.value)}
-                        className="w-full p-2.5 pl-3 pr-8 text-sm border border-gray-200 rounded-lg bg-white focus:border-[#0077D4] focus:ring-1 focus:ring-[#0077D4] outline-none appearance-none cursor-pointer hover:border-gray-300 transition-colors"
+                        className="h-11 w-full rounded-lg border border-gray-200 bg-white p-2.5 pl-3 pr-8 text-sm outline-none transition-colors hover:border-gray-300 focus:border-[#0077D4] focus:ring-1 focus:ring-[#0077D4] appearance-none cursor-pointer"
                       >
                         <option value="">{t('heritageList.all')}</option>
                         {field.options.map(opt => <option key={opt} value={opt}>{field.display(opt)}</option>)}
@@ -217,10 +224,10 @@ export default function HeritageListPage() {
                   </div>
                 ))}
 
-                <div className="flex items-end">
+                <div className="flex h-full items-end">
                   <button
                     onClick={clearFilters}
-                    className="w-full py-2.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 hover:border-red-200 dark:hover:border-red-800 text-gray-600 dark:text-gray-300 text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-2 shadow-sm"
+                    className="flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-600 shadow-sm transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-600 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:border-red-800 dark:hover:bg-red-900/20"
                   >
                     <RotateCcw className="w-4 h-4" /> {t('heritageList.resetFilter')}
                   </button>
@@ -267,46 +274,59 @@ export default function HeritageListPage() {
                     transition={{ duration: 0.4 }}
                     className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4' : 'grid-cols-1'}`}
                   >
-                    {filteredData.map(item => (
-                      <motion.div
-                        layout
-                        key={item.id}
-                        className="group bg-white dark:bg-gray-800 rounded-sm border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden relative"
-                        onClick={() => setSelectedItem(item)}
-                      >
-                        <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-700">
-                          <img
-                            src={item.image_url || 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=800'}
-                            alt={item.name}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                          />
-                          <div className="absolute top-3 left-3 bg-[#1EC6B6]/90 backdrop-blur-sm text-white px-3 py-1 rounded text-xs font-bold shadow-sm">
-                            {item.ranking_type}
-                          </div>
-                          {item.category && (
-                            <div className={`absolute top-3 right-3 px-3 py-1 rounded text-xs font-bold shadow-sm backdrop-blur-sm ${getCategoryBadgeStyle(item.category)}`}>
-                              {formatCategoryLabel(item.category)}
-                            </div>
-                          )}
-                        </div>
+                    {filteredData.map((item) => {
+                      const showRankingBadge = hasDisplayableRanking(item.ranking_type);
+                      const rankingStyle = getRankingStyle(item.ranking_type);
+                      const rankingLabel = formatRankingLabel(item.ranking_type);
 
-                        <div className="p-4">
-                          <h3 className="text-base font-bold text-gray-800 mb-2 leading-tight group-hover:text-[#0077D4] transition-colors line-clamp-2 min-h-[40px]">
-                            {item.name}
-                          </h3>
-                          <div className="space-y-1.5">
-                            <div className="flex items-start gap-2 text-gray-500 dark:text-gray-400 text-xs">
-                              <MapPin className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500 mt-0.5 flex-shrink-0" />
-                              <span className="line-clamp-1">{formatHeritageLocation(item, t)}</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs">
-                              <Calendar className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500" />
-                              <span>{t('heritageList.yearRanked')}: {item.year_ranked || t('heritageList.na')}</span>
+                      return (
+                        <motion.div
+                          layout
+                          key={item.id}
+                          className="group bg-white dark:bg-gray-800 rounded-sm border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden relative"
+                          onClick={() => setSelectedItem(item)}
+                        >
+                          <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-700">
+                            <img
+                              src={item.image_url || 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=800'}
+                              alt={item.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                            {showRankingBadge && (
+                              <div className={`absolute top-3 left-3 rounded border px-3 py-1 text-xs font-bold shadow-sm backdrop-blur-sm ${rankingStyle.badgeSolid}`}>
+                                {rankingLabel}
+                              </div>
+                            )}
+                            {item.category && (
+                              <div className={`absolute top-3 right-3 px-3 py-1 rounded text-xs font-bold shadow-sm backdrop-blur-sm ${getCategoryBadgeStyle(item.category)}`}>
+                                {formatCategoryLabel(item.category)}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="p-4">
+                            <h3
+                              className="text-base font-bold text-gray-800 mb-2 leading-tight group-hover:text-[#0077D4] transition-colors line-clamp-2 min-h-[40px]"
+                              style={locationTextOutlineStyle}
+                            >
+                              {item.name}
+                            </h3>
+                            <div className="space-y-1.5">
+                              <div className="flex items-start gap-2 text-gray-500 dark:text-gray-400 text-xs">
+                                <MapPin className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500 mt-0.5 flex-shrink-0" />
+                                <span className="line-clamp-1">{formatHeritageLocation(item, t)}</span>
+                              </div>
+                              {hasRecognizedYear(item.year_ranked) && (
+                                <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs">
+                                  <Calendar className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500" />
+                                  <span>{t('heritageList.yearRanked')}: {item.year_ranked}</span>
+                                </div>
+                              )}
                             </div>
                           </div>
-                        </div>
-                      </motion.div>
-                    ))}
+                        </motion.div>
+                      );
+                    })}
                   </motion.div>
                 </AnimatePresence>
               )}

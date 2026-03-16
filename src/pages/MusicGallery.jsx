@@ -125,14 +125,13 @@ export const MusicGallery = () => {
               x
             </button>
 
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1 pr-8">
-              {selectedMusic.title || t("music.untitled")}
-            </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-              {selectedMusic.author && `${t("music.author")}: ${selectedMusic.author}`}
-              {selectedMusic.performer && ` - ${t("music.performer")}: ${selectedMusic.performer}`}
-              {selectedMusic.year_signed && ` - ${selectedMusic.year_signed}`}
-            </p>
+            {(selectedMusic.author || selectedMusic.performer || selectedMusic.year_signed) && (
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 pr-8">
+                {selectedMusic.author && `${t("music.author")}: ${selectedMusic.author}`}
+                {selectedMusic.performer && ` - ${t("music.performer")}: ${selectedMusic.performer}`}
+                {selectedMusic.year_signed && ` - ${selectedMusic.year_signed}`}
+              </p>
+            )}
 
             {selectedMusic.source_type === "mp3" && audioUrl(selectedMusic) ? (
               <audio

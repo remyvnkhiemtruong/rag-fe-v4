@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { X, MapPin, Calendar, Info, Volume2, Pause, Play, Loader, Landmark, Award, Star, Sparkles, Video, Image as ImageIcon } from 'lucide-react';
 import { heritageApi } from '../services/api';
 import { formatCategoryLabel } from '../pages/HeritageList';
-import { getRankingStyle, normalizeRankingCode, RANKING_CODES } from '../utils/ranking';
+import { getRankingStyle, hasDisplayableRanking, normalizeRankingCode, RANKING_CODES } from '../utils/ranking';
 import { ADMIN_LEGAL_BASIS } from '../data/adminCrosswalk';
+import { hasRecognizedYear } from '../utils/heritageDisplay';
 export function HeritageDetailModal({ itemId, initialItem, onClose, language = 'vi' }) {
     const { t } = useTranslation();
     const [item, setItem] = useState(initialItem);
@@ -122,7 +123,8 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
     // Ranking style and label from util (language-agnostic code)
     const rankingCode = normalizeRankingCode(item.ranking_type);
     const rankingStyle = getRankingStyle(item.ranking_type);
-    const rankingLabel = rankingCode ? t(`ranking.${rankingCode}`) : (item.ranking_type || '');
+    const showRankingBadge = hasDisplayableRanking(item.ranking_type);
+    const rankingLabel = rankingCode ? t(`ranking.${rankingCode}`) : (showRankingBadge ? item.ranking_type : '');
     const RankingIcon = rankingCode === RANKING_CODES.NATIONAL_SPECIAL ? Star : rankingCode === RANKING_CODES.NATIONAL ? Award : Landmark;
 
     const getCategoryStyle = (category) => {
@@ -210,10 +212,12 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                         <div className="mb-3 flex flex-wrap gap-2">
                             {/* Ranking Badge */}
-                            <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border ${rankingStyle.badge}`}>
-                                <RankingIcon className="w-4 h-4" />
-                                {rankingLabel}
-                            </span>
+                            {showRankingBadge && (
+                                <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border ${rankingStyle.badgeSolid}`}>
+                                    <RankingIcon className="w-4 h-4" />
+                                    {rankingLabel}
+                                </span>
+                            )}
 
                             {/* Category Badge */}
                             {item.category && (
@@ -232,7 +236,7 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                                     <span>Xây dựng: {item.year_built}</span>
                                 </div>
                             )}
-                            {item.year_ranked && (
+                            {hasRecognizedYear(item.year_ranked) && (
                                 <div className="flex items-center gap-1.5 bg-heritage-earth-900/60 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
                                     <Award className="w-4 h-4 text-heritage-gold-400" />
                                     <span>Xếp hạng: {item.year_ranked}</span>
@@ -483,13 +487,13 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                             </div>
                         )}
 
-                        {(rankingLabel || item.ranking_type) && (
+                        {showRankingBadge && (
                             <div className="p-4 rounded-xl bg-heritage-cream-50 dark:bg-gray-700 border border-heritage-earth-200 dark:border-gray-600">
                                 <div className="flex items-center gap-2 text-sm text-heritage-earth-500 dark:text-gray-400 mb-1">
                                     <Award className="w-4 h-4 text-heritage-gold-500" />
                                     <span>{t('detail.rankingType')}</span>
                                 </div>
-                                <div className="font-semibold text-heritage-earth-900 dark:text-gray-100">{rankingLabel || item.ranking_type}</div>
+                                <div className="font-semibold text-heritage-earth-900 dark:text-gray-100">{rankingLabel}</div>
                             </div>
                         )}
                     </div>

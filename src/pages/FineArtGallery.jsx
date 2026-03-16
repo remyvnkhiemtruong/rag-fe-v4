@@ -97,7 +97,6 @@ export const FineArtsGallery = () => {
               />
             )}
             <div className="p-4 text-gray-900 dark:text-gray-100">
-              <h3 className="text-lg font-semibold">{selectedItem.title || "—"}</h3>
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 {selectedItem.author && `${t("fineart.author", "Tác giả")}: ${selectedItem.author}`}
                 {selectedItem.created_date && ` · ${t("fineart.createdDate", "Ngày tạo")}: ${selectedItem.created_date}`}
