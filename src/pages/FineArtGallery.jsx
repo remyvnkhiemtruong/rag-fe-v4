@@ -46,32 +46,38 @@ export const FineArtsGallery = () => {
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {images.map((item) => (
-          <div
-            key={item.id}
-            className="overflow-hidden rounded-lg shadow hover:shadow-lg transition cursor-pointer bg-white dark:bg-gray-800"
-            onClick={() => setSelectedItem(item)}
-          >
-            {item.fineart_url ? (
-              <img
-                src={item.fineart_url}
-                alt={item.title || "fine art"}
-                className="w-full h-48 object-cover hover:scale-105 transition duration-300"
-              />
-            ) : (
-              <div className="w-full h-48 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
-                <Palette className="w-12 h-12 text-gray-400" />
-              </div>
-            )}
-            <div className="p-3">
-              <h3 className="font-medium text-gray-800 dark:text-gray-200 truncate">{item.title || "—"}</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                {item.author && `${item.author}`}
-                {item.created_date && ` · ${item.created_date}`}
-              </p>
+        {images.map((item) => {
+          const metadata = [item.author, item.created_date]
+            .filter(Boolean)
+            .join(" · ");
+
+          return (
+            <div
+              key={item.id}
+              className="overflow-hidden rounded-lg shadow hover:shadow-lg transition cursor-pointer bg-white dark:bg-gray-800"
+              onClick={() => setSelectedItem(item)}
+            >
+              {item.fineart_url ? (
+                <img
+                  src={item.fineart_url}
+                  alt={item.title || "fine art"}
+                  className="w-full h-48 object-cover hover:scale-105 transition duration-300"
+                />
+              ) : (
+                <div className="w-full h-48 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
+                  <Palette className="w-12 h-12 text-gray-400" />
+                </div>
+              )}
+              {metadata && (
+                <div className="p-3">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                    {metadata}
+                  </p>
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {selectedItem && (
