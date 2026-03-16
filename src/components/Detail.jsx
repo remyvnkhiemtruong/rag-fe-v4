@@ -6,6 +6,7 @@ import { formatCategoryLabel } from '../pages/HeritageList';
 import { getRankingStyle, hasDisplayableRanking, normalizeRankingCode, RANKING_CODES } from '../utils/ranking';
 import { ADMIN_LEGAL_BASIS } from '../data/adminCrosswalk';
 import { hasRecognizedYear } from '../utils/heritageDisplay';
+import { stripCaMauSuffix } from '../utils/formatLocation';
 export function HeritageDetailModal({ itemId, initialItem, onClose, language = 'vi' }) {
     const { t } = useTranslation();
     const [item, setItem] = useState(initialItem);
@@ -167,6 +168,7 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
     if (!item) return null;
 
     const categoryStyle = getCategoryStyle(item.category);
+    const displayAddress = stripCaMauSuffix(item.address || item.commune || '');
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-heritage-earth-950/70 backdrop-blur-sm animate-fade-in">
@@ -228,7 +230,12 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                             )}
                         </div>
 
-                        <h2 className="text-2xl sm:text-3xl font-display font-bold mb-3 drop-shadow-lg">{item.name}</h2>
+                        <h2
+                            className="text-2xl sm:text-3xl font-display font-bold mb-3 drop-shadow-lg [--detail-title-stroke:#FFFFFF] dark:[--detail-title-stroke:#000000]"
+                            style={{ WebkitTextStroke: '1px var(--detail-title-stroke)', paintOrder: 'stroke fill' }}
+                        >
+                            {item.name}
+                        </h2>
                         <div className="flex items-center gap-3 text-sm flex-wrap">
                             {item.year_built && (
                                 <div className="flex items-center gap-1.5 bg-heritage-earth-900/60 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
@@ -242,10 +249,12 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                                     <span>Xếp hạng: {item.year_ranked}</span>
                                 </div>
                             )}
-                            <div className="flex items-center gap-1.5 bg-heritage-earth-900/60 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
-                                <MapPin className="w-4 h-4 text-heritage-gold-400" />
-                                <span>{item.address}</span>
-                            </div>
+                            {displayAddress && (
+                                <div className="flex items-center gap-1.5 bg-heritage-earth-900/60 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
+                                    <MapPin className="w-4 h-4 text-heritage-gold-400" />
+                                    <span>{displayAddress}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -511,7 +520,7 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                                         href={doc.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-sm text-heritage-red-700 dark:text-heritage-gold-300 hover:underline"
+                                        className="text-sm text-white hover:underline"
                                     >
                                         {doc.title}
                                     </a>

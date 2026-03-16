@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { X, BarChart3 } from "lucide-react";
 import { economicsApi } from "../services/api";
 
-const PAGE_SIZE = 9;
+const PAGE_SIZE = 12;
 
 export const EconomicGallery = () => {
   const { t } = useTranslation();

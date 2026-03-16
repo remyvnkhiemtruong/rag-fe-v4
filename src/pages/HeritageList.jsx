@@ -14,10 +14,6 @@ import { hasRecognizedYear } from '../utils/heritageDisplay';
 import { getRankingStyle, hasDisplayableRanking, normalizeRankingCode } from '../utils/ranking';
 
 const getItemCommune = (item) => item.commune || '';
-const locationTextOutlineStyle = {
-  WebkitTextStroke: '1px #000000',
-  paintOrder: 'stroke fill',
-};
 
 export const getCategoryBadgeStyle = (category) => {
   switch (category) {
@@ -200,7 +196,7 @@ export default function HeritageListPage() {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="overflow-hidden border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50"
             >
-              <div className="grid grid-cols-1 gap-4 py-6 md:grid-cols-4 md:items-end">
+              <div className="grid grid-cols-1 gap-4 px-4 py-6 sm:px-5 md:grid-cols-4 md:items-end lg:px-6">
                 {[
                   { labelKey: 'heritageList.filterLocation', value: filters.commune, key: 'commune', options: availableCommunes, display: (v) => v },
                   { labelKey: 'heritageList.filterLevel', value: filters.ranking, key: 'ranking', options: availableRankings, display: (v) => v },
@@ -306,8 +302,7 @@ export default function HeritageListPage() {
 
                           <div className="p-4">
                             <h3
-                              className="text-base font-bold text-gray-800 mb-2 leading-tight group-hover:text-[#0077D4] transition-colors line-clamp-2 min-h-[40px]"
-                              style={locationTextOutlineStyle}
+                              className="text-base font-bold text-gray-800 dark:text-gray-100 mb-2 leading-tight group-hover:text-[#0077D4] dark:group-hover:text-blue-400 transition-colors line-clamp-2 min-h-[40px]"
                             >
                               {item.name}
                             </h3>

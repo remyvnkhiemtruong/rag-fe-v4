@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { X, Globe2 } from "lucide-react";
 import { geographyApi } from "../services/api";
 
-const PAGE_SIZE = 9;
+const PAGE_SIZE = 12;
 
 export const GeographyGallery = () => {
   const { t } = useTranslation();

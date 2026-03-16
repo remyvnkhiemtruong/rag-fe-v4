@@ -5,6 +5,17 @@ import { literatureApi } from "../services/api";
 
 const PAGE_SIZE = 9;
 
+function normalizeGenreLabel(value) {
+  if (!value) return '';
+
+  const normalizedValue = String(value).trim().toLowerCase();
+  if (normalizedValue === 'văn bản nghị') {
+    return 'Văn bản nghị luận';
+  }
+
+  return value;
+}
+
 export const LiteratureGallery = () => {
   const { t } = useTranslation();
 
@@ -174,7 +185,7 @@ export const LiteratureGallery = () => {
                     <span className="font-semibold">
                       {t("literature.genre")}:
                     </span>{" "}
-                    {detail.genre}
+                    {normalizeGenreLabel(detail.genre)}
                   </div>
                   <div>
                     <span className="font-semibold">
