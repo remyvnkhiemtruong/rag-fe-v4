@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Music } from "lucide-react";
 import { musicApi } from "../services/api";
@@ -75,40 +75,44 @@ export const MusicGallery = () => {
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {musicList.map((music) => (
-          <div
-            key={music.id}
-            className="cursor-pointer group"
-            onClick={() => setSelectedMusic(music)}
-          >
-            <div className="relative overflow-hidden rounded-lg shadow-md bg-white dark:bg-gray-800">
-              {music.source_type === "mp3" && music.mp3_url ? (
-                <div className="w-full h-48 flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-700 p-4">
-                  <Music className="w-14 h-14 text-gray-400 dark:text-gray-500 mb-2" />
-                  <span className="text-sm text-gray-500 dark:text-gray-400">{t("music.audio")}</span>
+        {musicList.map((music) => {
+          const metadata = [music.author, music.performer, music.year_signed]
+            .filter(Boolean)
+            .join(" - ");
+
+          return (
+            <div
+              key={music.id}
+              className="cursor-pointer group"
+              onClick={() => setSelectedMusic(music)}
+            >
+              <div className="relative overflow-hidden rounded-lg shadow-md bg-white dark:bg-gray-800">
+                {music.source_type === "mp3" && music.mp3_url ? (
+                  <div className="w-full h-48 flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-700 p-4">
+                    <Music className="w-14 h-14 text-gray-400 dark:text-gray-500 mb-2" />
+                    <span className="text-sm text-gray-500 dark:text-gray-400">{t("music.audio")}</span>
+                  </div>
+                ) : (
+                  <img
+                    src={getThumbnail(music.youtube_url) || ""}
+                    alt=""
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                )}
+                <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                  <Music className="w-12 h-12 text-white" />
                 </div>
-              ) : (
-                <img
-                  src={getThumbnail(music.youtube_url) || ""}
-                  alt=""
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              )}
-              <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-                <Music className="w-12 h-12 text-white" />
-              </div>
-              <div className="p-3">
-                <h3 className="font-semibold text-gray-800 dark:text-gray-200 truncate">
-                  {music.title || t("music.untitled")}
-                </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                  {[music.author, music.performer].filter(Boolean).join(" - ")}
-                  {music.year_signed ? ` - ${music.year_signed}` : ""}
-                </p>
+                {metadata && (
+                  <div className="p-3">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                      {metadata}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {selectedMusic && (
@@ -154,4 +158,3 @@ export const MusicGallery = () => {
     </>
   );
 };
-
