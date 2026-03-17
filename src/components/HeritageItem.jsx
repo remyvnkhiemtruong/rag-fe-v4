@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { MapPin, Calendar, Landmark, Award, Star, ChevronRight } from 'lucide-react';
 import { getRankingStyle, normalizeRankingCode, RANKING_CODES } from '../../utils/ranking';
+import { hasRecognizedYear } from '../utils/heritageDisplay';
 
 export function HeritageListItem({ item, onClick }) {
   const { t } = useTranslation();
@@ -34,7 +35,7 @@ export function HeritageListItem({ item, onClick }) {
         )}
 
         {/* Year Built overlay */}
-        {item.yearBuilt && (
+        {hasRecognizedYear(item.yearBuilt) && (
           <div className="absolute bottom-2 left-2 bg-heritage-earth-900/80 backdrop-blur-sm text-white px-2 py-0.5 rounded text-xs flex items-center gap-1">
             <Calendar className="w-3 h-3 text-heritage-gold-400" />
             <span>{item.yearBuilt}</span>

@@ -194,7 +194,7 @@ export default function HeritageListPage() {
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="overflow-hidden border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50"
+              className="overflow-hidden rounded-2xl border border-gray-200 bg-gray-50/50 shadow-elegant dark:border-gray-700 dark:bg-gray-800/50"
             >
               <div className="grid grid-cols-1 gap-4 px-4 py-6 sm:px-5 md:grid-cols-4 md:items-end lg:px-6">
                 {[
