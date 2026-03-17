@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { MapPin, Calendar, Landmark, Award, Star } from 'lucide-react';
 import { getRankingStyle, normalizeRankingCode, RANKING_CODES } from '../../utils/ranking';
+import { hasRecognizedYear } from '../utils/heritageDisplay';
 
 export function HeritageCard({ item, onClick }) {
   const { t } = useTranslation();
@@ -49,7 +50,7 @@ export function HeritageCard({ item, onClick }) {
         </div>
 
         {/* Year Built Badge */}
-        {item.yearBuilt && (
+        {hasRecognizedYear(item.yearBuilt) && (
           <div className="absolute bottom-3 left-3 bg-heritage-earth-900/80 dark:bg-gray-900/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <Calendar className="w-3 h-3 text-heritage-gold-400" />
             <span>{t('detail.yearBuilt')}: {item.yearBuilt}</span>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Calendar, MapPin, Award, ArrowRight } from 'lucide-react';
 import { formatHeritageLocation } from '../../utils/formatLocation';
+import { hasRecognizedYear } from '../../utils/heritageDisplay';
 
 const rankingColors = {
   'Quốc gia đặc biệt': 'bg-heritage-red-600',
@@ -14,7 +15,11 @@ const rankingColors = {
 
 function TimelineItem({ heritage, index, isLeft, t }) {
   // Use yearBuilt or yearRanked
-  const year = heritage.yearBuilt || heritage.yearRanked || null;
+  const year = hasRecognizedYear(heritage.yearBuilt)
+    ? heritage.yearBuilt
+    : hasRecognizedYear(heritage.yearRanked)
+      ? heritage.yearRanked
+      : null;
 
   // Translate ranking type
   const getRankingLabel = (rankingType) => {
@@ -42,10 +47,12 @@ function TimelineItem({ heritage, index, isLeft, t }) {
       <div className={`w-full md:w-5/12 ${isLeft ? 'md:text-right' : ''}`}>
         <div className="glass-card p-6 hover:shadow-xl transition-all duration-300 group">
           {/* Year Badge */}
-          <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-semibold mb-3 ${rankingColors[heritage.rankingType] || 'bg-gray-500'} text-white`}>
-            <Calendar className="w-4 h-4" />
-            {year || 'N/A'}
-          </div>
+          {year && (
+            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-semibold mb-3 ${rankingColors[heritage.rankingType] || 'bg-gray-500'} text-white`}>
+              <Calendar className="w-4 h-4" />
+              {year}
+            </div>
+          )}
 
           {/* Title */}
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-heritage-red-600 dark:group-hover:text-heritage-gold-400 transition-colors">

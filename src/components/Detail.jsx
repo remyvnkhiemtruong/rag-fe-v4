@@ -237,7 +237,7 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                             {item.name}
                         </h2>
                         <div className="flex items-center gap-3 text-sm flex-wrap">
-                            {item.year_built && (
+                            {hasRecognizedYear(item.year_built) && (
                                 <div className="flex items-center gap-1.5 bg-heritage-earth-900/60 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
                                     <Calendar className="w-4 h-4 text-heritage-gold-400" />
                                     <span>Xây dựng: {item.year_built}</span>
