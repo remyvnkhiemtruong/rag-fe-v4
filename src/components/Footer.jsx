@@ -3,16 +3,26 @@ import { useTranslation } from 'react-i18next';
 import { Mail, School, Users, Landmark, MapPin, ExternalLink } from 'lucide-react';
 
 const FAKE_VISIT_COUNT_KEY = 'fake-visit-count';
+const MIN_FAKE_VISITS = 12000;
+const MAX_FAKE_VISITS = 12300;
 
 function getRandomInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomVisitCount() {
+  return getRandomInteger(MIN_FAKE_VISITS, MAX_FAKE_VISITS);
+}
+
+function isValidVisitCount(value) {
+  return Number.isFinite(value) && value >= MIN_FAKE_VISITS && value <= MAX_FAKE_VISITS;
 }
 
 export function Footer() {
   const { t } = useTranslation();
   const [fakeVisits, setFakeVisits] = useState(() => {
     if (typeof window === 'undefined') {
-      return 1000;
+      return MIN_FAKE_VISITS;
     }
 
     const storedValue = window.localStorage.getItem(FAKE_VISIT_COUNT_KEY);
@@ -20,12 +30,12 @@ export function Footer() {
     if (storedValue) {
       const parsedValue = Number(storedValue);
 
-      if (Number.isFinite(parsedValue)) {
+      if (isValidVisitCount(parsedValue)) {
         return parsedValue;
       }
     }
 
-    const initialValue = getRandomInteger(1000, 2000);
+    const initialValue = getRandomVisitCount();
     window.localStorage.setItem(FAKE_VISIT_COUNT_KEY, String(initialValue));
     return initialValue;
   });
@@ -39,7 +49,7 @@ export function Footer() {
     const storedValue = window.localStorage.getItem(FAKE_VISIT_COUNT_KEY);
 
     if (!storedValue) {
-      const initialValue = getRandomInteger(1000, 2000);
+      const initialValue = getRandomVisitCount();
       window.localStorage.setItem(FAKE_VISIT_COUNT_KEY, String(initialValue));
       setFakeVisits(initialValue);
       return undefined;
@@ -47,12 +57,12 @@ export function Footer() {
 
     const parsedValue = Number(storedValue);
 
-    if (Number.isFinite(parsedValue)) {
+    if (isValidVisitCount(parsedValue)) {
       setFakeVisits(parsedValue);
       return undefined;
     }
 
-    const fallbackValue = getRandomInteger(1000, 2000);
+    const fallbackValue = getRandomVisitCount();
     window.localStorage.setItem(FAKE_VISIT_COUNT_KEY, String(fallbackValue));
     setFakeVisits(fallbackValue);
     return undefined;
