@@ -1,0 +1,23 @@
+[
+  {
+    "so_thu_tu": 1,
+    "link_anh_quan": "https://example.com/quan-1.jpg",
+    "ten_quan": "Quán ăn Đất Mũi",
+    "mo_ta_quan": "Quán chuyên các món đặc sản Cà Mau, không gian thoáng mát, phù hợp cho gia đình và du khách.",
+    "link_google_maps": "https://maps.google.com/?q=9.176,105.152"
+  },
+  {
+    "so_thu_tu": 2,
+    "link_anh_quan": "https://example.com/quan-2.jpg",
+    "ten_quan": "Quán Ba Khía Cà Mau",
+    "mo_ta_quan": "Nổi bật với các món ba khía, cua và hải sản địa phương mang hương vị miền Tây đặc trưng.",
+    "link_google_maps": "https://maps.google.com/?q=9.180,105.150"
+  },
+  {
+    "so_thu_tu": 3,
+    "link_anh_quan": "https://example.com/quan-3.jpg",
+    "ten_quan": "Lẩu Mắm U Minh",
+    "mo_ta_quan": "Phục vụ lẩu mắm, cá đồng và nhiều món ăn dân dã đặc trưng của vùng U Minh - Cà Mau.",
+    "link_google_maps": "https://maps.google.com/?q=9.172,105.149"
+  }
+]

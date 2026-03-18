@@ -146,6 +146,16 @@
     "viewOnMap": "មើលលើ Google Maps",
     "noData": "មិនទាន់មានទិន្នន័យហាងអាហារ"
   },
+  "quanan": {
+    "noData": "មិនទាន់មានទិន្នន័យហាងអាហារ",
+    "viewOnMap": "មើលលើ Google Maps",
+    "detailTitle": "ព័ត៌មានលម្អិតហាងអាហារ",
+    "close": "បិទ"
+  },
+  "amthuc": {
+    "noData": "មិនទាន់មានទិន្នន័យម្ហូបអាហារ",
+    "detailTitle": "ព័ត៌មានម្ហូប"
+  },
   "nav": {
     "home": "ទំព័រដើម",
     "explore": "ស្វែងរក",
@@ -853,6 +863,7 @@
     "tabMusic": "ចម្រៀង",
     "tabFineArts": "វិចិត្រសិល្បៈ",
     "tabQuanAn": "ហាងអាហារ",
+    "tabAmThuc": "ម្ហូបអាហារ",
     "tabKinhTe": "សេដ្ឋកិច្ច",
     "tabDiaLy": "ភូមិសាស្ត្រ",
     "tabVanHoc": "អក្សរសាស្ត្រ",

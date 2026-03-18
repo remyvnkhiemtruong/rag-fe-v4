@@ -146,6 +146,16 @@
     "viewOnMap": "在 Google 地图上查看",
     "noData": "暂无餐馆数据"
   },
+  "quanan": {
+    "noData": "暂无餐馆数据",
+    "viewOnMap": "在 Google 地图中查看",
+    "detailTitle": "餐馆详情",
+    "close": "关闭"
+  },
+  "amthuc": {
+    "noData": "暂无美食数据",
+    "detailTitle": "菜品详情"
+  },
   "nav": {
     "home": "首页",
     "explore": "探索",
@@ -853,6 +863,7 @@
     "tabMusic": "音乐",
     "tabFineArts": "美术",
     "tabQuanAn": "餐馆",
+    "tabAmThuc": "美食",
     "tabKinhTe": "经济",
     "tabDiaLy": "地理",
     "tabVanHoc": "文学",

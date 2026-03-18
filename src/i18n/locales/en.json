@@ -146,6 +146,16 @@
     "viewOnMap": "View on Google Maps",
     "noData": "No eatery data yet"
   },
+  "quanan": {
+    "noData": "No restaurant data available",
+    "viewOnMap": "View on Google Maps",
+    "detailTitle": "Restaurant details",
+    "close": "Close"
+  },
+  "amthuc": {
+    "noData": "No cuisine data available",
+    "detailTitle": "Dish details"
+  },
   "nav": {
     "home": "Home",
     "explore": "Explore",
@@ -851,7 +861,8 @@
     "tabHeritage": "Heritage",
     "tabMusic": "Music",
     "tabFineArts": "Fine Arts",
-    "tabQuanAn": "Eateries",
+    "tabQuanAn": "Restaurants",
+    "tabAmThuc": "Cuisine",
     "tabKinhTe": "Economics",
     "tabDiaLy": "Geography",
     "tabVanHoc": "Literature",

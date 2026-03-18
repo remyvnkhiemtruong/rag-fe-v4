@@ -146,6 +146,16 @@
     "viewOnMap": "Xem trên Google Maps",
     "noData": "Chưa có dữ liệu quán ăn"
   },
+  "quanan": {
+    "noData": "Chưa có dữ liệu quán ăn",
+    "viewOnMap": "Xem trên Google Maps",
+    "detailTitle": "Chi tiết quán ăn",
+    "close": "Đóng"
+  },
+  "amthuc": {
+    "noData": "Chưa có dữ liệu ẩm thực",
+    "detailTitle": "Chi tiết món ăn"
+  },
   "nav": {
     "home": "Trang chủ",
     "explore": "Khám phá",
@@ -852,6 +862,7 @@
     "tabMusic": "Âm Nhạc",
     "tabFineArts": "Hình ảnh",
     "tabQuanAn": "Quán ăn",
+    "tabAmThuc": "Ẩm thực",
     "tabKinhTe": "Kinh tế",
     "tabDiaLy": "Địa lý",
     "tabVanHoc": "Văn học",
