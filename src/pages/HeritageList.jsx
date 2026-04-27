@@ -6,7 +6,6 @@ import { HeritageDetailModal } from '../components/Detail';
 import { MusicGallery } from './MusicGallery';
 import { FineArtsGallery } from './FineArtGallery';
 import { heritageApi } from '../services/api';
-import EconomicGallery from './EconomicGallery';
 import GeographyGallery from './GeographyGallery';
 import LiteratureGallery from './LiteratureGallery';
 import AmThucGallery from './AmThucGallery';
@@ -81,7 +80,6 @@ export default function HeritageListPage() {
     { key: 'music', labelKey: 'heritageList.tabMusic' },
     { key: 'finearts', labelKey: 'heritageList.tabFineArts' },
     { key: 'am_thuc', labelKey: 'heritageList.tabAmThuc' },
-    { key: 'kinh_te', labelKey: 'heritageList.tabKinhTe' },
     { key: 'dia_ly', labelKey: 'heritageList.tabDiaLy' },
     { key: 'van_hoc', labelKey: 'heritageList.tabVanHoc' },
   ];
@@ -110,7 +108,7 @@ export default function HeritageListPage() {
   }, [pagination.page, pagination.limit, activeTab, lang, isHeritageTab]);
 
   const filteredData = useMemo(() => {
-    const categoryFromTab = ['kinh_te', 'dia_ly', 'van_hoc'].includes(activeTab) ? activeTab : null;
+    const categoryFromTab = ['dia_ly', 'van_hoc'].includes(activeTab) ? activeTab : null;
     return heritageData.filter(item => {
       const matchesRanking = !filters.ranking || item.ranking_type === filters.ranking;
       const categoryFilter = categoryFromTab || filters.category;
@@ -430,11 +428,6 @@ export default function HeritageListPage() {
             </motion.div>
           )}
 
-          {activeTab === 'kinh_te' && (
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-              <EconomicGallery />
-            </motion.div>
-          )}
           {activeTab === 'dia_ly' && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
               <GeographyGallery />
