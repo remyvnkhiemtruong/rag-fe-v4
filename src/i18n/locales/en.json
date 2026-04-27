@@ -874,6 +874,8 @@
     "filterCategory": "Category",
     "all": "All",
     "resetFilter": "Reset filters",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
     "loading": "Loading data...",
     "yearRanked": "Year recognized",
     "na": "N/A",

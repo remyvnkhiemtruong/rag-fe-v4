@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Search, Grid, List, MapPin, RotateCcw, Calendar, Filter, X } from 'lucide-react';
+import { Search, Grid, List, MapPin, RotateCcw, Calendar, Filter, X, ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { HeritageDetailModal } from '../components/Detail';
 import { MusicGallery } from './MusicGallery';
@@ -20,6 +20,27 @@ import {
 } from '../data/heritageCategories';
 
 const getItemCommune = (item) => item.commune || '';
+
+const getPaginationItems = (currentPage, totalPages) => {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  const pages = [1];
+  const startPage = Math.max(2, currentPage - 1);
+  const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+  if (startPage > 2) pages.push('ellipsis-start');
+
+  for (let page = startPage; page <= endPage; page += 1) {
+    pages.push(page);
+  }
+
+  if (endPage < totalPages - 1) pages.push('ellipsis-end');
+  pages.push(totalPages);
+
+  return pages;
+};
 
 export const getCategoryBadgeStyle = (category) => {
   return getHeritageCategoryListBadge(category);
@@ -110,26 +131,79 @@ export default function HeritageListPage() {
     () => sortHeritageCategoryValues(Array.from(new Set(heritageData.map(i => i.category).filter(Boolean)))),
     [heritageData]
   );
+  const hasActiveLocalFilter = Boolean(filters.ranking || filters.type || filters.commune || filters.category || searchQuery);
+  const displayedResultCount = hasActiveLocalFilter ? filteredData.length : (pagination.total || filteredData.length);
 
   const handleFilterChange = (key, value) => setFilters(prev => ({ ...prev, [key]: value }));
   const clearFilters = () => { setFilters({ ranking: '', type: '', category: '', commune: '' }); setSearchQuery(''); };
 
-  const renderPaginationControl = () => (
-    <div className="flex items-center justify-center">
-      {[1, 2, 3].map(num => (
+  const goToPage = (page) => {
+    const totalPages = Math.max(1, pagination.totalPages || 1);
+    const nextPage = Math.min(totalPages, Math.max(1, page));
+    setPagination(prev => ({ ...prev, page: nextPage }));
+  };
+
+  const renderPaginationControl = () => {
+    const totalPages = pagination.totalPages || 0;
+    if (totalPages <= 1) return null;
+
+    return (
+      <nav className="flex flex-wrap items-center justify-center gap-1.5">
         <button
-          key={num}
-          onClick={() => setPagination(prev => ({ ...prev, page: num }))}
-          className={`w-10 h-10 rounded-full flex items-center justify-center text-sm transition-all ${pagination.page === num
-              ? 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-200 font-bold shadow-md'
-              : 'bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
-            }`}
+          type="button"
+          onClick={() => goToPage(pagination.page - 1)}
+          disabled={pagination.page <= 1}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 transition-all hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+          aria-label={t('heritageList.previousPage')}
         >
-          {num}
+          <ChevronLeft className="h-4 w-4" />
         </button>
-      ))}
-    </div>
-  );
+
+        {getPaginationItems(pagination.page, totalPages).map((item) => {
+          if (typeof item === 'string') {
+            return (
+              <span
+                key={item}
+                className="flex h-10 w-8 items-center justify-center text-gray-400 dark:text-gray-500"
+                aria-hidden="true"
+              >
+                <MoreHorizontal className="h-4 w-4" />
+              </span>
+            );
+          }
+
+          return (
+            <button
+              key={item}
+              type="button"
+              onClick={() => goToPage(item)}
+              className={`flex h-10 min-w-10 items-center justify-center rounded-full px-3 text-sm transition-all ${pagination.page === item
+                ? 'bg-[#0077D4] text-white font-bold shadow-md'
+                : 'border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
+                }`}
+              aria-current={pagination.page === item ? 'page' : undefined}
+            >
+              {item}
+            </button>
+          );
+        })}
+
+        <button
+          type="button"
+          onClick={() => goToPage(pagination.page + 1)}
+          disabled={pagination.page >= totalPages}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 transition-all hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+          aria-label={t('heritageList.nextPage')}
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
+
+        <span className="ml-1 min-w-[4rem] text-center text-xs font-medium text-gray-500 dark:text-gray-400">
+          {pagination.page}/{totalPages}
+        </span>
+      </nav>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100 theme-transition">
@@ -230,12 +304,12 @@ export default function HeritageListPage() {
           <div className="flex flex-wrap items-center justify-between gap-4 py-4">
             <div className="flex items-center gap-4">
               <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-                {t('heritageList.showResults', { count: filteredData.length })}
+                {t('heritageList.showResults', { count: displayedResultCount })}
               </span>
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="scale-90 origin-right">
+              <div className="max-w-full overflow-x-auto pb-1">
                 {renderPaginationControl()}
               </div>
               <div className="h-8 w-[1px] bg-gray-200 dark:bg-gray-600 mx-2"></div>
@@ -256,67 +330,84 @@ export default function HeritageListPage() {
               {loading ? (
                 <div className="text-center py-20"><p>{t('heritageList.loading')}</p></div>
               ) : (
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={viewMode}
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4 }}
-                    className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4' : 'grid-cols-1'}`}
-                  >
-                    {filteredData.map((item) => {
-                      const showRankingBadge = hasDisplayableRanking(item.ranking_type);
-                      const rankingStyle = getRankingStyle(item.ranking_type);
-                      const rankingLabel = formatRankingLabel(item.ranking_type);
+                <>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={viewMode}
+                      initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className={viewMode === 'grid'
+                        ? 'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4'
+                        : 'flex flex-col gap-4'}
+                    >
+                      {filteredData.map((item) => {
+                        const showRankingBadge = hasDisplayableRanking(item.ranking_type);
+                        const rankingStyle = getRankingStyle(item.ranking_type);
+                        const rankingLabel = formatRankingLabel(item.ranking_type);
 
-                      return (
-                        <motion.div
-                          layout
-                          key={item.id}
-                          className="group bg-white dark:bg-gray-800 rounded-sm border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden relative"
-                          onClick={() => setSelectedItem(item)}
-                        >
-                          <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-700">
-                            <img
-                              src={item.image_url || 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=800'}
-                              alt={item.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                            />
-                            {showRankingBadge && (
-                              <div className={`absolute top-3 left-3 rounded border px-3 py-1 text-xs font-bold shadow-sm backdrop-blur-sm ${rankingStyle.badgeSolid}`}>
-                                {rankingLabel}
-                              </div>
-                            )}
-                            {item.category && (
-                              <div className={`absolute top-3 right-3 px-3 py-1 rounded text-xs font-bold shadow-sm backdrop-blur-sm ${getCategoryBadgeStyle(item.category)}`}>
-                                {formatCategoryLabel(item.category)}
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="p-4">
-                            <h3
-                              className="text-base font-bold text-gray-800 dark:text-gray-100 mb-2 leading-tight group-hover:text-[#0077D4] dark:group-hover:text-blue-400 transition-colors line-clamp-2 min-h-[40px]"
-                            >
-                              {item.name}
-                            </h3>
-                            <div className="space-y-1.5">
-                              <div className="flex items-start gap-2 text-gray-500 dark:text-gray-400 text-xs">
-                                <MapPin className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500 mt-0.5 flex-shrink-0" />
-                                <span className="line-clamp-1">{formatHeritageLocation(item, t)}</span>
-                              </div>
-                              {hasRecognizedYear(item.year_ranked) && (
-                                <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs">
-                                  <Calendar className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500" />
-                                  <span>{t('heritageList.yearRanked')}: {item.year_ranked}</span>
+                        return (
+                          <motion.div
+                            layout
+                            key={item.id}
+                            className={`group relative cursor-pointer overflow-hidden rounded-sm border border-gray-100 bg-white transition-all duration-300 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800 ${viewMode === 'list' ? 'grid grid-cols-1 md:grid-cols-[220px_1fr]' : ''
+                              }`}
+                            onClick={() => setSelectedItem(item)}
+                          >
+                            <div className={`relative overflow-hidden bg-gray-100 dark:bg-gray-700 ${viewMode === 'list' ? 'h-48 md:h-full md:min-h-[180px]' : 'aspect-[4/3]'
+                              }`}>
+                              <img
+                                src={item.image_url || 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=800'}
+                                alt={item.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                              />
+                              {showRankingBadge && (
+                                <div className={`absolute top-3 left-3 rounded border px-3 py-1 text-xs font-bold shadow-sm backdrop-blur-sm ${rankingStyle.badgeSolid}`}>
+                                  {rankingLabel}
+                                </div>
+                              )}
+                              {item.category && (
+                                <div className={`absolute top-3 right-3 px-3 py-1 rounded text-xs font-bold shadow-sm backdrop-blur-sm ${getCategoryBadgeStyle(item.category)}`}>
+                                  {formatCategoryLabel(item.category)}
                                 </div>
                               )}
                             </div>
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                  </motion.div>
-                </AnimatePresence>
+
+                            <div className={viewMode === 'list' ? 'flex flex-col justify-center p-5' : 'p-4'}>
+                              <h3
+                                className={`font-bold text-gray-800 transition-colors group-hover:text-[#0077D4] dark:text-gray-100 dark:group-hover:text-blue-400 ${viewMode === 'list'
+                                  ? 'mb-3 text-lg leading-snug'
+                                  : 'mb-2 min-h-[40px] text-base leading-tight line-clamp-2'
+                                  }`}
+                              >
+                                {item.name}
+                              </h3>
+                              {viewMode === 'list' && item.information && (
+                                <p className="mb-4 text-sm leading-relaxed text-gray-600 line-clamp-2 dark:text-gray-300">
+                                  {item.information}
+                                </p>
+                              )}
+                              <div className={viewMode === 'list' ? 'flex flex-wrap gap-x-5 gap-y-2' : 'space-y-1.5'}>
+                                <div className="flex items-start gap-2 text-gray-500 dark:text-gray-400 text-xs">
+                                  <MapPin className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500 mt-0.5 flex-shrink-0" />
+                                  <span className={viewMode === 'list' ? 'line-clamp-2' : 'line-clamp-1'}>{formatHeritageLocation(item, t)}</span>
+                                </div>
+                                {hasRecognizedYear(item.year_ranked) && (
+                                  <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs">
+                                    <Calendar className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500" />
+                                    <span>{t('heritageList.yearRanked')}: {item.year_ranked}</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </motion.div>
+                  </AnimatePresence>
+                  <div className="mt-8 flex justify-center">
+                    {renderPaginationControl()}
+                  </div>
+                </>
               )}
             </>
           )}

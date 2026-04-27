@@ -875,6 +875,8 @@
     "filterCategory": "分类",
     "all": "全部",
     "resetFilter": "重置筛选",
+    "previousPage": "上一页",
+    "nextPage": "下一页",
     "loading": "加载中...",
     "yearRanked": "认定年份",
     "na": "无",
