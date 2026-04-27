@@ -161,7 +161,7 @@ export function Footer() {
           {t('footer.copyright')}
           <div className="mt-2 text-xs text-slate-500 dark:text-gray-400 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             <span>{'T\u1ed5ng truy c\u1eadp: '} {fakeVisits.toLocaleString('vi-VN')}</span>
-            <span className="hidden sm:inline" aria-hidden="true">&bull;</span>
+            <span className="hidden h-3 w-px bg-slate-300 dark:bg-gray-600 sm:inline-block" aria-hidden="true" />
             <span>{'\u0110ang truy c\u1eadp: '} {onlineUsers}</span>
           </div>
         </div>

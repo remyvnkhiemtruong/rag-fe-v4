@@ -54,7 +54,7 @@ export const EconomicGallery = () => {
     }
   };
 
-  const Pagination = () => {
+  const renderPagination = () => {
     if (totalPages <= 1) return null;
 
     return (
@@ -148,7 +148,7 @@ export const EconomicGallery = () => {
         })}
       </div>
 
-      <Pagination />
+      {renderPagination()}
 
       {/* DETAIL MODAL */}
       {detail && !isLoading && (

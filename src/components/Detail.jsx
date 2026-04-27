@@ -2,11 +2,15 @@ import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, MapPin, Calendar, Info, Volume2, Pause, Play, Loader, Landmark, Award, Star, Sparkles, Video, Image as ImageIcon } from 'lucide-react';
 import { heritageApi } from '../services/api';
-import { formatCategoryLabel } from '../pages/HeritageList';
 import { getRankingStyle, hasDisplayableRanking, normalizeRankingCode, RANKING_CODES } from '../utils/ranking';
 import { ADMIN_LEGAL_BASIS } from '../data/adminCrosswalk';
 import { hasRecognizedYear } from '../utils/heritageDisplay';
 import { stripCaMauSuffix } from '../utils/formatLocation';
+import {
+    formatHeritageCategoryLabel,
+    getHeritageCategoryDetailBadge,
+    getHeritageCategoryIcon
+} from '../data/heritageCategories';
 export function HeritageDetailModal({ itemId, initialItem, onClose, language = 'vi' }) {
     const { t } = useTranslation();
     const [item, setItem] = useState(initialItem);
@@ -129,28 +133,18 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
     const RankingIcon = rankingCode === RANKING_CODES.NATIONAL_SPECIAL ? Star : rankingCode === RANKING_CODES.NATIONAL ? Award : Landmark;
 
     const getCategoryStyle = (category) => {
-        switch (category) {
-            case 'di_san':
-                return {
-                    badge: 'bg-blue-100 text-blue-800 border-blue-300 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700',
-                    icon: <Landmark className="w-4 h-4" />
-                };
-            case 'di_tich':
-                return {
-                    badge: 'bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700',
-                    icon: <Star className="w-4 h-4" />
-                };
-            case 'cong_trinh_nghe_thuat':
-                return {
-                    badge: 'bg-purple-100 text-purple-800 border-purple-300 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-700',
-                    icon: <Sparkles className="w-4 h-4" />
-                };
-            default:
-                return {
-                    badge: 'bg-gray-100 text-gray-700 border-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600',
-                    icon: <Landmark className="w-4 h-4" />
-                };
-        }
+        const categoryIcon = {
+            award: <Award className="w-4 h-4" />,
+            landmark: <Landmark className="w-4 h-4" />,
+            music: <Volume2 className="w-4 h-4" />,
+            sparkles: <Sparkles className="w-4 h-4" />,
+            star: <Star className="w-4 h-4" />
+        }[getHeritageCategoryIcon(category)] || <Landmark className="w-4 h-4" />;
+
+        return {
+            badge: getHeritageCategoryDetailBadge(category),
+            icon: categoryIcon
+        };
     };
 
 
@@ -225,7 +219,7 @@ export function HeritageDetailModal({ itemId, initialItem, onClose, language = '
                             {item.category && (
                                 <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border ${categoryStyle.badge}`}>
                                     {categoryStyle.icon}
-                                    {formatCategoryLabel(item.category, t)}
+                                    {formatHeritageCategoryLabel(item.category, t)}
                                 </span>
                             )}
                         </div>

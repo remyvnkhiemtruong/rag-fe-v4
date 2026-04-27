@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { TAGS_DATA, TAG_CATEGORIES } from '../data/tags';
+import { TAGS_DATA, TAG_CATEGORIES, mergeTagsWithDefaults } from '../data/tags';
 import { getLocalizedField } from '../utils/i18nField';
 
 const TagContext = createContext(null);
@@ -14,7 +14,7 @@ export function TagProvider({ children }) {
     const storedTags = localStorage.getItem('heritage_tags');
     if (storedTags) {
       try {
-        setTags(JSON.parse(storedTags));
+        setTags(mergeTagsWithDefaults(JSON.parse(storedTags)));
       } catch {
         setTags(TAGS_DATA);
       }

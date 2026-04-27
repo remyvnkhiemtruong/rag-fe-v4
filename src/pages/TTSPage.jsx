@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Volume2, Pause, Play, Mic, Trash2, Settings, Loader, X } from 'lucide-react';
 
+const PLAYING_BAR_HEIGHTS = [16, 28, 22, 34, 24];
+
 export default function TextToSpeechPage() {
     const { t } = useTranslation();
     const SAMPLE_TEXTS = [
@@ -352,7 +354,7 @@ export default function TextToSpeechPage() {
                                                 key={i}
                                                 className="w-1 bg-white rounded-full animate-pulse"
                                                 style={{
-                                                    height: `${Math.random() * 30 + 10}px`,
+                                                    height: `${PLAYING_BAR_HEIGHTS[i % PLAYING_BAR_HEIGHTS.length]}px`,
                                                     animationDelay: `${i * 0.1}s`
                                                 }}
                                             />

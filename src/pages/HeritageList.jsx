@@ -13,33 +13,21 @@ import AmThucGallery from './AmThucGallery';
 import { formatHeritageLocation } from '../utils/formatLocation';
 import { hasRecognizedYear } from '../utils/heritageDisplay';
 import { getRankingStyle, hasDisplayableRanking, normalizeRankingCode } from '../utils/ranking';
+import {
+  formatHeritageCategoryLabel,
+  getHeritageCategoryListBadge,
+  sortHeritageCategoryValues
+} from '../data/heritageCategories';
 
 const getItemCommune = (item) => item.commune || '';
 
 export const getCategoryBadgeStyle = (category) => {
-  switch (category) {
-    case 'di_san': return 'bg-blue-600 text-white';
-    case 'di_tich': return 'bg-emerald-600 text-white';
-    case 'cong_trinh_nghe_thuat': return 'bg-purple-600 text-white';
-    case 'kinh_te': return 'bg-amber-600 text-white';
-    case 'dia_ly': return 'bg-teal-600 text-white';
-    case 'van_hoc': return 'bg-rose-600 text-white';
-    default: return 'bg-gray-600 text-white';
-  }
+  return getHeritageCategoryListBadge(category);
 };
 
 /** Shared category label for i18n; use with t from useTranslation(). Exported for Detail and others. */
 export function formatCategoryLabel(value, t) {
-  if (!t) return value;
-  switch (value) {
-    case 'di_san': return t('heritageList.filterLocation');
-    case 'di_tich': return t('heritageList.categoryDiTich');
-    case 'cong_trinh_nghe_thuat': return t('heritageList.categoryCongTrinh');
-    case 'kinh_te': return t('heritageList.categoryKinhTe');
-    case 'dia_ly': return t('heritageList.categoryDiaLy');
-    case 'van_hoc': return t('heritageList.categoryVanHoc');
-    default: return value;
-  }
+  return formatHeritageCategoryLabel(value, t);
 }
 
 function useCategoryLabel(t) {
@@ -118,12 +106,15 @@ export default function HeritageListPage() {
     () => Array.from(new Set(heritageData.map(i => i.ranking_type).filter(hasDisplayableRanking))).sort(),
     [heritageData]
   );
-  const availableCategories = useMemo(() => Array.from(new Set(heritageData.map(i => i.category).filter(Boolean))), [heritageData]);
+  const availableCategories = useMemo(
+    () => sortHeritageCategoryValues(Array.from(new Set(heritageData.map(i => i.category).filter(Boolean)))),
+    [heritageData]
+  );
 
   const handleFilterChange = (key, value) => setFilters(prev => ({ ...prev, [key]: value }));
   const clearFilters = () => { setFilters({ ranking: '', type: '', category: '', commune: '' }); setSearchQuery(''); };
 
-  const PaginationControl = () => (
+  const renderPaginationControl = () => (
     <div className="flex items-center justify-center">
       {[1, 2, 3].map(num => (
         <button
@@ -245,7 +236,7 @@ export default function HeritageListPage() {
 
             <div className="flex items-center gap-4">
               <div className="scale-90 origin-right">
-                <PaginationControl />
+                {renderPaginationControl()}
               </div>
               <div className="h-8 w-[1px] bg-gray-200 dark:bg-gray-600 mx-2"></div>
               <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-lg">

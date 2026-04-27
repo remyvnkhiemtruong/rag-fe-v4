@@ -1,3 +1,5 @@
+import { SQL_HERITAGE_CATEGORY_OPTIONS } from './heritageCategories';
+
 // Tags data for Local Education System
 // Categories: heritage, people, festival, location, period, topic
 
@@ -10,7 +12,7 @@ export const TAG_CATEGORIES = [
   { id: 'topic', name: 'Chủ đề', nameEn: 'Topic', nameZh: '話題', nameKm: 'ប្រធានបទ', color: 'orange' },
 ];
 
-export const TAGS_DATA = [
+const LEGACY_TAGS_DATA = [
   { id: 1, name: 'Di tích lịch sử', nameEn: 'Historical Site', nameZh: '歷史遺址', nameKm: 'កន្លែងប្រវត្តិសាស្ត្រ', category: 'heritage', color: '#dc2626' },
   { id: 2, name: 'Di tích văn hóa', nameEn: 'Cultural Site', nameZh: '文化遺址', nameKm: 'កន្លែងវប្បធម៌', category: 'heritage', color: '#b91c1c' },
   { id: 3, name: 'Quốc gia đặc biệt', nameEn: 'National Special', nameZh: '全國特惠', nameKm: 'ជាតិពិសេស', category: 'heritage', color: '#991b1b' },
@@ -57,6 +59,61 @@ export const TAGS_DATA = [
   { id: 44, name: 'Ẩm thực địa phương', nameEn: 'Local Cuisine', nameZh: '當地美食', nameKm: 'ម្ហូបក្នុងស្រុក', category: 'topic', color: '#ffedd5' },
   { id: 45, name: 'Giáo dục', nameEn: 'Education', nameZh: '教育', nameKm: 'ការអប់រំ', category: 'topic', color: '#fb7185' },
 ];
+
+const SQL_CATEGORY_TAG_START_ID = 46;
+
+export const SQL_CATEGORY_TAGS = SQL_HERITAGE_CATEGORY_OPTIONS.map((category, index) => ({
+  id: SQL_CATEGORY_TAG_START_ID + index,
+  slug: category.value,
+  name: category.name,
+  nameEn: category.nameEn,
+  nameZh: category.nameZh,
+  nameKm: category.nameKm,
+  category: category.tagCategory || 'heritage',
+  color: category.color,
+  source: 'sql_category',
+}));
+
+export const TAGS_DATA = [
+  ...LEGACY_TAGS_DATA,
+  ...SQL_CATEGORY_TAGS,
+];
+
+const getTagMergeKey = (tag) => {
+  if (tag.slug) return `slug:${tag.slug}`;
+  return `name:${String(tag.name || '').trim().toLowerCase()}`;
+};
+
+const getTagNameKey = (tag) => String(tag.name || '').trim().toLowerCase();
+
+export const mergeTagsWithDefaults = (storedTags) => {
+  if (!Array.isArray(storedTags)) return TAGS_DATA;
+
+  const mergedTags = [...storedTags];
+  const existingKeys = new Set(mergedTags.map(getTagMergeKey));
+  const existingNames = new Set(mergedTags.map(getTagNameKey).filter(Boolean));
+  const existingIds = new Set(mergedTags.map((tag) => tag.id));
+  let maxId = mergedTags.reduce((max, tag) => Math.max(max, Number(tag.id) || 0), 0);
+
+  SQL_CATEGORY_TAGS.forEach((defaultTag) => {
+    const mergeKey = getTagMergeKey(defaultTag);
+    const nameKey = getTagNameKey(defaultTag);
+    if (existingKeys.has(mergeKey) || existingNames.has(nameKey)) return;
+
+    const tagToAdd = { ...defaultTag };
+    if (existingIds.has(tagToAdd.id)) {
+      maxId += 1;
+      tagToAdd.id = maxId;
+    }
+
+    mergedTags.push(tagToAdd);
+    existingKeys.add(mergeKey);
+    existingNames.add(nameKey);
+    existingIds.add(tagToAdd.id);
+  });
+
+  return mergedTags;
+};
 
 // Helper function to get tags by category
 export const getTagsByCategory = (category) => {

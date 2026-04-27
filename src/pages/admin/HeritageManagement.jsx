@@ -8,6 +8,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import AnalyticsDashboard from '../../components/admin/AnalyticsDashboard';
 import { heritageApi } from '../../services/api';
+import { HERITAGE_CATEGORY_OPTIONS, formatHeritageCategoryLabel } from '../../data/heritageCategories';
 
 const rankingTypes = [
   { value: 'Quốc gia đặc biệt', labelKey: 'admin.rankingSpecialNational' },
@@ -15,16 +16,6 @@ const rankingTypes = [
   { value: 'Cấp tỉnh', labelKey: 'admin.rankingProvincial' },
   { value: 'Không', labelKey: 'admin.noRanking' },
 ];
-
-const heritageCategories = [
-  { value: 'di_san', labelKey: 'admin.categoryHeritage' },
-  { value: 'di_tich', labelKey: 'admin.categorySite' },
-  { value: 'cong_trinh_nghe_thuat', labelKey: 'admin.categoryArt' },
-  { value: 'kinh_te', labelKey: 'admin.economicsManagement' },
-  { value: 'dia_ly', labelKey: 'admin.geographyManagement' },
-  { value: 'van_hoc', labelKey: 'admin.literatureManagement' },
-];
-
 
 const inputLanguages = [
   { code: 'vi' },
@@ -69,9 +60,7 @@ export default function HeritageManagement() {
   }, []);
 
   const getCategoryLabel = useCallback((categoryValue) => {
-    const category = heritageCategories.find((item) => item.value === categoryValue);
-    if (!category) return t('admin.categoryHeritage');
-    return t(category.labelKey);
+    return formatHeritageCategoryLabel(categoryValue || 'di_san', t);
   }, [t]);
 
   const getRankingLabel = useCallback((rankingValue) => {
@@ -863,7 +852,7 @@ export default function HeritageManagement() {
                         }
                         className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
                       >
-                        {heritageCategories.map(cat => (
+                        {HERITAGE_CATEGORY_OPTIONS.map(cat => (
                           <option key={cat.value} value={cat.value}>
                             {t(cat.labelKey)}
                           </option>

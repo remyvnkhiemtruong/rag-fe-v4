@@ -82,7 +82,7 @@ export const LiteratureGallery = () => {
     );
   }
 
-  const Pagination = () => {
+  const renderPagination = () => {
     if (totalPages <= 1) return null;
 
     return (
@@ -150,7 +150,7 @@ export const LiteratureGallery = () => {
         ))}
       </div>
 
-      <Pagination />
+      {renderPagination()}
 
       {detail && (
         <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center">
